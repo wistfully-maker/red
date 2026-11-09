@@ -1,0 +1,10 @@
+/.playwright-cli/
+/.workbuddy/
+/reference-*.png
+/tencent-map-*.png
+/verify-*.png
+
+__pycache__/
+*.py[cod]
+.DS_Store
+Thumbs.db

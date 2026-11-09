@@ -1,0 +1,208 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#18211d">
+  <meta name="description" content="沿十九处历史坐标重读长征。从瑞金出发到三大主力会师，看见地形、时局与行军抉择。">
+  <title>山河之路 · 长征纪念图集</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%23ae4a36'/%3E%3Cpath d='M5 23 13 12l4 6 3-10 7 15M5 26h22' stroke='%23fff4de' stroke-width='1.5' fill='none'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="assets/style.css">
+  <script src="assets/stations.js"></script>
+  <script type="module" src="assets/explore.js"></script>
+</head>
+<body data-mode="home">
+  <svg class="symbols" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <symbol id="i-brand" viewBox="0 0 28 28"><path d="m3 21 8-11 4 6 3-9 7 14M3 24h22"/></symbol>
+    <symbol id="i-right" viewBox="0 0 24 24"><path d="M4 12h15m-6-6 6 6-6 6"/></symbol>
+    <symbol id="i-left" viewBox="0 0 24 24"><path d="M20 12H5m6-6-6 6 6 6"/></symbol>
+    <symbol id="i-diagonal" viewBox="0 0 24 24"><path d="M6 18 18 6M8 6h10v10"/></symbol>
+    <symbol id="i-orbit" viewBox="0 0 24 24"><path d="M18.5 8a7 7 0 1 0 1 7M19 4v5h-5"/><circle cx="12" cy="12" r="2"/></symbol>
+    <symbol id="i-search" viewBox="0 0 24 24"><circle cx="10.5" cy="10.5" r="5.5"/><path d="m15 15 4 4"/></symbol>
+    <symbol id="i-close" viewBox="0 0 24 24"><path d="m6 6 12 12M18 6 6 18"/></symbol>
+    <symbol id="i-plus" viewBox="0 0 24 24"><path d="M5 12h14m-7-7v14"/></symbol>
+    <symbol id="i-minus" viewBox="0 0 24 24"><path d="M5 12h14"/></symbol>
+    <symbol id="i-fit" viewBox="0 0 24 24"><path d="M4 9V4h5m6 0h5v5m0 6v5h-5m-6 0H4v-5"/><circle cx="12" cy="12" r="2"/></symbol>
+    <symbol id="i-locate" viewBox="0 0 24 24"><path d="m12 3 5 16-5-3-5 3z"/></symbol>
+    <symbol id="i-sound" viewBox="0 0 24 24"><path d="M3 9h4l5-4v14l-5-4H3z"/><path class="sound-off" d="m16 9 5 6m0-6-5 6"/><path class="sound-on" d="M16 9a4 4 0 0 1 0 6m2-9a8 8 0 0 1 0 12"/></symbol>
+  </svg>
+  <header class="site-header">
+    <a class="brand" href="#" aria-label="山河之路，回到峡谷">
+      <span class="brand-mark"><svg aria-hidden="true"><use href="#i-brand"/></svg></span>
+      <span><strong>山河之路</strong><small>THE LONG MARCH</small></span>
+    </a>
+    <nav class="site-nav" aria-label="站点导航">
+      <a href="#explore" class="nav-route">全线地形</a>
+      <button type="button" data-dialog="catalog"><svg aria-hidden="true"><use href="#i-search"/></svg>节点档案</button>
+      <button type="button" data-dialog="about" class="nav-about">图集说明</button>
+    </nav>
+  </header>
+
+  <main aria-label="长征三维地形图集" id="exhibit">
+    <div id="world" tabindex="-1" role="region" aria-label="三维地形。方向键移动，加减号缩放，按住 Shift 使用方向键旋转。">
+      <div id="regionalLabels" class="regional-labels" aria-hidden="true" hidden></div>
+      <div id="historicalLabels" class="historical-labels" aria-hidden="true" hidden><span>西桥亭</span><span>东桥亭</span></div>
+      <div id="pins" class="pins"></div>
+    </div>
+    <div class="scene-shade" aria-hidden="true"></div>
+
+    <section id="cover" class="cover" aria-label="长征纪念图集序章">
+      <div class="cover-inner">
+        <p class="eyebrow"><span>序章</span><i></i>大渡河峡谷 · 四川泸定</p>
+        <h1 id="coverTitle" tabindex="-1">山河之路</h1>
+        <div class="cover-years"><i></i><span>1934 — 1936</span><i></i></div>
+        <p class="cover-lead">在山河间作决定。沿十九处历史坐标，重读长征中的抉择与会合。</p>
+        <a class="enter" href="#explore">飞越长征路<svg aria-hidden="true"><use href="#i-right"/></svg></a>
+      </div>
+      <a class="scene-caption" href="#station/luding">
+        <i aria-hidden="true"></i>
+        <span><small>开场地貌</small><strong>大渡河 · 泸定桥</strong></span>
+        <svg aria-hidden="true"><use href="#i-diagonal"/></svg>
+      </a>
+      <div class="opening-coordinate" aria-hidden="true">29°54′52″ N&nbsp;&nbsp; 102°13′49″ E</div>
+    </section>
+
+    <section id="hud" class="hud" aria-label="路线与镜头控件" hidden>
+      <div class="scene-title">
+        <p class="eyebrow"><span id="sceneKicker"></span><i></i><span id="sceneKind"></span></p>
+        <h1 id="sceneTitle" tabindex="-1"></h1>
+        <p id="sceneSub"></p>
+        <p id="terrainScale" class="terrain-scale" hidden></p>
+        <div class="scene-actions">
+          <button type="button" class="shot-button" id="shotButton" aria-pressed="false" hidden><svg aria-hidden="true"><use href="#i-locate"/></svg><span></span></button>
+          <button type="button" class="shot-button history-toggle" id="historyToggle" aria-pressed="false" aria-controls="historyNote" hidden>1935 年史景</button>
+        </div>
+        <div id="historyNote" class="history-note" hidden>
+          <p>石桥台托起两岸桥亭。九根底链与四根扶手链横跨河谷，夺桥前桥板大部已拆。</p>
+          <button type="button" data-dialog="about">复原说明与史料 <svg aria-hidden="true"><use href="#i-diagonal"/></svg></button>
+        </div>
+      </div>
+      <div class="instrument" role="group" aria-label="地图视角">
+        <div class="compass" aria-hidden="true"><span>北</span><svg id="northArrow"><use href="#i-locate"/></svg></div>
+        <div class="instrument-actions">
+          <button type="button" id="zoomIn" title="靠近地形" aria-label="靠近地形"><svg aria-hidden="true"><use href="#i-plus"/></svg></button>
+          <button type="button" id="zoomOut" title="远离地形" aria-label="远离地形"><svg aria-hidden="true"><use href="#i-minus"/></svg></button>
+          <button type="button" id="orbitView" title="旋转镜头" aria-label="旋转镜头"><svg aria-hidden="true"><use href="#i-orbit"/></svg></button>
+          <a href="#explore" id="fitMap" title="返回全线" aria-label="返回全线"><svg aria-hidden="true"><use href="#i-fit"/></svg></a>
+        </div>
+      </div>
+      <div id="scenePassage" class="scene-passage" aria-hidden="true" hidden>
+        <span id="passageIndex"></span>
+        <strong id="passageTitle"></strong>
+        <small id="passageDate"></small>
+      </div>
+      <section class="expedition" aria-label="长征叙事导览">
+        <div class="journey-intro">
+          <div><p id="journeyPosition" class="journey-position">四幕 · 十九站</p><h2>在山河间作决定</h2></div>
+          <a id="storyContinue" class="story-continue" href="#station/ruijin"><span>从瑞金出发</span><svg aria-hidden="true"><use href="#i-right"/></svg></a>
+        </div>
+        <nav class="timeline" id="timeline" aria-label="长征四个历史阶段"></nav>
+        <nav class="station-rail" id="stationRail" aria-label="长征十九个故事节点"></nav>
+        <div class="expedition-meta">
+          <span id="mapLegend"><i></i>中央红军行程示意 <b></b>1936 年会师</span>
+          <span class="gesture-hint">拖动移动 · 滚轮缩放</span>
+        </div>
+      </section>
+    </section>
+
+    <aside id="reader" class="reader" aria-label="历史档案" hidden>
+      <div class="reader-head">
+        <div><span></span><b>地点档案</b></div>
+        <button type="button" id="toggleReader" aria-expanded="true" aria-controls="readerContents">收起 <svg aria-hidden="true"><use href="#i-minus"/></svg></button>
+      </div>
+      <div id="readerContents">
+        <div id="readerScroll" class="reader-scroll">
+        <article id="detail" class="reader-body" hidden>
+          <div class="reader-kicker"><span id="stationChapter"></span><span id="stationNumber"></span></div>
+          <h2 id="stationTitle" tabindex="-1"></h2>
+          <div class="station-meta"><span id="stationRegion"></span><time id="stationDate"></time></div>
+          <div class="detail-tabs" role="tablist" aria-label="档案内容">
+            <button type="button" id="tab-event" role="tab" aria-selected="true" aria-controls="stationBody" data-tab="event">长征故事</button>
+            <button type="button" id="tab-people" role="tab" aria-selected="false" aria-controls="stationBody" tabindex="-1" data-tab="people">人物与现场</button>
+            <button type="button" id="tab-study" role="tab" aria-selected="false" aria-controls="stationBody" tabindex="-1" data-tab="study">研学线索</button>
+          </div>
+          <div id="stationBody" class="station-body" role="tabpanel" aria-labelledby="tab-event" tabindex="0">
+            <div id="storyContent" class="story-content">
+              <h3 id="storyTitle" class="story-title"></h3>
+              <p id="storyLead" class="story-lead"></p>
+              <div id="storySections"></div>
+              <aside id="poemNote" class="poem-note" hidden aria-label="诗词解读">
+                <p class="poem-kicker">诗词解读</p><h4 id="poemTitle"></h4>
+                <blockquote id="poemExcerpt"></blockquote><p id="poemAnalysis"></p>
+              </aside>
+            </div>
+            <p id="stationText"></p>
+            <div id="terrainInsight" class="terrain-insight"><strong id="terrainTitle"></strong><p id="terrainLook"></p></div>
+            <div id="studyPrompt" class="study-prompt" hidden>
+              <strong>带着问题读地图</strong><p id="studyQuestion"></p>
+              <details id="studyReveal"><summary>查看分析</summary><p id="studyAnalysis"></p></details>
+              <p id="chapterQuestion" class="chapter-question"></p>
+            </div>
+          </div>
+          <details id="storyReferences" class="story-references">
+            <summary>史料与延伸阅读</summary>
+            <ul id="sourceList"></ul>
+            <a id="stationSource" class="station-source" target="_blank" rel="noopener"><span></span><svg><use href="#i-diagonal"/></svg></a>
+          </details>
+        </article>
+        </div>
+      </div>
+      <nav id="stationNav" class="station-nav" aria-label="按时间阅读节点" hidden>
+        <a id="prevStation"><svg><use href="#i-left"/></svg><span><small>上一站</small><strong></strong></span></a>
+        <a id="nextStation"><span><small>下一站</small><strong></strong></span><svg><use href="#i-right"/></svg></a>
+      </nav>
+    </aside>
+    <div id="loading" class="terrain-status" role="status">正在展开山河</div>
+    <footer class="data-credit">
+      <button type="button" data-dialog="about">地形与影像来源</button>
+      <span>Mapzen · EOxCloudless · ESA WorldCover · OpenFreeMap · © OpenMapTiles · © OpenStreetMap · Overture Maps</span>
+    </footer>
+  </main>
+  <dialog id="catalog" aria-labelledby="catalogTitle">
+    <div class="dialog-head">
+      <div><p class="reader-kicker">19 处历史坐标</p><h2 id="catalogTitle">节点档案</h2></div>
+      <form method="dialog"><button type="submit" class="close-button" aria-label="关闭节点档案"><svg><use href="#i-close"/></svg></button></form>
+    </div>
+    <label class="search-field"><svg><use href="#i-search"/></svg><input id="search" type="search" aria-label="搜索节点" placeholder="搜索地名、事件或纪念馆" autofocus></label>
+    <div id="filters" class="filters" aria-label="筛选节点">
+      <button type="button" data-filter="all" aria-pressed="true">全部</button>
+      <button type="button" data-filter="route" aria-pressed="false">中央红军沿线</button>
+      <button type="button" data-filter="meeting" aria-pressed="false">1936 年会师</button>
+    </div>
+    <p id="resultCount" class="result-count" aria-live="polite"></p>
+    <div id="results" class="results"></div>
+  </dialog>
+
+  <dialog id="about" aria-labelledby="aboutTitle">
+    <div class="dialog-head">
+      <div><p class="reader-kicker">长征纪念图集</p><h2 id="aboutTitle">关于山河之路</h2></div>
+      <form method="dialog"><button type="submit" class="close-button" aria-label="关闭图集说明" autofocus><svg aria-hidden="true"><use href="#i-close"/></svg></button></form>
+    </div>
+    <div class="about-copy">
+      <p>《在山河间作决定》以毛泽东和中共中央在长征中的抉择串联 1934 至 1935 年的中央红军行程，再从各路红军的视角讲述 1936 年会宁、将台堡会师。各站同时关注围堵、地形和群众支援。</p>
+      <h3>地形与地图</h3>
+      <p>山脊、河谷和坡面按高程数据建模，节点近景采用原生约 10 米的 Sentinel-2 影像。河岸、道路和建筑轮廓取自开放地图。树冠按林地分布绘制，个体树木、屋顶样式和缺少测值的建筑高度为示意。地图细线连接中央红军代表地点，表示行进方向。会宁、将台堡以菱形单独标注。</p>
+      <ul>
+        <li><a href="https://registry.opendata.aws/terrain-tiles/" target="_blank" rel="noopener">高程 · Mapzen Terrain Tiles / SRTM（USGS）</a></li>
+        <li><a href="https://cloudless.eox.at/" target="_blank" rel="noopener">影像 · EOxCloudless by EOX IT Services GmbH</a><br>含经处理的 2024 年 Copernicus Sentinel 数据，CC BY-NC-SA 4.0。</li>
+        <li>地物 · <a href="https://openfreemap.org/" target="_blank" rel="noopener">OpenFreeMap</a> · <a href="https://openmaptiles.org/" target="_blank" rel="noopener">© OpenMapTiles</a> · <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">© OpenStreetMap 贡献者</a>，ODbL。</li>
+        <li>补充建筑轮廓 · <a href="https://docs.overturemaps.org/guides/buildings/" target="_blank" rel="noopener">Overture Maps Buildings</a>，ODbL。</li>
+        <li>林地分布 · <a href="https://doi.org/10.5281/zenodo.7254221" target="_blank" rel="noopener">ESA WorldCover 2021 v200</a>，CC BY 4.0。© ESA WorldCover project 2021 / Contains modified Copernicus Sentinel data (2021) processed by ESA WorldCover consortium.</li>
+        <li>近景材质 · <a href="https://polyhaven.com/a/rocky_terrain_02" target="_blank" rel="noopener">Rocky Terrain 02</a> 与 <a href="https://polyhaven.com/a/aerial_grass_rock" target="_blank" rel="noopener">Aerial Grass Rock</a>，Poly Haven，CC0。</li>
+      </ul>
+      <h3>泸定桥史景</h3>
+      <p>铁索数量、桥长桥宽、两岸石桥台及桥亭形制依据泸定县资料。夺桥前桥板大部拆除的描述来自国防部报道。近景使用现测地形，岸边植被、桥亭构件与残留桥板位置按示意呈现。</p>
+      <h3>史料</h3>
+      <ul>
+        <li><a href="https://www.mod.gov.cn/gfbw/gfjy_index/js_214151/4852696.html?big=fan" target="_blank" rel="noopener">国防部 · 红军主力开始长征</a></li>
+        <li><a href="https://www.miit.gov.cn/ztzl/rdzt/dsxxjyzl/xxzl/art/2021/art_a43d76bc5e694806889c07fc36ec6adc.html" target="_blank" rel="noopener">工信部 · 遵义会议和红军长征的胜利</a></li>
+        <li><a href="https://www.nppa.gov.cn/xxfb/tt/202106/t20210628_665643.html" target="_blank" rel="noopener">国家新闻出版署 · 中国共产党一百年大事记</a></li>
+        <li><a href="https://www.mod.gov.cn/gfbw/gfjy_index/16490103.html" target="_blank" rel="noopener">国防部 · 胜利之光照亮茫茫草原</a></li>
+        <li><a href="https://www.luding.gov.cn/gzldx/c101737/201705/e860e300f30e4f459e5b325c476c8050.shtml" target="_blank" rel="noopener">泸定县人民政府 · 泸定铁索桥尺寸与结构</a></li>
+        <li><a href="https://www.mod.gov.cn/gfbw/gfjy_index/zyhd/4846787.html" target="_blank" rel="noopener">国防部 · 泸定桥畔的回响</a></li>
+      </ul>
+    </div>
+  </dialog>
+  <noscript><p class="noscript">请启用 JavaScript 以使用三维地形和节点档案。</p></noscript>
+</body>
+</html>
