@@ -1,0 +1,236 @@
+.reader-head .field-guide-entry {
+  flex: none;
+  margin-inline-start: auto;
+  padding-inline: .45rem;
+  color: var(--red, #8a372d);
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.field-guide {
+  --field-accent: #8a372d;
+  --field-blue: #414d5c;
+  font-size: 13px;
+  line-height: 1.6;
+  overflow-wrap: anywhere;
+}
+
+.field-guide-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 2px;
+}
+
+.field-guide-header img {
+  flex: none;
+  object-fit: cover;
+  border: 1px solid var(--paper-line);
+}
+
+.field-guide-header p {
+  margin: 0;
+  color: var(--field-blue);
+  font-weight: 700;
+}
+
+.field-guide-header span {
+  margin-inline-start: 6px;
+  color: var(--paper-muted);
+  font-size: 11px;
+  font-weight: 400;
+}
+
+.field-guide-header h3 {
+  margin: 2px 0 0;
+  font: 700 20px/1.22 var(--serif);
+}
+
+.field-step {
+  min-inline-size: 0;
+  margin: 14px 0 0;
+  padding: 12px 0 0;
+  border: 0;
+  border-top: 1px solid var(--paper-line);
+}
+
+.field-step h4, .field-step legend {
+  margin: 0 0 4px;
+  padding: 0;
+  color: var(--field-accent);
+  font-size: 13px;
+  font-weight: 750;
+}
+
+.field-step p {
+  margin: 0 0 7px;
+}
+
+.field-return {
+  min-height: 36px;
+  color: var(--field-accent);
+  font-weight: 700;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.field-material, .field-notebook {
+  border: 1px solid var(--paper-line);
+  background: rgba(255, 255, 255, .26);
+  margin-top: 6px;
+}
+
+.field-material summary, .field-notebook summary {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  min-height: 42px;
+  padding: 6px 9px;
+  color: var(--field-blue);
+  font-weight: 700;
+  list-style: none;
+  cursor: pointer;
+}
+
+.field-material summary::-webkit-details-marker,
+.field-notebook summary::-webkit-details-marker {
+  display: none;
+}
+
+.field-material summary::after, .field-notebook summary::after {
+  content: '+';
+  margin-inline-start: auto;
+  color: var(--field-accent);
+  font: 700 17px/1 var(--mono);
+}
+
+.field-material[open] summary::after, .field-notebook[open] summary::after {
+  content: '−';
+}
+
+.field-material summary span {
+  color: var(--field-accent);
+  font: 700 12px/1 var(--mono);
+}
+
+.field-material p, .field-material a, .field-notebook-entries {
+  margin-inline: 9px;
+}
+
+.field-guide a {
+  color: var(--field-accent);
+  font-weight: 650;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.field-material a {
+  display: inline-block;
+  margin-bottom: 8px;
+  font-size: 12px;
+}
+
+.field-judgment {
+  padding-top: 4px;
+}
+
+.field-judgment legend {
+  padding-inline-end: 7px;
+}
+
+.field-choices {
+  display: grid;
+  gap: 6px;
+}
+
+.field-choices button, .field-note-actions button {
+  min-height: 44px;
+  padding: 7px 9px;
+  border: 1px solid var(--paper-line);
+  background: rgba(255, 255, 255, .35);
+  text-align: start;
+}
+
+.field-choices button:hover, .field-choices button[aria-pressed="true"] {
+  border-color: var(--field-accent);
+  background: #f4e8df;
+}
+
+.field-step .field-feedback:not(:empty) {
+  margin: 8px 0 0;
+  padding: 8px 10px;
+  border-inline-start: 3px solid var(--field-accent);
+  background: #f4e8df;
+}
+
+.field-step .field-feedback[data-correct="true"] {
+  border-color: #53684e;
+  background: #e9ede4;
+}
+
+.field-note-form label {
+  display: block;
+  margin-bottom: 6px;
+}
+
+.field-note-form textarea {
+  display: block;
+  width: 100%;
+  min-height: 78px;
+  resize: vertical;
+  padding: 8px;
+  border: 1px solid var(--paper-line);
+  border-radius: 0;
+  color: inherit;
+  background: #fffcf6;
+  font: inherit;
+}
+
+.field-step .field-note-help {
+  margin-top: 4px;
+  color: var(--paper-muted);
+  font-size: 11px;
+}
+
+.field-note-actions {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 4px 9px;
+}
+
+.field-note-actions button {
+  border-color: var(--field-accent);
+  color: var(--field-accent);
+  font-weight: 700;
+}
+
+.field-note-actions button:hover {
+  background: #f4e8df;
+}
+
+.field-step .field-note-status {
+  margin: 0;
+  color: var(--field-blue);
+  font-size: 12px;
+}
+
+.field-note-count {
+  color: var(--paper-muted);
+  font-weight: 400;
+}
+
+.field-notebook article + article {
+  border-top: 1px solid var(--paper-line);
+  padding-top: 7px;
+}
+
+.field-notebook article p {
+  white-space: pre-wrap;
+}
+
+@media (max-width: 720px) {
+  .reader-head .field-guide-entry, .field-return { min-height: 44px; }
+  .reader[data-tab="study"] .reader-scroll { max-height: min(56dvh, 450px); }
+  .field-note-form textarea { font-size: 16px; }
+}

@@ -1,4 +1,4 @@
-import * as THREE from './vendor/three.module.min.js';
+import * as THREE from '../assets/vendor/three.module.min.js';
 
 const span = 101.67;
 const width = 3;
@@ -53,7 +53,7 @@ function tiledRoof() {
   geometry.setAttribute('color', new THREE.Float32BufferAttribute(colors, 3));
   geometry.setIndex(indices);
   geometry.computeVertexNormals();
-  return new THREE.Mesh(geometry, new THREE.MeshLambertMaterial({ vertexColors: true, side: THREE.DoubleSide }));
+  return new THREE.Mesh(geometry, new THREE.MeshLambertMaterial({ name: 'roof_tile', vertexColors: true, side: THREE.DoubleSide }));
 }
 
 function makePavilion(materials, side) {
@@ -122,16 +122,16 @@ export function makeLudingBridge() {
   bridge.rotation.y = -.04;
   const modern = new THREE.Group();
   const historical = new THREE.Group();
-  const iron = new THREE.MeshStandardMaterial({ color: '#625849', roughness: .51, metalness: .32 });
-  const outline = new THREE.MeshLambertMaterial({ color: '#9a8268' });
-  const oak = ['#76533a', '#967452', '#846145'].map(color => new THREE.MeshLambertMaterial({ color }));
-  const stone = ['#817769', '#a59781', '#958778'].map(color => new THREE.MeshLambertMaterial({ color }));
+  const iron = new THREE.MeshStandardMaterial({ name: 'forged_iron', color: '#4b4843', roughness: .56, metalness: .70 });
+  const outline = new THREE.MeshLambertMaterial({ name: 'forged_iron_base', color: '#57514a' });
+  const oak = ['#76533a', '#967452', '#846145'].map((color, i) => new THREE.MeshLambertMaterial({ color, name: 'deck_oak_' + i }));
+  const stone = ['#817769', '#a59781', '#958778'].map((color, i) => new THREE.MeshLambertMaterial({ color, name: 'ashlar_' + i }));
   const materials = {
     stone,
-    mortar: new THREE.MeshLambertMaterial({ color: '#534c41' }),
-    timber: new THREE.MeshLambertMaterial({ color: '#542d22' }),
-    beam: new THREE.MeshLambertMaterial({ color: '#744432' }),
-    ridge: new THREE.MeshLambertMaterial({ color: '#302b26' })
+    mortar: new THREE.MeshLambertMaterial({ name: 'mortar', color: '#534c41' }),
+    timber: new THREE.MeshLambertMaterial({ name: 'timber_post', color: '#542d22' }),
+    beam: new THREE.MeshLambertMaterial({ name: 'timber_beam', color: '#744432' }),
+    ridge: new THREE.MeshLambertMaterial({ name: 'roof_ridge', color: '#302b26' })
   };
   for (const [z, height] of railPositions) {
     const points = Array.from({ length: 33 }, (_, i) => {

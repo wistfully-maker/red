@@ -112,7 +112,7 @@ function drapedTriangle(target, a, b, c, heightAt, maxStep) {
     drapedTriangle(target, mid, to, other, heightAt, maxStep);
     return;
   }
-  const points = [a, b, c].map(([x, z]) => [x, heightAt(x, z) + .00072, z]);
+  const points = [a, b, c].map(([x, z]) => [x, heightAt(x, z) + .00155, z]);
   triangle(target, ...points, water);
 }
 
@@ -159,21 +159,107 @@ const waterVertex = /* glsl */ `
 
 const waterFragment = /* glsl */ `
   uniform float time;
+  uniform float haze;
+  uniform vec2 riverOrigin;
+  uniform sampler2D shoreMap;
+  uniform float hasShore;
+  uniform vec3 sunDirection;
   varying vec3 vWater;
+  float noise(vec2 p) {
+    vec2 i = floor(p), f = fract(p);
+    vec4 n = fract(sin(vec4(dot(i, vec2(51.7, 72.2)), dot(i + vec2(1, 0), vec2(51.7, 72.2)),
+      dot(i + vec2(0, 1), vec2(51.7, 72.2)), dot(i + 1.0, vec2(51.7, 72.2)))) * 43758.54);
+    f = f * f * (3.0 - 2.0 * f);
+    return mix(mix(n.x, n.y, f.x), mix(n.z, n.w, f.x), f.y);
+  }
   void main() {
-    vec2 p = vWater.xz;
-    float waves = sin(p.x * 910.0 + p.y * 380.0 - time * 2.4);
-    waves += sin(p.x * -514.0 + p.y * 680.0 + time * 1.1) * .48;
-    float flash = pow(clamp(.48 + waves * .29, 0.0, 1.0), 5.0);
-    vec3 base = vec3(.046, .108, .103);
-    vec3 view = normalize(cameraPosition - vWater);
-    float sky = pow(1.0 - max(view.y, 0.0), 3.0);
-    gl_FragColor = vec4(base + vec3(.10, .13, .124) * (flash * .52 + sky * .29), .91);
+    vec2 p = vWater.xz - riverOrigin;
+    vec2 downstream = vec2(p.x * 235.0, (p.y - time * .005) * 117.0);
+    float turbulence = noise(downstream * .38);
+    float wave = noise(downstream * vec2(1.7, 2.9) + turbulence * 2.0);
+    float ripple = sin(downstream.y * 5.2 + wave * 4.2 + turbulence * 12.0);
+    float detail = 1.0 - smoothstep(.18, .93, length(fwidth(downstream)));
+    vec2 shoreUv = p / 1.28 + .5;
+    vec2 edge = min(shoreUv, 1.0 - shoreUv);
+    float bank = hasShore * smoothstep(0.0, .045, min(edge.x, edge.y));
+    float shore = texture2D(shoreMap, shoreUv).r;
+    float shallows = (1.0 - smoothstep(.13, .62, shore)) * bank;
+    float foam = smoothstep(.68, .94, wave * .68 + turbulence * .32);
+    float whitewater = foam * (.17 + shallows * .64) * (.58 + ripple * .24) * detail;
+    vec3 ray = cameraPosition - vWater;
+    vec3 view = normalize(ray);
+    vec3 microNormal = normalize(vec3((wave - .50) * .20, 1.0, ripple * .07));
+    float sky = pow(1.0 - max(dot(view, microNormal), 0.0), 4.5);
+    float glint = pow(max(0.0, dot(microNormal, normalize(view + sunDirection))), 66.0) *
+      (.13 + turbulence * .42) * (.52 + wave * .38);
+    vec3 base = mix(vec3(.013, .038, .045), vec3(.036, .084, .081), turbulence);
+    base = mix(base, vec3(.064, .085, .068), shallows * .71);
+    vec3 color = base + vec3(.065, .089, .104) * sky + vec3(.49, .37, .23) * glint + vec3(.32, .40, .37) * whitewater;
+    gl_FragColor = vec4(mix(color, vec3(.165, .235, .254), (1.0 - exp(-length(ray) * haze)) * .73), .97);
     #include <colorspace_fragment>
   }
 `;
 
-export async function loadGroundFeatures(name, origin, heightAt, extraBuildings) {
+const blankShore = new THREE.DataTexture(new Uint8Array([255]), 1, 1, THREE.RedFormat);
+blankShore.needsUpdate = true;
+
+function makeShoreMap(water) {
+  const size = 512;
+  const canvas = document.createElement('canvas');
+  canvas.width = canvas.height = size;
+  const context = canvas.getContext('2d', { willReadFrequently: true });
+  context.fillStyle = 'white';
+  for (const polygon of water) {
+    context.beginPath();
+    for (const ring of polygon) {
+      ring.forEach(([x, z], i) => {
+        const px = (x / 1280 + .5) * size;
+        const py = (z / 1280 + .5) * size;
+        if (i) context.lineTo(px, py);
+        else context.moveTo(px, py);
+      });
+      context.closePath();
+    }
+    context.fill('evenodd');
+  }
+  const pixels = context.getImageData(0, 0, size, size).data;
+  const distance = Float32Array.from({ length: size * size }, (_, i) => pixels[i * 4 + 3] > 127 ? 32 : 0);
+  const diagonal = Math.SQRT2;
+  for (let y = 1; y < size; y++) {
+    for (let x = 1; x < size - 1; x++) {
+      const i = y * size + x;
+      distance[i] = Math.min(distance[i], distance[i - 1] + 1, distance[i - size] + 1,
+        distance[i - size - 1] + diagonal, distance[i - size + 1] + diagonal);
+    }
+  }
+  for (let y = size - 2; y >= 0; y--) {
+    for (let x = size - 2; x > 0; x--) {
+      const i = y * size + x;
+      distance[i] = Math.min(distance[i], distance[i + 1] + 1, distance[i + size] + 1,
+        distance[i + size - 1] + diagonal, distance[i + size + 1] + diagonal);
+    }
+  }
+  const texture = new THREE.DataTexture(Uint8Array.from(distance, d => Math.min(255, d * 20)), size, size, THREE.RedFormat);
+  texture.minFilter = texture.magFilter = THREE.LinearFilter;
+  texture.needsUpdate = true;
+  return texture;
+}
+
+function overlapsLandmark(outline, point) {
+  let inside = false;
+  for (let i = 0, j = outline.length - 1; i < outline.length; j = i++) {
+    const [ax, az] = outline[j], [bx, bz] = outline[i];
+    const dx = bx - ax, dz = bz - az;
+    const length = dx * dx + dz * dz;
+    if (!length) continue;
+    const t = THREE.MathUtils.clamp(((point.x - ax) * dx + (point.z - az) * dz) / length, 0, 1);
+    if (Math.hypot(ax + t * dx - point.x, az + t * dz - point.z) < .033) return true;
+    if ((az > point.z) !== (bz > point.z) && point.x < ax + (point.z - az) * dx / dz) inside = !inside;
+  }
+  return inside;
+}
+
+export async function loadGroundFeatures(name, origin, heightAt, extraBuildings, sunDirection, landmark) {
   const additions = extraBuildings ? fetch(new URL('./terrain/' + name + '-buildings.json', import.meta.url))
     .then(response => response.ok ? response.json() : null).catch(() => null) : null;
   const response = await fetch(new URL('./terrain/' + name + '-vectors.json', import.meta.url));
@@ -191,7 +277,11 @@ export async function loadGroundFeatures(name, origin, heightAt, extraBuildings)
   const waterways = batch();
   const roadWidths = { motorway: .012, trunk: .010, primary: .0075, secondary: .0062, tertiary: .0048, minor: .0034, service: .0025, path: .0014 };
 
-  footprints.forEach(([height, rings], i) => roofModel(buildings, shadows, openRings(rings, transform), height * .00117, heightAt, i));
+  footprints.forEach(([height, rings], i) => {
+    const outline = openRings(rings, transform);
+    if (landmark && outline[0] && overlapsLandmark(outline[0], landmark)) return;
+    roofModel(buildings, shadows, outline, height * .00117, heightAt, i);
+  });
   for (const [kind, line] of data.roads) {
     ribbon(roads, line.map(transform), roadWidths[kind] || .0031, heightAt, road, .0017);
   }
@@ -199,24 +289,34 @@ export async function loadGroundFeatures(name, origin, heightAt, extraBuildings)
     const rings = openRings(polygon, transform);
     if (!rings.length) continue;
     const points = rings.flat();
-    for (const [a, b, c] of triangulate(rings)) drapedTriangle(waterways, points[a], points[b], points[c], heightAt, .034);
+    const spacing = name === 'luding' ? .009 : .024;
+    for (const [a, b, c] of triangulate(rings)) drapedTriangle(waterways, points[a], points[b], points[c], heightAt, spacing);
   }
   if (!data.water.length) {
     for (const [kind, line] of data.streams) {
       ribbon(waterways, line.map(transform), kind === 'river' ? .008 : .0028, heightAt, water, .00143);
     }
   }
+  const shoreMap = name === 'luding' && data.water.length ? makeShoreMap(data.water) : blankShore;
   const liquid = new THREE.ShaderMaterial({
     vertexShader: waterVertex, fragmentShader: waterFragment,
-    side: THREE.DoubleSide, transparent: true, depthWrite: false, uniforms: { time: { value: 0 } }
+    side: THREE.DoubleSide, transparent: true, depthWrite: false,
+    uniforms: {
+      time: { value: 0 }, haze: { value: .012 }, riverOrigin: { value: new THREE.Vector2(tx, tz) },
+      shoreMap: { value: shoreMap }, hasShore: { value: shoreMap === blankShore ? 0 : 1 }, sunDirection: { value: sunDirection }
+    }
   });
   addMesh(group, waterways, liquid);
+  const river = group.children.at(-1);
   addMesh(group, roads, new THREE.MeshBasicMaterial({ side: THREE.DoubleSide, vertexColors: true, transparent: true, opacity: .55 }));
   addMesh(group, shadows, new THREE.MeshBasicMaterial({
     side: THREE.DoubleSide, vertexColors: true, transparent: true, opacity: .35, depthWrite: false
   }));
   addMesh(group, buildings, new THREE.MeshLambertMaterial({ side: THREE.DoubleSide, vertexColors: true }));
   group.userData.time = liquid.uniforms.time;
+  group.userData.haze = liquid.uniforms.haze;
+  group.userData.river = waterways.vertices.length ? river : null;
+  if (shoreMap !== blankShore) group.userData.shoreMap = shoreMap;
   group.userData.count = footprints.length + data.roads.length + data.water.length + data.streams.length;
   return group;
 }

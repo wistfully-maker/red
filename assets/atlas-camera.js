@@ -11,8 +11,8 @@ export function imageryZoomLimit(texelKm, renderHeight, fov, pixelsPerTexel) {
 }
 
 export function fitAtlas(points, aspect, fov, portrait, viewportHeight) {
-  const bearing = portrait ? .32 : -.32;
-  const pitch = portrait ? 1.44 : 1.17;
+  const bearing = portrait ? .20 : -.38;
+  const pitch = portrait ? 1.19 : .80;
   const c = Math.cos(bearing);
   const s = Math.sin(bearing);
   const plane = points.map(({ x, z }) => [x * c - z * s, x * s + z * c]);
@@ -22,10 +22,10 @@ export function fitAtlas(points, aspect, fov, portrait, viewportHeight) {
   const bottom = Math.max(...plane.map(point => point[1]));
   const tanY = tangent(fov);
   const tanX = tanY * aspect;
-  const paddingX = portrait ? .80 : .84;
-  const topInset = Math.min(100, viewportHeight * .14);
-  const bottomInset = Math.min(portrait ? 158 : 205, viewportHeight * .29);
-  const paddingY = Math.min(portrait ? .67 : .72, 1 - (topInset + bottomInset) / viewportHeight);
+  const paddingX = portrait ? .77 : .86;
+  const topInset = Math.min(portrait ? 112 : 150, viewportHeight * .18);
+  const bottomInset = Math.min(portrait ? 85 : 82, viewportHeight * .14);
+  const paddingY = Math.min(portrait ? .75 : .81, 1 - (topInset + bottomInset) / viewportHeight);
   const centerY = (bottomInset - topInset) / viewportHeight;
   let across = (left + right) / 2;
   let along = (top + bottom) / 2;
@@ -71,7 +71,7 @@ function groundFootprint(pitch, bearing, distance, aspect, fov) {
 export function keepGroundInView(view, bounds, aspect, fov) {
   if (view.distance < 80) return view;
   const [west, north, east, south] = bounds;
-  const minPitch = mix(.78, 1.14, clamp((view.distance - 80) / 2300, 0, 1));
+  const minPitch = mix(.69, .79, clamp((view.distance - 80) / 2300, 0, 1));
   const pitch = Math.max(view.pitch, Math.min(minPitch, 1.38));
   let distance = view.distance;
   let area = groundFootprint(pitch, view.bearing, distance, aspect, fov);

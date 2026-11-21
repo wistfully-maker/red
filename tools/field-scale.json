@@ -1,0 +1,12 @@
+{
+  "unit": "metre",
+  "adult": {"nominal":1.67,"min":1.56,"max":1.79},
+  "rivers": {
+    "yudu": {"plate":1950,"waterWidth":610,"side":-1,"entry":85,"hull":[7.2,1.72],"basis":"纪念园记载河面600多米。模型取610米，船型及船位为比例演绎。","source":"https://www.yudu.gov.cn/yudu/ydrw/202102/3f856d547c974b18afb023350581f9b0.shtml"},
+    "xiangjiang": {"plate":480,"waterWidth":100,"side":-1,"entry":49,"hull":[8.4,2.1],"basis":"以全州凤凰嘴约百米宽的渡口报道为区域尺度参照。","source":"https://www.mod.gov.cn/gfbw/tp_214132/16084375.html"},
+    "chishui": {"plate":740,"waterWidth":200,"side":1,"entry":64,"hull":[8.8,2.1],"basis":"土城段以约200米为示意。码头和商船为古镇生活场景。","source":"https://epaper.cnwomen.com.cn/images/2021-03/18/4/04BLM04C318_h.pdf"},
+    "jiaoping": {"plate":660,"waterWidth":150,"side":1,"entry":61,"hull":[7.9,1.84],"basis":"依渡口遗址保护研究中的150米河宽。木船尺度为演绎值。","source":"https://www.rmcjzz.cjw.cn/cn/article/pdf/preview/10.16232/j.cnki.1001-4179.2015.21.026.pdf"},
+    "anshun": {"plate":950,"waterWidth":300,"side":-1,"entry":60,"hull":[10.5,2.2],"hullHeight":2.3,"basis":"本场景按约300米表现渡口宽度，河宽随河段和水位变化。翘首木船按纪念馆复制品长10.5米、宽2.2米、高2.3米建模。","source":"https://cpc.people.com.cn/n1/2025/0802/c443712-40534962.html","widthSource":"https://www.qinfeng.gov.cn/info/5660/245460.htm"}
+  }
+}
+

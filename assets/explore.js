@@ -1,7 +1,13 @@
-import { TerrainView } from './terrain-view.js';
-import { chapters, places } from './places.js';
+import { TerrainView } from './terrain-view.js?v=cinema-20261121';
+import { chapters, places } from './places.js?v=first-person-atlas';
 import { southernStories } from './story-south.js';
 import { northernStories } from './story-north.js';
+import { maoJourney } from './mao-journey.js';
+import { HistoryView, historyScenes, detailViews } from './history-view.js?v=cinema-20261121';
+import { modelSources } from './history-sources.js';
+import { tableaux, showStudy } from './scene-studies.js?v=cinema-20261121';
+import { createFieldGuide } from './field-lessons.js';
+import { createPeopleNotes } from './people-notes.js';
 
 const stories = { ...southernStories, ...northernStories };
 
@@ -9,6 +15,7 @@ const $ = (id) => document.getElementById(id);
 const icon = (id) => '<svg aria-hidden="true"><use href="#i-' + id + '"/></svg>';
 const href = (station) => '#station/' + station.id;
 const byId = new Map(stations.map((station, index) => [station.id, { ...station, index }]));
+const journeyHref = id => '#journey/' + id;
 const chapterFor = (index) => chapters.findLastIndex(chapter => byId.get(chapter.start).index <= index);
 const formatNumber = (value) => String(value).padStart(2, '0');
 const numberFormat = new Intl.NumberFormat('zh-CN');
@@ -32,6 +39,18 @@ const terrainLabels = [
 
 const pinElements = new Map();
 const tabs = [...document.querySelectorAll('[data-tab]')];
+const peopleNotes = createPeopleNotes($('stationText'), stations);
+$('tab-people').textContent = '沿途的人';
+const renderFieldLesson = createFieldGuide($('studyPrompt'), stations, () => {
+  setReaderExpanded(false);
+  $(display === 'model' ? 'modelStage' : 'world').focus({ preventScroll: true });
+});
+const fieldEntry = document.createElement('button');
+fieldEntry.type = 'button';
+fieldEntry.className = 'field-guide-entry';
+fieldEntry.setAttribute('aria-controls', 'studyPrompt');
+fieldEntry.textContent = '行记研学';
+$('toggleReader').before(fieldEntry);
 const historySwitch = $('historyToggle');
 const historyLabels = $('historicalLabels');
 let active;
@@ -41,6 +60,11 @@ let ready = false;
 let loadFailed = false;
 let stateVersion = 0;
 let passageStation = null;
+let journeyIndex = -1;
+let display = 'cover';
+let modelView;
+let modelRequest = 0;
+let terrainStartup;
 
 function makeTimeline() {
   $('timeline').innerHTML = chapters.map((chapter, i) =>
@@ -48,12 +72,13 @@ function makeTimeline() {
     '<span class="chapter-no">' + formatNumber(i + 1) + '</span><span><strong>' + chapter.title +
     '</strong><small>' + chapter.date + '</small></span></a>'
   ).join('');
-  for (const station of stations) {
+  for (const [index, entry] of maoJourney.entries()) {
+    const station = byId.get(entry.id);
     const step = document.createElement('a');
     step.className = 'station-step ' + station.kind;
-    step.href = href(station);
-    step.title = station.number + ' · ' + station.name;
-    step.setAttribute('aria-label', '第 ' + station.number + ' 站 · ' + station.name + ' · ' + station.title);
+    step.href = journeyHref(station.id);
+    step.title = station.name + ' · ' + entry.title;
+    step.setAttribute('aria-label', '独白第 ' + (index + 1) + ' 站 · ' + station.name + ' · ' + entry.title);
     $('stationRail').append(step);
   }
 }
@@ -89,7 +114,7 @@ function drawPassage(view) {
 }
 
 function drawOverlay(view) {
-  if (mode === 'home') return;
+  if (display !== 'terrain') return;
   const current = Math.floor(performance.now() / 25);
   if (current === overlayFrame) return;
   overlayFrame = current;
@@ -99,14 +124,15 @@ function drawOverlay(view) {
   const scale = $('terrainScale');
   const bounds = view.near?.bounds;
   const limited = view.atZoomLimit();
+  const refining = limited && view.refiningImagery();
   $('zoomIn').disabled = limited || view.waitingForTerrain;
   const detailView = bounds && !view.historical && view.view.distance <= 13 &&
     view.view.x >= bounds[0] && view.view.x <= bounds[2] && view.view.z >= bounds[1] && view.view.z <= bounds[3];
   scale.hidden = !limited && !detailView;
   if (!scale.hidden) {
     const vectorVisible = view.near?.features?.visible && view.near.features.userData.count > 0;
-    const detailLabel = vectorVisible ? '约 10 米卫星影像 · 现代地物' : '约 10 米卫星影像';
-    const label = limited ? (mode === 'overview' ? '已到清晰范围 · 点选节点看近景' :
+    const detailLabel = mode === 'overview' ? '高程浮雕 · 分区设色' : vectorVisible ? '约 10 米卫星影像 · 现代地物' : '约 10 米卫星影像';
+    const label = refining ? '正在加载更清晰的影像' : limited ? (mode === 'overview' ? '已到清晰范围 · 点选节点看近景' :
       view.modelZoom ? '已到模型近景' : '已到影像清晰范围') : detailLabel;
     if (scale.textContent !== label) scale.textContent = label;
   }
@@ -129,40 +155,51 @@ function drawOverlay(view) {
       const x = bridge.x + (index === 0 ? -.065 : .065);
       const point = view.screenPoint({ x, z: bridge.z + .04 * (x - bridge.x) }, bridge.y + .016);
       label.hidden = !point || point.x < 29 || point.x > view.size.width - 29;
-      if (!label.hidden) label.style.transform = 'translate(' + Math.round(point.x) + 'px, ' + Math.round(point.y) + 'px)';
+      if (!label.hidden) {
+        const left = Math.max(12, Math.min(point.x, view.size.width - label.offsetWidth - 12));
+        label.style.transform = 'translate(' + Math.round(left) + 'px, ' + Math.round(point.y) + 'px)';
+      }
     }
   }
   for (const station of stations) {
     const pin = pinElements.get(station.id);
-    const point = view.screen(station.id);
+    const landmark = view.overviewLandmarkScreen(station.id);
+    const point = landmark || view.screen(station.id);
     const isActive = active?.id === station.id;
     pin.hidden = !point || (view.flight && view.flight.distanceTravelled < .45 && !isActive) ||
-      (view.historical && view.view.distance < .9);
+      (view.historical && view.view.distance < .9) || (station.id === 'zunyi' && view.zunyiHall?.visible);
     if (pin.hidden) continue;
     pin.style.transform = 'translate3d(' + Math.round(point.x) + 'px,' + Math.round(point.y) + 'px,0)';
-    pin.classList.toggle('named', isActive || (!near && named.has(station.id)));
+    pin.classList.toggle('landmark', Boolean(landmark));
+    pin.classList.toggle('named', Boolean(landmark) || isActive || (!near && named.has(station.id)));
     pin.classList.toggle('left', point.x > view.size.width - 115 ||
       point.x > 112 && station.id === 'luding' && !near);
   }
 }
 
 function setTab(name) {
-  const content = { people: active.people, study: active.base };
+  const studying = name === 'study';
   for (const tab of tabs) {
     const selected = tab.dataset.tab === name;
     tab.setAttribute('aria-selected', selected);
     tab.tabIndex = selected ? 0 : -1;
   }
   $('stationBody').setAttribute('aria-labelledby', 'tab-' + name);
-  $('storyContent').hidden = name !== 'event';
-  $('stationText').hidden = name === 'event';
-  $('stationText').textContent = content[name] || '';
-  $('studyPrompt').hidden = name !== 'study';
+  $('monologue').hidden = name !== 'event' || journeyIndex === -1;
+  $('storyContent').hidden = name !== 'event' || journeyIndex !== -1;
+  $('terrainInsight').hidden = studying || (name === 'event' && journeyIndex !== -1);
+  peopleNotes.root.hidden = name !== 'people';
+  $('studyPrompt').hidden = !studying;
+  $('reader').dataset.tab = name;
+  if (journeyIndex === -1) {
+    setStationLink('prevStation', stations[active.index - 1], name);
+    setStationLink('nextStation', stations[active.index + 1], name);
+  }
 }
 
-function setStationLink(id, station) {
+function setStationLink(id, station, tab = 'event') {
   const link = $(id);
-  link.href = station ? href(station) : '#explore';
+  link.href = station ? href(station) + (tab === 'event' ? '' : '/' + tab) : '#explore';
   link.querySelector('small').textContent = station ? (id === 'prevStation' ? '上一站' : '下一站') : '长征路线';
   link.querySelector('strong').textContent = station ? station.name : '返回全线';
 }
@@ -175,7 +212,7 @@ function setReaderExpanded(expanded) {
   $('reader').classList.toggle('is-collapsed', !expanded);
 }
 
-function renderStory(station, chapter) {
+function renderStory(station) {
   const story = stories[station.id];
   $('storyTitle').textContent = story.title;
   $('storyLead').textContent = story.lead;
@@ -195,12 +232,10 @@ function renderStory(station, chapter) {
     $('poemExcerpt').textContent = story.poem.excerpt;
     $('poemAnalysis').textContent = story.poem.body;
   }
-  $('studyQuestion').textContent = story.question.prompt;
-  $('studyAnalysis').textContent = story.question.reveal;
-  $('chapterQuestion').textContent = chapters[chapter].question;
-  $('studyReveal').open = false;
   $('storyReferences').open = false;
-  $('sourceList').replaceChildren(...story.sources.map(source => {
+  const [title, url] = modelSources[station.id];
+  const sources = [{title: '场景取材 · ' + title, url}, ...story.sources.filter(source => source.url !== url)];
+  $('sourceList').replaceChildren(...sources.map(source => {
     const item = document.createElement('li');
     const link = document.createElement('a');
     link.href = source.url;
@@ -210,7 +245,7 @@ function renderStory(station, chapter) {
     item.append(link);
     return item;
   }));
-  $('stationSource').hidden = story.sources.some(source => source.url === station.url);
+  $('stationSource').hidden = sources.some(source => source.url === station.url);
 }
 
 function renderReader(station, chapter, place) {
@@ -221,12 +256,29 @@ function renderReader(station, chapter, place) {
   $('stationDate').textContent = station.date;
   $('terrainTitle').textContent = place.title;
   $('terrainLook').textContent = place.look;
-  renderStory(station, chapter);
+  renderStory(station);
+  renderFieldLesson(station);
+  peopleNotes.render(station);
   $('stationSource').href = station.url;
   $('stationSource').firstElementChild.textContent = station.source;
   $('readerScroll').scrollTop = 0;
-  setStationLink('prevStation', stations[station.index - 1]);
-  setStationLink('nextStation', stations[station.index + 1]);
+  const entry = maoJourney[journeyIndex];
+  $('tab-event').textContent = entry ? '独白与史实' : '长征故事';
+  if (entry) {
+    $('stationNumber').textContent = formatNumber(journeyIndex + 1) + ' / ' + formatNumber(maoJourney.length);
+    $('monologueTitle').textContent = entry.title;
+    $('monologueVoice').textContent = entry.voice;
+    $('monologueTerrain').textContent = entry.terrain;
+    $('monologueHistory').textContent = entry.history;
+    $('monologueSource').href = entry.url;
+    $('monologueSource').textContent = entry.source;
+    $('monologueArchive').href = href(station);
+    for (const [link, step] of [['prevStation', -1], ['nextStation', 1]]) {
+      const next = maoJourney[journeyIndex + step];
+      setStationLink(link, next ? byId.get(next.id) : null);
+      if (next) $(link).href = journeyHref(next.id);
+    }
+  }
   $('detail').hidden = false;
   $('stationNav').hidden = false;
   setReaderExpanded(true);
@@ -251,16 +303,17 @@ function updateHUD() {
     else pin.removeAttribute('aria-current');
   }
   for (const [index, link] of [...$('stationRail').children].entries()) {
-    link.classList.toggle('reached', Boolean(active && index <= active.index));
-    if (active?.index === index) link.setAttribute('aria-current', 'step');
+    link.classList.toggle('reached', journeyIndex >= index);
+    if (journeyIndex === index) link.setAttribute('aria-current', 'step');
     else link.removeAttribute('aria-current');
   }
   const continuation = $('storyContinue');
-  const next = active ? stations[active.index + 1] : stations[0];
-  continuation.href = next ? href(next) : '#explore';
-  continuation.firstElementChild.textContent = !active ? '从瑞金出发' : next ? '下一站 · ' + next.name : '回到全线';
-  $('journeyPosition').textContent = active ?
-    '第 ' + active.number + ' 站 / ' + stations.length + ' · ' + chapters[chapter].title : '四幕 · 十九站';
+  const next = maoJourney[journeyIndex + 1];
+  continuation.href = next ? journeyHref(next.id) : '#explore';
+  continuation.firstElementChild.textContent = journeyIndex < 0 ? '从于都开始' :
+    next ? '下一站 · ' + byId.get(next.id).name : '回到全线';
+  $('journeyPosition').textContent = journeyIndex < 0 ? '毛泽东视角 · 八站独白' :
+    '独白 ' + formatNumber(journeyIndex + 1) + ' / ' + formatNumber(maoJourney.length);
   const shotButton = $('shotButton');
   $('terrainScale').hidden = true;
   historySwitch.hidden = !active || !places[active.id].historic;
@@ -271,12 +324,13 @@ function updateHUD() {
     $('sceneKicker').textContent = '沿线总览';
     $('sceneKind').textContent = '1934 — 1936';
     $('sceneTitle').textContent = '长征路线';
-    $('sceneSub').textContent = '从毛泽东与中共中央的抉择，读到各路红军会师';
+    $('sceneSub').textContent = '点选地名，走进沿途的历史现场';
     return;
   }
   const place = places[active.id];
   if (place.close) shotButton.lastElementChild.textContent = place.close.label;
-  $('sceneKicker').textContent = active.number + ' / ' + stations.length;
+  $('sceneKicker').textContent = journeyIndex < 0 ? active.number + ' / ' + stations.length :
+    formatNumber(journeyIndex + 1) + ' / ' + formatNumber(maoJourney.length);
   $('sceneKind').textContent = place.tag;
   $('sceneTitle').textContent = active.name;
   $('sceneSub').textContent = active.region;
@@ -289,7 +343,7 @@ function describeElevation(patch, place) {
 }
 
 function beginFlight(initial = false, shot = places[active?.id]) {
-  if (!ready) return;
+  if (!ready || display !== 'terrain') return;
   const turn = ++stateVersion;
   const id = active?.id;
   $('loading').hidden = true;
@@ -314,12 +368,108 @@ function beginFlight(initial = false, shot = places[active?.id]) {
   });
 }
 
+let arrivalStation=null;
+window.addEventListener('cinema:arrive',event=>{arrivalStation=event.detail;});
+function setDisplay(next) {
+  display = next;
+  const request = ++modelRequest;
+  ++stateVersion;
+  document.body.dataset.display = next;
+  $('world').inert = next !== 'terrain';
+  $('specimen').hidden = next !== 'model';
+  $('sceneViews').hidden = !active;
+  $('fieldShot').hidden = true;
+  $('fieldScale').hidden = true;
+  $('modelClay').setAttribute('aria-pressed','false');
+  $('useSpecimen').setAttribute('aria-pressed', String(next === 'model'));
+  $('useTerrain').setAttribute('aria-pressed', String(next === 'terrain'));
+  $('loading').hidden = true;
+  $('scenePassage').hidden = true;
+  $('reader').classList.remove('in-passage');
+  if (world) world.suspended = next !== 'terrain';
+  if (next === 'terrain') modelView?.hide();
+  if (next === 'terrain') {
+    if (ready) beginFlight();
+    else startTerrain();
+    return;
+  }
+  if (next === 'cover') {
+    $('modelPlate').hidden = true;
+    $('modelStage').tabIndex = -1;
+    modelView?.hide();
+    return;
+  }
+  $('modelStage').tabIndex = 0;
+  passageStation = null;
+  const station = active;
+  const [name, caption] = historyScenes[station.id];
+  $('modelNear').hidden = !detailViews[station.id];
+  $('modelNear').textContent = detailViews[station.id]?.label || '';
+  $('modelFolio').textContent = station.number + ' / 19 · 历史地景示意';
+  $('modelName').textContent = name;
+  $('modelCaption').textContent = caption;
+  $('sceneSub').textContent = station.region + ' · ' + station.date;
+  $('sceneKind').textContent = places[station.id].tag;
+  const plate = $('modelPlate');
+  $('modelStage').classList.add('loading-model');
+  Object.assign(plate.style, {backgroundImage:'url(assets/valley/stills/'+station.id+'.webp?v=cinema-20261121)',
+    backgroundSize:'cover',backgroundPosition:'center'});
+  plate.setAttribute('aria-label', name + '的模型静帧');
+  plate.hidden = false;
+  $('modelStatus').textContent = '正在装入模型';
+  const controls = document.querySelectorAll('.model-tools button');
+  controls.forEach(button => button.disabled = true);
+  (async () => {
+    try {
+      modelView ??= new HistoryView($('modelStage'));
+      if (!await modelView.show(station.id) || request !== modelRequest) return;
+      if(arrivalStation===station.id && !reduceMotion.matches){
+        const wide=modelView.shot*(mobile.matches?2.8:2.2);
+        modelView.descent={from:[wide,1.08,-.17,0,modelView.baseTarget,0],start:performance.now()};
+        modelView.schedule();
+      }
+      arrivalStation=null;
+      plate.hidden = true;
+      $('modelStage').classList.remove('loading-model');
+      const labels={deck:'走上桥面',tableau:'史事现场',guide:'行记员近景',boat:'船工与渡船',reach:'两岸尺度'};
+      $('fieldShot').replaceChildren(new Option('场景机位','site'),...Object.keys(modelView.fieldShots).map(key=>new Option(labels[key],key)));
+      $('fieldShot').hidden=false;
+      $('fieldScale').hidden=false;
+      if(station.id==='luding' && location.hash==='#station/luding/deck'){
+        $('fieldShot').value='deck';$('fieldShot').dispatchEvent(new Event('change'));
+      }else if(station.id==='luding'){
+        addDeckEntry();
+      }
+      window.dispatchEvent(new Event('atlas:scene-ready'));
+      $('modelStatus').textContent = mobile.matches ? '单指环看 · 双指移动与缩放' : '拖动环看 · Shift 拖动平移 · 滚轮缩放';
+      controls.forEach(button => button.disabled = false);
+    } catch (error) {
+      if (request !== modelRequest) return;
+      $('modelStatus').textContent = '当前显示模型静帧';
+      const notes=document.createElement('button');
+      notes.type='button';notes.className='show-study';notes.textContent='翻开现场手记';
+      notes.onclick=()=>showStudy(station.id,modelSources[station.id][1]);
+      $('modelCaption').append('　',notes);
+      arrivalStation=null;window.dispatchEvent(new Event('atlas:scene-ready'));
+      console.warn('历史模型未加载', station.id, error.message);
+    }
+  })();
+}
+
 function updatePage(event) {
   const previousStation = active?.id;
+  const previousJourney = journeyIndex;
   const hash = location.hash.slice(1);
-  active = hash.startsWith('station/') ? byId.get(hash.slice(8)) : null;
+  const stationRoute = /^station\/([^/]+)(?:\/(people|study|deck))?$/.exec(hash);
+  const stationTab = stationRoute?.[2];
+  journeyIndex = hash.startsWith('journey/') ? maoJourney.findIndex(entry => entry.id === hash.slice(8)) : -1;
+  active = journeyIndex >= 0 ? byId.get(maoJourney[journeyIndex].id) :
+    byId.get(stationRoute?.[1]);
   mode = active ? 'station' : hash ? 'overview' : 'home';
   document.body.dataset.mode = mode;
+  document.body.dataset.journey = String(journeyIndex >= 0);
+  if (journeyIndex >= 0) document.querySelector('.nav-journey').setAttribute('aria-current', 'true');
+  else document.querySelector('.nav-journey').removeAttribute('aria-current');
   $('cover').hidden = mode !== 'home';
   $('hud').hidden = mode === 'home';
   $('reader').hidden = !active;
@@ -329,16 +479,25 @@ function updatePage(event) {
   $('scenePassage').hidden = true;
   $('reader').classList.remove('in-passage');
   if (passageStation) {
-    $('passageIndex').textContent = '第 ' + active.number + ' 站 / ' + stations.length;
-    $('passageTitle').textContent = active.name;
+    $('passageIndex').textContent = journeyIndex < 0 ? '第 ' + active.number + ' 站 / ' + stations.length :
+      '独白 ' + formatNumber(journeyIndex + 1) + ' / ' + formatNumber(maoJourney.length);
+    $('passageTitle').textContent = maoJourney[journeyIndex]?.title || active.name;
     $('passageDate').textContent = active.date + ' · ' + active.region;
   }
   $('world').tabIndex = mode === 'home' ? -1 : 0;
   document.title = active ? active.title + ' · 山河之路' : '山河之路 · 长征纪念图集';
   updateHUD();
-  beginFlight();
+  const nextDisplay = mode === 'home' ? 'cover' : mode === 'overview' ? 'terrain' : stationTab==='deck' ? 'model' :
+    previousStation && (previousJourney >= 0) === (journeyIndex >= 0) ? display : journeyIndex >= 0 ? 'terrain' : 'model';
+  setDisplay(nextDisplay);
+  if (active && (stationTab==='people'||stationTab==='study')) {
+    setReaderExpanded(true);
+    setTab(stationTab);
+  } else if (nextDisplay === 'model') {
+    setReaderExpanded(false);
+  }
   if (event) {
-    const title = mode === 'home' ? 'coverTitle' : active ? 'stationTitle' : 'sceneTitle';
+    const title = mode === 'home' ? 'coverTitle' : active && !$('readerContents').hidden ? 'stationTitle' : 'sceneTitle';
     $(title).focus({ preventScroll: true });
   }
 }
@@ -348,22 +507,112 @@ makePins();
 updatePage();
 window.addEventListener('hashchange', updatePage);
 window.addEventListener('wheel', event => {
-  if (mode === 'home' && ready && event.deltaY > 12 && !document.querySelector('dialog[open]')) location.hash = 'explore';
+  if (mode === 'home' && event.deltaY > 55 && !event.target.closest('button,nav') &&
+    !document.querySelector('dialog[open]') && $('exhibitNavigation').hidden) $('cover').querySelector('.enter').click();
 }, { passive: true });
 
-try {
-  world = new TerrainView($('world'), drawOverlay);
-  await world.start(route);
-  ready = true;
-  document.body.classList.add('terrain-ready');
-  $('loading').hidden = true;
-  beginFlight(true);
-} catch (error) {
-  loadFailed = true;
-  console.warn('无法初始化三维地形', error.message);
-  document.body.classList.add('terrain-unavailable');
-  $('loading').textContent = '三维地形暂不可用，仍可阅读地点档案';
+function startTerrain() {
+  $('loading').textContent = loadFailed ? '三维地形暂不可用，仍可阅读地点档案' : '正在展开山河';
+  $('loading').hidden = false;
+  terrainStartup ??= (async () => {
+    try {
+      world = new TerrainView($('world'), drawOverlay);
+      await world.start(route);
+      ready = true;
+      document.body.classList.add('terrain-ready');
+      $('loading').hidden = true;
+      if (display === 'terrain') beginFlight(true);
+    } catch (error) {
+      loadFailed = true;
+      console.warn('无法初始化三维地形', error.message);
+      document.body.classList.add('terrain-unavailable');
+      $('loading').textContent = '三维地形暂不可用，仍可阅读地点档案';
+      $('loading').hidden = display !== 'terrain';
+      for (const id of ['zoomIn','zoomOut','orbitView','historyToggle','shotButton']) $(id).disabled = true;
+    }
+  })();
 }
+
+$('useSpecimen').addEventListener('click', () => {
+  if (display === 'model') return;
+  setDisplay('model');
+  if (mobile.matches) setReaderExpanded(false);
+});
+$('useTerrain').addEventListener('click', () => {
+  if (display === 'terrain') return;
+  updateHUD();
+  setDisplay('terrain');
+});
+$('modelPlus').addEventListener('click', () => modelView?.magnify(1.25));
+$('modelMinus').addEventListener('click', () => modelView?.magnify(.8));
+function addDeckEntry() {
+  const link=document.createElement('a');link.href='#station/luding/deck';link.textContent='走上桥面 →';
+  link.onclick=event=>{
+    if(location.hash!==link.hash)return;
+    event.preventDefault();$('fieldShot').value='deck';$('fieldShot').dispatchEvent(new Event('change'));
+  };
+  $('modelCaption').append('　',link);
+}
+function restoreSceneCaption() {
+  if(!active)return;
+  $('modelName').textContent=historyScenes[active.id][0];
+  $('modelCaption').textContent=historyScenes[active.id][1];
+  if(active.id==='luding')addDeckEntry();
+  $('fieldShot').value='site';
+}
+$('modelReset').addEventListener('click', () => {restoreSceneCaption();modelView?.reset();});
+$('modelNear').addEventListener('click', () => {restoreSceneCaption();modelView?.inspectDetail();});
+$('objectMarker').addEventListener('click',()=>{
+  if(display!=='model'||!active)return;
+  $('fieldShot').value='tableau';$('fieldShot').dispatchEvent(new Event('change'));
+  $('fieldShot').focus({preventScroll:true});
+});
+$('modelClay').addEventListener('click',()=>{
+  if(!modelView||display!=='model')return;
+  const enabled=$('modelClay').getAttribute('aria-pressed')!=='true';
+  $('modelClay').setAttribute('aria-pressed',String(enabled));modelView.setClay(enabled);
+});
+$('modelStage').addEventListener('keydown',e=>{if(e.key==='Home')restoreSceneCaption();});
+$('modelStage').addEventListener('guide-load-error',()=>{
+  restoreSceneCaption();$('modelStatus').textContent='行记员模型暂未载入，可重新选择镜头。';
+});
+$('fieldShot').addEventListener('change',()=>{
+  if(!modelView||!active)return;
+  const kind=$('fieldShot').value;
+  if(kind==='site'){restoreSceneCaption();modelView.reset();return;}
+  modelView.inspectDetail(kind);
+  const data=modelView.scaleData;
+  if(kind==='tableau'){
+    const [title,note]=tableaux[active.id];
+    $('modelName').textContent=title;
+    const study=document.createElement('button');study.type='button';study.className='show-study';
+    study.textContent='翻开现场手记';study.onclick=()=>showStudy(active.id,modelSources[active.id][1]);
+    $('modelCaption').replaceChildren(note+' ',study);
+    const people=document.createElement('a');
+    people.href='#station/'+active.id+'/people';people.textContent='读这段历史 ↗';
+    $('modelCaption').append('　',people);
+  }else if(kind==='deck'){
+    $('modelName').textContent='从桥面望向对岸';
+    const label=document.createElement('label');label.className='bridge-walk';
+    const slider=document.createElement('input');slider.type='range';slider.min=3;slider.max=99;slider.value=12;
+    slider.setAttribute('aria-label','沿桥面前行的位置，以米计');
+    const output=document.createElement('output');output.textContent='12 米';
+    slider.oninput=()=>{output.textContent=slider.value+' 米';modelView.walkBridge(Number(slider.value));};
+    label.append('沿桥前行',slider,output);$('modelCaption').replaceChildren(label);
+  }else if(kind==='guide'){
+    $('modelName').textContent='行记员 · 虚构研学向导';
+    $('modelCaption').textContent='从她的软帽、斜背包和红扣手记认出她。打开研学手记，留下你在本站看见的证据。';
+  }else{
+    $('modelName').textContent=kind==='boat'?'船工与渡船':'两岸之间';
+    const link=document.createElement('a');
+    link.href=data.scaleSource;link.target='_blank';link.rel='noopener';link.textContent=data.widthSource?'复制船资料 ↗':'河段资料 ↗';
+    $('modelCaption').replaceChildren((kind==='boat' ? '模型船身 '+data.hullDimensions[0]+' × '+data.hullDimensions[1]+' 米。' : '')+data.scaleBasis+' ',link);
+    if (data.widthSource) {
+      const widthLink=link.cloneNode(false);widthLink.href=data.widthSource;widthLink.textContent='河宽口述 ↗';
+      $('modelCaption').append(' · ',widthLink);
+    }
+  }
+});
 
 $('fitMap').addEventListener('click', event => {
   if (mode === 'overview' && ready) {
@@ -381,6 +630,7 @@ $('shotButton').addEventListener('click', () => {
   const close = button.getAttribute('aria-pressed') !== 'true';
   const shot = close ? place.close : place;
   setHistoricalView(false);
+  if (active.id === 'luding' || active.id === 'zunyi') setReaderExpanded(!close);
   $('sceneKind').textContent = place.tag;
   button.setAttribute('aria-pressed', String(close));
   button.lastElementChild.textContent = close ? '回到地貌全景' : place.close.label;
@@ -399,6 +649,12 @@ historySwitch.addEventListener('click', () => {
   beginFlight(false, shot);
 });
 $('toggleReader').addEventListener('click', () => setReaderExpanded($('readerContents').hidden));
+fieldEntry.addEventListener('click', () => {
+  setReaderExpanded(true);
+  setTab('study');
+  $('readerScroll').scrollTop = 0;
+  $('tab-study').focus();
+});
 
 for (const tab of tabs) tab.addEventListener('click', () => setTab(tab.dataset.tab));
 $('detail').querySelector('[role="tablist"]').addEventListener('keydown', event => {
@@ -424,8 +680,9 @@ function renderResults() {
   });
   $('resultCount').textContent = '共 ' + matches.length + ' 处节点';
   $('results').innerHTML = matches.map(station => '<a class="result" href="' + href(station) + '">' +
-    '<span class="chapter-no">' + station.number + '</span><span><b>' + station.title + '</b><small>' +
-    station.name + ' · ' + places[station.id].tag + '</small></span>' + icon('right') + '</a>').join('') ||
+    '<img class="result-plate" alt="" loading="lazy" src="assets/scene-studies/'+station.id+'.webp"><span><small class="result-loc">' +
+    station.number + ' / ' + station.name + '</small><b>' + station.title + '</b><small>' +
+    station.region + ' · ' + station.date + '</small></span>' + icon('right') + '</a>').join('') ||
     '<p class="empty-results">没有匹配的节点，试试其他地名或事件。</p>';
 }
 
@@ -452,8 +709,4 @@ for (const dialog of document.querySelectorAll('dialog')) {
     const rect = dialog.getBoundingClientRect();
     if (event.clientX < rect.left || event.clientX > rect.right || event.clientY < rect.top || event.clientY > rect.bottom) dialog.close();
   });
-}
-
-if (loadFailed) {
-  for (const id of ['zoomIn', 'zoomOut', 'orbitView', 'historyToggle']) $(id).disabled = true;
 }

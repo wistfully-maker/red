@@ -1,0 +1,99 @@
+{
+  "seen": [
+    "ruijin",
+    "yudu",
+    "xiangjiang",
+    "liping",
+    "zunyi",
+    "chishui",
+    "jiaoping",
+    "anshun",
+    "luding",
+    "jiajin",
+    "dawei",
+    "lianghekou",
+    "songpan",
+    "baxi",
+    "lazikou",
+    "hadapu",
+    "wuqi",
+    "huining",
+    "jiangtai"
+  ],
+  "guides": [
+    "ruijin",
+    "yudu",
+    "xiangjiang",
+    "liping",
+    "zunyi",
+    "chishui",
+    "jiaoping",
+    "anshun",
+    "luding",
+    "jiajin",
+    "dawei",
+    "lianghekou",
+    "songpan",
+    "baxi",
+    "lazikou",
+    "hadapu",
+    "wuqi",
+    "huining",
+    "jiangtai"
+  ],
+  "lenses": [
+    {
+      "id": "yudu",
+      "ends": 2,
+      "source": [
+        "https://www.yudu.gov.cn/yudu/ydrw/202102/3f856d547c974b18afb023350581f9b0.shtml"
+      ]
+    },
+    {
+      "id": "xiangjiang",
+      "ends": 2,
+      "source": [
+        "https://www.mod.gov.cn/gfbw/tp_214132/16084375.html"
+      ]
+    },
+    {
+      "id": "chishui",
+      "ends": 2,
+      "source": [
+        "https://epaper.cnwomen.com.cn/images/2021-03/18/4/04BLM04C318_h.pdf"
+      ]
+    },
+    {
+      "id": "jiaoping",
+      "ends": 2,
+      "source": [
+        "https://www.rmcjzz.cjw.cn/cn/article/pdf/preview/10.16232/j.cnki.1001-4179.2015.21.026.pdf"
+      ]
+    },
+    {
+      "id": "anshun",
+      "ends": 2,
+      "source": [
+        "https://cpc.people.com.cn/n1/2025/0802/c443712-40534962.html",
+        "https://www.qinfeng.gov.cn/info/5660/245460.htm"
+      ]
+    }
+  ],
+  "bounds": {
+    "caption": 407.40625,
+    "header": 200.65625,
+    "marks": [
+      [
+        false,
+        391.90625
+      ],
+      [
+        false,
+        239.640625
+      ]
+    ],
+    "overflow": 0
+  },
+  "errors": [],
+  "failed": []
+}

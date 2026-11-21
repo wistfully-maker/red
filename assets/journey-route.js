@@ -6,6 +6,7 @@ const routeVertex = /* glsl */ `
   attribute float side;
   attribute float stationOrder;
   uniform vec2 viewport;
+  uniform float terrainScale;
   varying float edge;
   varying float order;
 
@@ -13,14 +14,20 @@ const routeVertex = /* glsl */ `
     return point.xy / max(abs(point.w), .01) * viewport;
   }
 
+  vec4 projectRoute(vec3 point) {
+    // The marker clearance stays constant while the terrain relief changes.
+    point.y = (point.y - 5.5) * terrainScale + 5.5;
+    return projectionMatrix * modelViewMatrix * vec4(point, 1.0);
+  }
+
   void main() {
-    vec4 point = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
-    vec4 before = projectionMatrix * modelViewMatrix * vec4(previous, 1.0);
-    vec4 after = projectionMatrix * modelViewMatrix * vec4(following, 1.0);
+    vec4 point = projectRoute(position);
+    vec4 before = projectRoute(previous);
+    vec4 after = projectRoute(following);
     vec2 direction = toScreen(after) - toScreen(before);
     vec2 tangent = direction / max(length(direction), .01);
     vec2 outward = vec2(-tangent.y, tangent.x);
-    point.xy += outward * side * 2.15 / viewport * point.w;
+    point.xy += outward * side * 3.4 / viewport * point.w;
     gl_Position = point;
     edge = side;
     order = stationOrder;
@@ -31,6 +38,7 @@ const routeFragment = /* glsl */ `
   uniform vec3 paper;
   uniform vec3 shadow;
   uniform float reached;
+  uniform float opacity;
   varying float edge;
   varying float order;
 
@@ -39,26 +47,33 @@ const routeFragment = /* glsl */ `
     float outline = 1.0 - smoothstep(.69, 1.0, border);
     float ink = 1.0 - smoothstep(.33, .69, border);
     float passed = 1.0 - smoothstep(reached - .08, reached + .08, order);
-    float strength = reached < 0.0 ? .71 : mix(.36, .88, passed);
-    gl_FragColor = vec4(mix(shadow, paper, ink), outline * mix(.32, strength, ink));
+    float strength = reached < 0.0 ? .98 : mix(.60, .98, passed);
+    gl_FragColor = vec4(mix(shadow, paper, ink), opacity * outline * mix(.32, strength, ink));
     #include <colorspace_fragment>
   }
 `;
 
-export function makeJourneyRoute(ids, points, heightAt) {
+export function makeJourneyRoute(ids, points, heightAt, waypoints) {
   const orders = new Map(Object.keys(points).map((id, index) => [id, index]));
   const samples = [];
   for (let i = 1; i < ids.length; i++) {
     const from = ids[i - 1];
     const to = ids[i];
-    const a = points[from];
-    const b = points[to];
-    const steps = Math.max(1, Math.ceil(Math.hypot(a.x - b.x, a.z - b.z) / 9));
-    for (let j = 0; j < steps; j++) {
-      const ratio = j / steps;
-      const x = THREE.MathUtils.lerp(a.x, b.x, ratio);
-      const z = THREE.MathUtils.lerp(a.z, b.z, ratio);
-      samples.push({ position: [x, heightAt(x, z) + 5.5, z], order: THREE.MathUtils.lerp(orders.get(from), orders.get(to), ratio) });
+    const legs = [points[from], ...(waypoints[from] || []), points[to]];
+    const lengths = legs.slice(1).map((b, index) => Math.hypot(b.x - legs[index].x, b.z - legs[index].z));
+    const total = lengths.reduce((sum, length) => sum + length, 0);
+    let traversed = 0;
+    for (const [index, length] of lengths.entries()) {
+      const a = legs[index], b = legs[index + 1];
+      const steps = Math.max(1, Math.ceil(length / 6));
+      for (let j = 0; j < steps; j++) {
+        const ratio = j / steps;
+        const x = THREE.MathUtils.lerp(a.x, b.x, ratio);
+        const z = THREE.MathUtils.lerp(a.z, b.z, ratio);
+        const progress = total ? (traversed + ratio * length) / total : 0;
+        samples.push({ position: [x, heightAt(x, z) + 5.5, z], order: THREE.MathUtils.lerp(orders.get(from), orders.get(to), progress) });
+      }
+      traversed += length;
     }
   }
   const end = ids.at(-1);
@@ -97,9 +112,11 @@ export function makeJourneyRoute(ids, points, heightAt) {
     side: THREE.DoubleSide,
     uniforms: {
       viewport: { value: new THREE.Vector2(1, 1) },
+      terrainScale: { value: 1 },
       reached: { value: -1 },
-      paper: { value: new THREE.Color('#f1e8d0') },
-      shadow: { value: new THREE.Color('#1d251f') }
+      opacity: { value: 1 },
+      paper: { value: new THREE.Color('#b82e2e') },
+      shadow: { value: new THREE.Color('#f5f1e8') }
     }
   });
   const route = new THREE.Mesh(geometry, material);

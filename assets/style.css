@@ -44,6 +44,7 @@ svg { display: block; width: 20px; height: 20px; fill: none; stroke: currentColo
 
 #exhibit, #world, .scene-shade, .cover, .hud { position: absolute; inset: 0; }
 #world { background: #202824 url("terrain/luding.webp") center / cover; outline-offset: -4px; }
+body[data-mode="overview"] #world { background: radial-gradient(ellipse at 51% 43%, #33423a, #121c19 72%); }
 #world canvas { display: block; opacity: 0; cursor: grab; touch-action: none; transition: opacity .7s ease; }
 .terrain-ready #world canvas { opacity: 1; }
 body[data-mode="home"] #world canvas { cursor: default; }
@@ -152,11 +153,11 @@ body[data-mode="station"] .instrument { top: auto; right: calc(var(--frame) + mi
 .timeline strong { display: block; font: 700 15px/1.2 var(--serif); white-space: nowrap; }
 .timeline small { display: block; margin-top: 3px; font: 8px var(--mono); color: #c0b59d; }
 .station-rail {
-  display: grid; grid-template-columns: repeat(19, minmax(0, 1fr)); position: relative;
+  display: grid; grid-template-columns: repeat(8, minmax(0, 1fr)); position: relative;
   margin: 1px 0 2px; isolation: isolate;
 }
 .station-rail::before {
-  content: ""; position: absolute; inset: 50% 2.65% auto; height: 1px; background: #f1e7cb42; z-index: -1;
+  content: ""; position: absolute; inset: 50% 6.25% auto; height: 1px; background: #f1e7cb42; z-index: -1;
 }
 .station-step { min-height: 24px; display: grid; place-items: center; }
 .station-step::after { content: ""; width: 5px; height: 5px; border-radius: 50%; background: #958e7a; }
@@ -215,6 +216,18 @@ body[data-mode="station"] .expedition { width: min(640px, calc(100% - 3 * var(--
   padding: 3px 6px; border-radius: 3px; background: #17211bed;
 }
 .pin.named .pin-name, .pin:hover .pin-name, .pin:focus-visible .pin-name { display: block; }
+.pin.landmark { width: 64px; height: 56px; margin: -28px 0 0 -32px; z-index: 1; }
+.pin.landmark .pin-dot::after { display: none; }
+.pin.landmark .pin-name {
+  left: 50%; right: auto; top: 100%; transform: translate(-50%, 2px);
+  padding: 4px 9px; border-radius: 12px; background: #141e1bef;
+  color: #fff0ce; border: 1px solid #e4c19572; letter-spacing: .07em;
+}
+.pin.landmark:focus-visible { outline: 1px solid #f2d6a6; }
+@media (max-width: 720px) {
+  .pin.landmark { width: 47px; height: 44px; margin: -22px 0 0 -23.5px; }
+  .pin.landmark .pin-name { font-size: 10px; padding: 3px 6px; }
+}
 .pin:focus-visible .pin-dot { outline: 2px solid var(--ember); }
 .pin[aria-current], .pin:hover, .pin:focus-visible { z-index: 2; }
 .dragging .pin { pointer-events: none; }
@@ -242,6 +255,20 @@ body[data-mode="station"] .expedition { width: min(640px, calc(100% - 3 * var(--
 .reader-kicker { display: flex; justify-content: space-between; align-items: center; gap: 12px; margin: 0; color: #883824; font-size: 11px; letter-spacing: .10em; font-weight: 650; }
 .reader-kicker span:last-child { font: 11px var(--mono); }
 .reader h2, dialog h2 { margin: 9px 0 9px; font: 700 clamp(28px, 3vw, 40px)/1.16 var(--serif); letter-spacing: .045em; }
+.nav-journey[aria-current] { text-decoration: underline; text-underline-offset: 5px; }
+.monologue { margin: 5px 0 9px; }
+.monologue .monologue-label { color: #8c422f; font-size: 11px; letter-spacing: .10em; font-weight: 700; margin: 1px 0 8px; }
+.monologue h3 { font: 700 clamp(23px, 2.4vw, 31px)/1.2 var(--serif); margin: 0 0 12px; }
+.monologue .monologue-voice { font: 600 clamp(16px, 1.55vw, 19px)/1.85 var(--serif); margin: 0; color: #302c24; }
+.monologue .monologue-terrain { margin: 14px 0; padding: 9px 11px; border-left: 2px solid #798471; background: #deded0; color: #41493a; }
+.monologue-history { margin-top: 14px; padding-top: 12px; border-top: 1px solid var(--paper-line); }
+.monologue-history h4 { margin: 0 0 3px; font: 700 15px/1.4 var(--serif); }
+.monologue-history p { margin: 0 0 7px; }
+.monologue-history a, .monologue .monologue-archive { color: #7f3726; text-decoration: underline; text-underline-offset: 3px; }
+.monologue .monologue-archive { display: inline-block; margin-top: 10px; }
+@media (max-width: 385px) {
+  .site-nav .nav-journey { display: none; }
+}
 .station-meta { display: flex; flex-wrap: wrap; gap: 7px 13px; color: var(--paper-muted); font-size: 12px; }
 .station-meta time { font-family: var(--mono); }
 .detail-tabs { display: flex; margin-top: 12px; gap: 17px; border-bottom: 1px solid var(--paper-line); }
