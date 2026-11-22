@@ -1,0 +1,11 @@
+{
+  "span": 103.67,
+  "sag": 2.65,
+  "floorAtCentre": 7.25,
+  "eyeHeight": 1.67,
+  "stops": [
+    {"id":"bridgehead","title":"桥头望全桥","caption":"从西岸踏上第一块木板","metres":0,"yaw":-1.54,"pitch":0.057,"z":0.48},
+    {"id":"deck","title":"桥上听水","caption":"隔着铁环，看江水流过","metres":51,"yaw":-2.73,"pitch":0.125,"z":0.16},
+    {"id":"pavilion","title":"回望桥亭","caption":"走过桥口，回身读匾","metres":115,"yaw":0.82,"pitch":-0.115,"z":7.10}
+  ]
+}

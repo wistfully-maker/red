@@ -13,13 +13,13 @@ export class ExhibitFilm {
   this.size=new THREE.Vector2();this.scene=new THREE.Scene();this.camera=new THREE.Camera();
   this.uniforms={frame:{value:this.target.texture},depthMap:{value:this.target.depthTexture},pixel:{value:new THREE.Vector2(1,1)},
    clip:{value:new THREE.Vector2()},unproject:{value:new THREE.Matrix4()},world:{value:new THREE.Matrix4()},
-   span:{value:1},scale:{value:1},floorY:{value:0},clay:{value:0},strength:{value:1}};
+   span:{value:1},scale:{value:1},floorY:{value:0},clay:{value:0},strength:{value:1},sceneSky:{value:0}};
   const geometry=new THREE.BufferGeometry();
   geometry.setAttribute('position',new THREE.Float32BufferAttribute([-1,-1,0,3,-1,0,-1,3,0],3));
   const mat=new THREE.ShaderMaterial({uniforms:this.uniforms,depthTest:false,depthWrite:false,toneMapped:false,
    vertexShader:'varying vec2 screenUv;void main(){screenUv=position.xy*.5+.5;gl_Position=vec4(position,1.);}',
    fragmentShader:`uniform sampler2D frame,depthMap;uniform vec2 pixel,clip;uniform mat4 unproject,world;
-   uniform float span,scale,floorY,clay,strength;varying vec2 screenUv;
+   uniform float span,scale,floorY,clay,strength,sceneSky;varying vec2 screenUv;
    float luma(vec3 c){return dot(c,vec3(.2126,.7152,.0722));}
    float eyeDepth(float z){return clip.x*clip.y/(clip.y-z*(clip.y-clip.x));}
    float contact(vec2 v,float depth){float d=(depth-eyeDepth(texture2D(depthMap,clamp(screenUv+v,0.,1.)).x))/max(.001,depth);
@@ -30,7 +30,7 @@ export class ExhibitFilm {
     vec3 point=(world*vec4(local,1.)).xyz, eye=world[3].xyz, direction=normalize(point-eye);
     float towards=pow(max(dot(direction,normalize(vec3(-.67,.42,-.40))),0.),5.);
     if(z>.999998){float sky=smoothstep(-.05,.54,direction.y);
-      color=mix(vec3(.47,.51,.50)+towards*vec3(.31,.22,.10),vec3(.20,.31,.39),sky);
+      color=mix(mix(vec3(.47,.51,.50)+towards*vec3(.31,.22,.10),vec3(.20,.31,.39),sky),color,sceneSky);
     }else{
       float depth=eyeDepth(z);
       float ao=contact(pixel*vec2(3.,1.),depth)+contact(pixel*vec2(-2.,3.),depth)+contact(pixel*vec2(-4.,-2.),depth)+contact(pixel*vec2(1.,-4.),depth)+
@@ -62,7 +62,7 @@ export class ExhibitFilm {
   }
   u.clip.value.set(camera.near,camera.far);u.unproject.value.copy(camera.projectionMatrixInverse);
   u.world.value.copy(camera.matrixWorld);u.span.value=Math.max(.01,span);u.scale.value=verticalScale;u.floorY.value=floor;
-  u.strength.value=strength;u.clay.value=clay?1:0;
+  u.strength.value=strength;u.clay.value=clay?1:0;u.sceneSky.value=scene.background?.isTexture?1:0;
   r.setRenderTarget(this.target);r.render(scene,camera);
   r.setRenderTarget(null);r.render(this.scene,this.camera);
  }

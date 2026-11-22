@@ -14,8 +14,9 @@
   <link rel="stylesheet" href="assets/recorder.css?v=field-notes-3">
   <link rel="stylesheet" href="assets/exhibit-ui.css?v=field-book-2">
   <link rel="stylesheet" href="assets/cinema.css?v=cinema-20261121">
-  <script type="module" src="assets/cinema.js?v=cinema-20261121"></script>
-  <script type="module" src="assets/explore.js?v=cinema-20261121"></script>
+  <script type="module" src="assets/cinema.js?v=luding-studio-1"></script>
+  <link rel="stylesheet" href="assets/luding-walk.css?v=studio-1">
+  <script type="module" src="assets/explore.js?v=luding-studio-1"></script>
   <script type="module" src="assets/recorder.js?v=cinema-20261121"></script>
 </head>
 <body data-mode="home">
@@ -73,7 +74,7 @@
         <p class="cover-lead" id="openingLead">走到大渡河边，看铁索如何把两岸的人连在一起。</p>
         <div class="opening-links">
           <a class="enter" href="#station/luding"><span>走进泸定桥</span><svg aria-hidden="true"><use href="#i-right"/></svg></a>
-          <a id="openingStory" href="#station/luding/people">沿途的人 <svg aria-hidden="true"><use href="#i-diagonal"/></svg></a>
+          <a id="openingStory" href="#station/luding/journal"><span>行记员手记</span> <svg aria-hidden="true"><use href="#i-diagonal"/></svg></a>
         </div>
       </div>
       <div class="cinema-foot">
@@ -101,6 +102,15 @@
         <p id="modelStatus" role="status" aria-live="polite"></p>
       </div>
       <button id="objectMarker" type="button" hidden><i aria-hidden="true"></i><span></span></button>
+      <section id="riverWalk" aria-label="泸定桥步行观察" hidden>
+        <div class="walk-heading"><h2 id="walkTitle">桥头望全桥</h2><a href="#station/luding/journal">行记员手记 ↗</a></div>
+        <nav aria-label="泸定观察机位">
+          <button type="button" data-walk="bridgehead">桥头望全桥</button>
+          <button type="button" data-walk="deck">桥上听水</button>
+          <button type="button" data-walk="pavilion">回望桥亭</button>
+        </nav>
+        <label class="walk-track"><span>步行距离</span><input id="walkPosition" type="range" aria-label="从西桥口步行至东岸平台的距离" min="0" max="115" step=".5" value="0"><output for="walkPosition" id="walkMetres">0 米</output></label>
+      </section>
       <div id="fieldScale" aria-label="镜头焦点处的水平比例尺" title="镜头焦点处的水平尺度"></div>
     </section>
 
@@ -257,6 +267,7 @@
     <div class="about-copy">
       <p>序章的三幅场景影像为原创艺术复原，环境声为合成声景。进入现场后，可以自由环看三维地景，沿实物线索对照史料。</p>
       <p>行记员是图集的虚构研学向导。她以一本系着红扣带的行记本串起各站观察、提问与史料。</p>
+      <p>泸定步行路线从西桥口延伸到东岸平台。桥板完整铺设，用来观察日常通行与桥梁结构。桥亭构件、植被、街屋和天气均含艺术推演。桥身、桥台与铁链的构成可对照<a href="https://www.scldq.cn/tourism/scenic/19.html" target="_blank" rel="noopener">泸定桥景区资料</a>。木板、岩面和天空采用 <a href="https://polyhaven.com/license" target="_blank" rel="noopener">Poly Haven 的 CC0 素材</a>。</p>
       <p>《在山河间作决定》以毛泽东和中共中央在长征中的抉择串联 1934 至 1935 年的中央红军行程，再从各路红军的视角讲述 1936 年会宁、将台堡会师。各站同时关注围堵、地形和群众支援。</p>
       <h3>地形与地图</h3>
       <p>全线总览把现代卫星影像铺在高程地形上，山脊与河谷随镜头转动显出起伏。河流中心线来自 Natural Earth，线宽和远景地标经过放大，红线连接行程代表点。节点中的历史地景以原创俯视复原图表现地表。选择“地形实景”可对照现代的卫星影像。</p>

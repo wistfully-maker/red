@@ -46,6 +46,17 @@
   font: 700 20px/1.22 var(--serif);
 }
 
+.field-journal-entry {
+  display:grid;gap:7px;width:100%;margin-top:17px;padding:16px 14px;
+  border:1px solid var(--paper-line);border-left:3px solid var(--field-accent);
+  background:#fffaf075;text-align:left;color:inherit;cursor:pointer;
+}
+.field-journal-entry>span {font-size:10px;letter-spacing:.1em;color:var(--field-accent);}
+.field-journal-entry strong {font:500 25px/1.4 var(--serif);}
+.field-journal-entry small {font-size:11px;display:flex;justify-content:space-between;gap:8px;}
+.field-journal-entry:hover {background:#fffaf0;}
+.field-journal-entry:focus-visible {outline:2px solid var(--field-accent);outline-offset:3px;}
+
 .field-step {
   min-inline-size: 0;
   margin: 14px 0 0;

@@ -54,8 +54,8 @@ export const places = {
     tag: '大渡河峡谷 · 精细地形', title: '一道铁索横过大渡河',
     look: '跟随峡谷辨认河道、谷底城镇和两侧山脊。地标锚定在泸定桥位置，河谷与坡面来自实测高程和卫星影像。',
     distance: 6.2, pitch: .62, bearing: .12,
-    close: { label: '下潜至泸定桥址', context: '大渡河 · 铁索桥结构示意', distance: .35, pitch: .48, bearing: .33, mobileScale: 1.64, modelZoom: .19 },
-    historic: { history: true, context: '1935 年 5 月 29 日 · 夺桥前', distance: .192, pitch: .32, bearing: .40, mobileScale: 1.95, modelZoom: .145 }
+    close: { label: '进入历史桥头', context: '大渡河 · 泸定桥', distance: 6.2, pitch: .62, bearing: .12 },
+    historic: { history: true, context: '泸定桥 · 历史地景', distance: 6.2, pitch: .62, bearing: .12 }
   },
   jiajin: {
     tag: '川西高山 · 精细地形', title: '从山脚望向夹金山',

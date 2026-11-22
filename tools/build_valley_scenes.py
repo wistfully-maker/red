@@ -189,12 +189,18 @@ class Landscape:
         if self.sid=='luding':
             dist=self.bank_distance(x,y)
             lift=max(0,dist)
-            carved=22*n2(x*.009,y*.011)+9*n2(x*.039,y*.032)+3.4*n2(x*.09,y*.08)
-            escarpment=smooth(22,120,dist)*(.72+.46*n2(x*.0023,y*.004))*65
-            height=.23+lift*(.53+hills*.86)+escarpment+smooth(4,72,dist)*carved
+            carved=11*n2(x*.009,y*.011)+5*n2(x*.039,y*.032)+1.8*n2(x*.09,y*.08)
+            escarpment=smooth(18,120,dist)*(.76+.46*n2(x*.0023,y*.004))*17
+            height=.23+lift*(.22+hills*.29)+escarpment+smooth(4,72,dist)*carved
             if radius<110:
                 detail=.23+lift*.42
                 t=smooth(68,110,radius);height=height*t+detail*(1-t)
+            outer=smooth(100,320,radius)
+            ridge=.23+lift*(.19+.10*hills)+(1-math.exp(-lift/135))*(32+35*n2(x*.0026,y*.002))
+            height=height*(1-outer)+ridge*outer
+            street=68+8*math.sin(y*.018)+.045*y
+            shelf=(1-smooth(7,17,abs(abs(x)-street)))*(1-smooth(47,85,abs(y)))
+            height=height*(1-shelf)+(8.18+.016*y)*shelf
         elif self.bank:
             across,width,along=self.channel(x,y)
             dist=abs(across)-width
@@ -250,7 +256,9 @@ class Landscape:
         # Dense grid on the principal reach, increasingly spaced beyond it.
         grid=np.r_[np.linspace(-1.85,-.55,32,endpoint=False),
                    np.linspace(-.55,.55,171,endpoint=False),np.linspace(.55,1.85,33)]*self.span
-        if self.sid=='luding':grid=np.unique(np.r_[grid,np.linspace(-.52*self.span,.52*self.span,299),np.linspace(-126,126,125)])
+        if self.sid=='luding':
+            positive=np.r_[np.linspace(0,132,76),np.linspace(137,330,34),np.linspace(340,1150,60),np.linspace(1177,2450,34)]
+            grid=np.r_[-positive[:0:-1],positive]
         elif self.sid in RIVER_STUDIES:grid=np.unique(np.r_[grid,np.linspace(-43,43,78)])
         vs=[];uv=[];faces=[];pigments=[];n=len(grid)
         for j,y in enumerate(grid):
@@ -273,7 +281,11 @@ class Landscape:
                     t=signed[i]/(signed[i]-signed[j]);xx,yy,zz=vs[j]
                     x+=(xx-x)*t;y+=(yy-y)*t;z+=(zz-z)*t
                 index=len(water);lookup[key]=index
-                water.append((x,y,.24 if self.bank else z+.017))
+                wz=.24 if self.bank else z+.017
+                if self.sid=='luding':
+                    envelope=smooth(.1,3,-self.bank_distance(x,y))
+                    wz+=envelope*(.075*n2(x*.18,y*.26)+.032*math.sin(y*.54+x*.41+2.8*n2(x*.03,y*.08)))
+                water.append((x,y,wz))
                 return index
             for face in faces:
                 if all(signed[i]>0 for i in face):continue
@@ -443,8 +455,8 @@ def native_luding(env):
     for side in (-1,1):
         x=side*(half+2.2)
         south.masonry(x,0,.05,5.3,7.2,9.85,1.1)
-        for dx in [-1.8,1.8]:
-            for y in [-2.6,0,2.6]:
+        for dx in [-1.8,0,1.8]:
+            for y in [-2.6,2.6]:
                 south.beam((x+dx,y,9.8),(x+dx,y,10.20),.34,'dressed_stone',12)
                 south.beam((x+dx,y,10.14),(x+dx,y,13.75),.19,'chestnut',12)
                 south.box((x+dx,y,13.42),(.67,.48,.18),'chestnut')
@@ -453,11 +465,28 @@ def native_luding(env):
         for y in [-2.6,0,2.6]:south.box((x,y,13.65),(4.6,.36,.35),'timber')
         for dx in [-1.83,1.83]:south.box((x+dx,0,13.65),(.32,6.74,.30),'chestnut')
         south.roof(x,0,13.6,6.5,8.7,2.3,True)
+        # Hanging name boards, end brackets and curved ridge terminals frame the passage.
+        for end in [-1,1]:
+            px=x+end*2.25
+            south.box((px,0,13.17),(.19,3.12,.98),'tarred')
+            south.box((px,0,13.67),(.28,3.35,.11),'chestnut')
+            south.box((px,0,12.65),(.26,3.22,.09),'chestnut')
+            face=px+end*.103
+            points=[(face,-end*1.52,12.72),(face,end*1.52,12.72),(face,end*1.52,13.61),(face,-end*1.52,13.61)]
+            geometry('Bridge name panel',points,[(0,1,2,3)],'pavilion_sign',[(0,0),(1,0),(1,1),(0,1)])
+            for sign in [-1,1]:
+                south.line([(x+end*(2.25+t*.96),sign*(3.02+t*.98),13.98-.48*t+.88*t**3) for t in np.linspace(0,1,12)],.085,'tilerib',9)
+                south.beam((px-end*.56,sign*2.59,12.65),(px+end*.53,sign*2.59,13.54),.105,'chestnut',8)
         for dx in np.linspace(-2.85,2.85,21):
             for end in [-1,1]:
                 south.beam((x+dx,end*2.8,14.10),(x+dx,end*4.21,13.59),.070,'timber',6)
         place_local(x+side*5.35,0,side*math.pi/2,'cut_stone_approach',
                     lambda:south.stairs(0,0,8,3.3,9,.32,.21))
+    # A modelled landing beyond the east abutment allows the visitor to turn back.
+    south.masonry(60.9,-2.55,7.6,10.6,12.7,2.33,1.15)
+    for j in range(8):
+        for k in range(6):
+            south.box((56.29+j*1.32,-7.78+k*2.09,9.955),(1.30,2.07,.085),'dressed_stone')
     # Individual hewn planks have a dressed top lip, a narrow gap and irregular end grain.
     boards=[];board_faces=[];board_uv=[]
     for j in range(325):
@@ -537,8 +566,14 @@ def gorge_ledges(env):
                 ring=[(x+(shore-x)*inset,yy+(y-yy)*inset,min(env.height(x,yy)-.55,z+base) if base< -1 else z+base) for x,yy,z in vertices]
                 cap=[(x+(shore-x)*(inset+.05),yy+(y-yy)*(inset+.05),z+top) for x,yy,z in vertices]
                 faces=[(i,(i+1)%8,(i+1)%8+8,8+i) for i in range(8)]
-                if top==0:faces.append(tuple(range(8,16)))
+                if top==0:
+                    cap.append((shore+side*depth*.25,y+.15*length,sum(p[2] for p in cap)/8+rise*.27))
+                    faces.extend((i+8,(i+1)%8+8,16) for i in range(8))
                 south.mesh(ring+cap,faces,mat)
+            for j in range(rng.randrange(8,24)):
+                px=shore+side*rng.uniform(-2.6,6.5);py=y+rng.gauss(0,length*.58)
+                size=rng.uniform(.10,.64)
+                south.rock((px,py,env.height(px,py)-size*.08),(size*1.7,size*1.03,size*.57),'wet_schist')
 
 def bridge_links(length,deck):
     count=360
@@ -830,16 +865,24 @@ def build(sid):
         ground['scaleSource']=spec['source']
         if 'widthSource' in spec:ground['widthSource']=spec['widthSource']
 
-    ground['groveInstances']=env.populate()
+    placements=env.populate()
+    if sid=='luding':
+        from luding_studio import dress_scene
+        dress_scene(env,ground,geometry)
+    else:ground['groveInstances']=placements
     clear_guide_mark(env)
     x,y,z,dist,turn,tilt=frame_tableau(env)
     ground['tableauView']=[x,z,-y,dist,turn,tilt]
     ground['recorderAnchor']=env.figures.anchor
     OUT.mkdir(exist_ok=True,parents=True)
-    bpy.ops.export_scene.gltf(filepath=str(OUT/(sid+'.glb')),export_format='GLB',
+    image_options={'export_image_format':'WEBP','export_image_quality':88} if sid=='luding' else {}
+    bpy.ops.export_scene.gltf(filepath=str(OUT/(sid+'.glb')),export_format='GLB',**image_options,
         export_extras=True,export_yup=True,export_meshopt_compression_enable=True,
         export_meshopt_extension='EXT_meshopt_compression',export_animations=False)
     print('LANDSCAPE',sid,len(env.trees),'crowns',flush=True)
+    if sid=='luding' and '--proof' in sys.argv:
+        from luding_studio import render_proofs
+        render_proofs()
 
 def frame_tableau(env):
     """Pick an actual line of sight to the evidence, including the portrait lens."""
@@ -864,5 +907,6 @@ def frame_tableau(env):
 
 if __name__=='__main__':
     ids=sys.argv[sys.argv.index('--')+1:] if '--' in sys.argv else list(SITES)
-    for sid in ids:build(sid)
+    for sid in ids:
+        if not sid.startswith('--'):build(sid)
 

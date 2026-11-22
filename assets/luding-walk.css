@@ -1,0 +1,22 @@
+#riverWalk[hidden]{display:none}
+#riverWalk[data-still="true"] .walk-track{display:none}
+#world[inert]{overflow:clip}
+body:has(#ludingJournal[open]) :is(#riverWalk,#hud,#reader,.model-foot,#fieldScale,.data-credit){visibility:hidden}
+#riverWalk{position:absolute;z-index:4;bottom:38px;left:var(--frame);width:min(415px,calc(100vw - 2 * var(--frame)));padding:16px 20px 13px;color:#fff6df;background:linear-gradient(110deg,#182722f5,#142321df);border-top:2px solid #bf7957;box-shadow:0 6px 26px #08161026}
+.walk-heading,.walk-track,#riverWalk nav{display:flex;align-items:center}
+.walk-heading{justify-content:space-between;gap:8px}
+#walkTitle{font:500 clamp(20px,1.8vw,29px)/1.25 var(--serif);margin:0;letter-spacing:.09em}
+.walk-heading a{font:12px var(--sans);min-height:32px;display:grid;align-items:center;color:#f1c6a5}
+#riverWalk nav{gap:6px;margin:10px 0 7px}
+#riverWalk nav button{flex:1;padding:7px 3px;border:1px solid #d5d0b753;color:#f6ecd5;background:transparent;font:12px var(--sans);cursor:pointer}
+#riverWalk nav button[aria-pressed="true"]{background:#eee6d5;color:#273a32;border-color:#eee6d5}
+@media(hover:hover){#riverWalk nav button:hover{border-color:#efd2aa}#riverWalk .walk-heading a:hover{text-decoration:underline;text-underline-offset:.3em}}
+#riverWalk :is(button,a,input):focus-visible{outline:2px solid #f5cf9e;outline-offset:2px}
+.walk-track{font:11px var(--sans);gap:10px}
+.walk-track input{flex:1;min-width:20px;accent-color:#d29b75;height:24px;cursor:pointer}
+.walk-track output{min-width:36px;text-align:right;font-variant-numeric:tabular-nums}
+body[data-river-walk="true"] :is(.model-foot,#fieldScale){display:none}
+@media(max-width:720px){#riverWalk{bottom:126px;left:var(--frame);right:var(--frame);width:auto;padding:9px 12px 6px}
+ #riverWalk nav{margin:3px 0 0}.walk-heading h2{font-size:18px}#riverWalk nav button{font-size:11px;min-height:32px}}
+@media(max-height:540px){#riverWalk{width:310px;bottom:16px}.walk-heading h2{font-size:18px}}
+body:has(#readerContents:not([hidden])) #riverWalk{visibility:hidden}

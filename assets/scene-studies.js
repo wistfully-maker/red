@@ -1,4 +1,5 @@
 import {peopleNotes} from './people-notes-data.js';
+import {openLudingJournal} from './luding-journal.js';
 
 export const tableaux={
   ruijin:['离山前的报纸与行囊','灯、报纸和打好的铺盖把出发前的准备放在一张桌旁。印刷品可以随队携带，印刷所和读者却散在不同地方。','https://www.rjjng.com.cn/cp-content.thtml?cid=10951&id=22262'],
@@ -23,6 +24,7 @@ export const tableaux={
 };
 
 export function showStudy(id,source){
+  if(id==='luding'){openLudingJournal();return;}
   let panel=document.getElementById('studyPlateDialog');
   if(!panel){
     panel=document.createElement('dialog');panel.id='studyPlateDialog';panel.setAttribute('aria-labelledby','plateTitle');

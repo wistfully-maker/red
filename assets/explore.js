@@ -1,12 +1,12 @@
-import { TerrainView } from './terrain-view.js?v=cinema-20261121';
-import { chapters, places } from './places.js?v=first-person-atlas';
+import { TerrainView } from './terrain-view.js?v=luding-studio-1';
+import { chapters, places } from './places.js?v=luding-studio-1';
 import { southernStories } from './story-south.js';
 import { northernStories } from './story-north.js';
 import { maoJourney } from './mao-journey.js';
-import { HistoryView, historyScenes, detailViews } from './history-view.js?v=cinema-20261121';
+import { HistoryView, historyScenes, detailViews } from './history-view.js?v=luding-studio-1';
 import { modelSources } from './history-sources.js';
-import { tableaux, showStudy } from './scene-studies.js?v=cinema-20261121';
-import { createFieldGuide } from './field-lessons.js';
+import { tableaux, showStudy } from './scene-studies.js?v=luding-studio-1';
+import { createFieldGuide } from './field-lessons.js?v=luding-studio-1';
 import { createPeopleNotes } from './people-notes.js';
 
 const stories = { ...southernStories, ...northernStories };
@@ -21,6 +21,9 @@ const formatNumber = (value) => String(value).padStart(2, '0');
 const numberFormat = new Intl.NumberFormat('zh-CN');
 const mobile = matchMedia('(max-width: 720px)');
 const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)');
+const walkKeys=['bridgehead','deck','pavilion'];
+const walkNames=['桥头望全桥','桥上听水','回望桥亭'];
+let stillWalk=false;
 const selectedLabels = new Set(['yudu', 'xiangjiang', 'zunyi', 'jiaoping', 'luding', 'songpan', 'wuqi', 'huining']);
 const mobileLabels = new Set(['yudu', 'zunyi', 'luding', 'wuqi']);
 const route = stations.filter(station => station.kind === 'route' && station.id !== 'songpan').map(station => station.id);
@@ -125,14 +128,15 @@ function drawOverlay(view) {
   const bounds = view.near?.bounds;
   const limited = view.atZoomLimit();
   const refining = limited && view.refiningImagery();
-  $('zoomIn').disabled = limited || view.waitingForTerrain;
+  const bridgeEntry=view.canEnterLuding();
+  $('zoomIn').disabled = (limited&&!bridgeEntry) || view.waitingForTerrain;
   const detailView = bounds && !view.historical && view.view.distance <= 13 &&
     view.view.x >= bounds[0] && view.view.x <= bounds[2] && view.view.z >= bounds[1] && view.view.z <= bounds[3];
   scale.hidden = !limited && !detailView;
   if (!scale.hidden) {
     const vectorVisible = view.near?.features?.visible && view.near.features.userData.count > 0;
     const detailLabel = mode === 'overview' ? '高程浮雕 · 分区设色' : vectorVisible ? '约 10 米卫星影像 · 现代地物' : '约 10 米卫星影像';
-    const label = refining ? '正在加载更清晰的影像' : limited ? (mode === 'overview' ? '已到清晰范围 · 点选节点看近景' :
+    const label = limited&&bridgeEntry?'已到影像清晰边界 · 继续靠近可进入桥头':refining ? '正在加载更清晰的影像' : limited ? (mode === 'overview' ? '已到清晰范围 · 点选节点看近景' :
       view.modelZoom ? '已到模型近景' : '已到影像清晰范围') : detailLabel;
     if (scale.textContent !== label) scale.textContent = label;
   }
@@ -372,6 +376,8 @@ let arrivalStation=null;
 window.addEventListener('cinema:arrive',event=>{arrivalStation=event.detail;});
 function setDisplay(next) {
   display = next;
+  showWalk(false);
+  stillWalk=false;
   const request = ++modelRequest;
   ++stateVersion;
   document.body.dataset.display = next;
@@ -412,7 +418,8 @@ function setDisplay(next) {
   $('sceneKind').textContent = places[station.id].tag;
   const plate = $('modelPlate');
   $('modelStage').classList.add('loading-model');
-  Object.assign(plate.style, {backgroundImage:'url(assets/valley/stills/'+station.id+'.webp?v=cinema-20261121)',
+  const section=location.hash.split('/')[2],stop=walkKeys.includes(section)?section:'bridgehead';
+  Object.assign(plate.style, {backgroundImage:station.id==='luding'?'url(assets/luding/stills/'+stop+'.webp)':'url(assets/valley/stills/'+station.id+'.webp?v=cinema-20261121)',
     backgroundSize:'cover',backgroundPosition:'center'});
   plate.setAttribute('aria-label', name + '的模型静帧');
   plate.hidden = false;
@@ -431,14 +438,15 @@ function setDisplay(next) {
       arrivalStation=null;
       plate.hidden = true;
       $('modelStage').classList.remove('loading-model');
-      const labels={deck:'走上桥面',tableau:'史事现场',guide:'行记员近景',boat:'船工与渡船',reach:'两岸尺度'};
+      const labels={bridgehead:'桥头望全桥',deck:'桥上听水',pavilion:'回望桥亭',tableau:'史事现场',guide:'行记员近景',boat:'船工与渡船',reach:'两岸尺度'};
       $('fieldShot').replaceChildren(new Option('场景机位','site'),...Object.keys(modelView.fieldShots).map(key=>new Option(labels[key],key)));
       $('fieldShot').hidden=false;
       $('fieldScale').hidden=false;
-      if(station.id==='luding' && location.hash==='#station/luding/deck'){
-        $('fieldShot').value='deck';$('fieldShot').dispatchEvent(new Event('change'));
-      }else if(station.id==='luding'){
-        addDeckEntry();
+      if(station.id==='luding'){
+        const section=location.hash.split('/')[2];
+        if(!section||walkKeys.includes(section)||section==='journal')selectWalk(walkKeys.includes(section)?section:'bridgehead');
+        else addDeckEntry();
+        if(section==='journal')modelView.pauseForReading(true);
       }
       window.dispatchEvent(new Event('atlas:scene-ready'));
       $('modelStatus').textContent = mobile.matches ? '单指环看 · 双指移动与缩放' : '拖动环看 · Shift 拖动平移 · 滚轮缩放';
@@ -450,6 +458,7 @@ function setDisplay(next) {
       notes.type='button';notes.className='show-study';notes.textContent='翻开现场手记';
       notes.onclick=()=>showStudy(station.id,modelSources[station.id][1]);
       $('modelCaption').append('　',notes);
+      if(station.id==='luding'){stillWalk=true;showStillWalk(stop);}
       arrivalStation=null;window.dispatchEvent(new Event('atlas:scene-ready'));
       console.warn('历史模型未加载', station.id, error.message);
     }
@@ -460,7 +469,7 @@ function updatePage(event) {
   const previousStation = active?.id;
   const previousJourney = journeyIndex;
   const hash = location.hash.slice(1);
-  const stationRoute = /^station\/([^/]+)(?:\/(people|study|deck))?$/.exec(hash);
+  const stationRoute = /^station\/([^/]+)(?:\/(people|study|deck|bridgehead|pavilion|terrain|journal))?$/.exec(hash);
   const stationTab = stationRoute?.[2];
   journeyIndex = hash.startsWith('journey/') ? maoJourney.findIndex(entry => entry.id === hash.slice(8)) : -1;
   active = journeyIndex >= 0 ? byId.get(maoJourney[journeyIndex].id) :
@@ -487,9 +496,24 @@ function updatePage(event) {
   $('world').tabIndex = mode === 'home' ? -1 : 0;
   document.title = active ? active.title + ' · 山河之路' : '山河之路 · 长征纪念图集';
   updateHUD();
-  const nextDisplay = mode === 'home' ? 'cover' : mode === 'overview' ? 'terrain' : stationTab==='deck' ? 'model' :
+  const readOverTerrain=stationTab==='journal'&&previousStation==='luding'&&display==='terrain'&&ready;
+  const nextDisplay = mode === 'home' ? 'cover' : mode === 'overview'||stationTab==='terrain'||readOverTerrain ? 'terrain' : walkKeys.includes(stationTab)||stationTab==='journal' ? 'model' :
     previousStation && (previousJourney >= 0) === (journeyIndex >= 0) ? display : journeyIndex >= 0 ? 'terrain' : 'model';
-  setDisplay(nextDisplay);
+  const keepLuding=previousStation==='luding'&&active?.id==='luding'&&display==='model'&&nextDisplay==='model'&&
+    ((modelView?.id==='luding'&&modelView.active&&$('modelPlate').hidden)||stillWalk);
+  const closedJournal=event?.oldURL&&new URL(event.oldURL).hash==='#station/luding/journal';
+  if(readOverTerrain){
+    world.suspended=true;
+  }else if(closedJournal&&nextDisplay==='terrain'&&display==='terrain'&&world?.focus==='luding'){
+    world.suspended=false;
+  }else if(keepLuding&&closedJournal&&(!stationTab||walkKeys.includes(stationTab))&&!$('riverWalk').hidden){
+    modelView?.pauseForReading(false);
+  }else if(keepLuding&&stationTab==='journal'){
+    modelView?.pauseForReading(true);
+  }else if(keepLuding&&walkKeys.includes(stationTab)){
+    modelView?.pauseForReading(false);
+    selectWalk(stationTab);
+  }else{modelView?.pauseForReading(false);setDisplay(nextDisplay);}
   if (active && (stationTab==='people'||stationTab==='study')) {
     setReaderExpanded(true);
     setTab(stationTab);
@@ -535,11 +559,13 @@ function startTerrain() {
 
 $('useSpecimen').addEventListener('click', () => {
   if (display === 'model') return;
+  if(active?.id==='luding'){enterWalk('bridgehead');return;}
   setDisplay('model');
   if (mobile.matches) setReaderExpanded(false);
 });
 $('useTerrain').addEventListener('click', () => {
   if (display === 'terrain') return;
+  if(active?.id==='luding'&&location.hash!=='#station/luding/terrain'){location.hash='station/luding/terrain';return;}
   updateHUD();
   setDisplay('terrain');
 });
@@ -553,8 +579,48 @@ function addDeckEntry() {
   };
   $('modelCaption').append('　',link);
 }
+function showWalk(visible){
+  $('riverWalk').hidden=!visible;document.body.dataset.riverWalk=String(visible);
+}
+function showStillWalk(id){
+  showWalk(true);$('riverWalk').dataset.still='true';
+  $('modelPlate').style.backgroundImage='url(assets/luding/stills/'+id+'.webp)';
+  $('walkTitle').textContent=walkNames[walkKeys.indexOf(id)]+' · 静帧';
+  for(const b of $('riverWalk').querySelectorAll('[data-walk]'))b.setAttribute('aria-pressed',String(b.dataset.walk===id));
+}
+function paintWalk(metres){
+  const stops=modelView.walk.stops;
+  const stop=stops.reduce((best,s)=>Math.abs(s.metres-metres)<Math.abs(best.metres-metres)?s:best);
+  $('walkPosition').value=metres;$('walkMetres').value=Number(metres.toFixed(1))+' 米';
+  if($('walkTitle').textContent!==stop.caption){
+    $('walkTitle').textContent=stop.caption;
+    if(!reduceMotion.matches)$('walkTitle').animate([{opacity:.28,translate:'0 3px'},{opacity:1,translate:'0 0'}],{duration:210});
+  }
+  for(const b of $('riverWalk').querySelectorAll('[data-walk]')){
+    const value=String(b.dataset.walk===stop.id);
+    if(b.getAttribute('aria-pressed')!==value)b.setAttribute('aria-pressed',value);
+  }
+}
+function selectWalk(id){
+  if(stillWalk){showStillWalk(id);return;}
+  if(!modelView?.walk)return;
+  delete $('riverWalk').dataset.still;
+  const stop=modelView.walk.stops.find(s=>s.id===id);if(!stop)return;
+  if(modelView.clay){modelView.setClay(false);$('modelClay').setAttribute('aria-pressed','false');}
+  modelView.inspectDetail(id);$('fieldShot').value=id;showWalk(true);
+  $('walkPosition').max=modelView.walk.stops.at(-1).metres;paintWalk(modelView.walkTransit?modelView.walkMetres:stop.metres);
+}
+function enterWalk(id){
+  if(location.hash==='#station/luding/'+id){if(display==='model')selectWalk(id);else setDisplay('model');}
+  else location.hash='#station/luding/'+id;
+}
+$('riverWalk').querySelector('nav').addEventListener('click',e=>{const b=e.target.closest('[data-walk]');if(b)enterWalk(b.dataset.walk);});
+$('walkPosition').addEventListener('input',e=>modelView.walkBridge(Number(e.target.value)));
+$('modelStage').addEventListener('walk-position',e=>{if(!$('riverWalk').hidden&&!stillWalk)paintWalk(e.detail);});
+$('world').addEventListener('luding-arrival',()=>{if(display==='terrain'&&world?.canEnterLuding())enterWalk('bridgehead');});
 function restoreSceneCaption() {
   if(!active)return;
+  showWalk(false);
   $('modelName').textContent=historyScenes[active.id][0];
   $('modelCaption').textContent=historyScenes[active.id][1];
   if(active.id==='luding')addDeckEntry();
@@ -579,6 +645,8 @@ $('modelStage').addEventListener('guide-load-error',()=>{
 $('fieldShot').addEventListener('change',()=>{
   if(!modelView||!active)return;
   const kind=$('fieldShot').value;
+  if(active.id==='luding'&&walkKeys.includes(kind)){enterWalk(kind);return;}
+  showWalk(false);
   if(kind==='site'){restoreSceneCaption();modelView.reset();return;}
   modelView.inspectDetail(kind);
   const data=modelView.scaleData;
@@ -591,14 +659,6 @@ $('fieldShot').addEventListener('change',()=>{
     const people=document.createElement('a');
     people.href='#station/'+active.id+'/people';people.textContent='读这段历史 ↗';
     $('modelCaption').append('　',people);
-  }else if(kind==='deck'){
-    $('modelName').textContent='从桥面望向对岸';
-    const label=document.createElement('label');label.className='bridge-walk';
-    const slider=document.createElement('input');slider.type='range';slider.min=3;slider.max=99;slider.value=12;
-    slider.setAttribute('aria-label','沿桥面前行的位置，以米计');
-    const output=document.createElement('output');output.textContent='12 米';
-    slider.oninput=()=>{output.textContent=slider.value+' 米';modelView.walkBridge(Number(slider.value));};
-    label.append('沿桥前行',slider,output);$('modelCaption').replaceChildren(label);
   }else if(kind==='guide'){
     $('modelName').textContent='行记员 · 虚构研学向导';
     $('modelCaption').textContent='从她的软帽、斜背包和红扣手记认出她。打开研学手记，留下你在本站看见的证据。';
@@ -625,6 +685,7 @@ $('zoomOut').addEventListener('click', () => { if (ready) world.zoom(1.34); });
 $('orbitView').addEventListener('click', () => { if (ready) world.orbit(65, 35); });
 $('shotButton').addEventListener('click', () => {
   if (!ready || !active) return;
+  if(active.id==='luding'){enterWalk('bridgehead');return;}
   const button = $('shotButton');
   const place = places[active.id];
   const close = button.getAttribute('aria-pressed') !== 'true';
@@ -638,6 +699,7 @@ $('shotButton').addEventListener('click', () => {
 });
 historySwitch.addEventListener('click', () => {
   if (!ready || !active) return;
+  if(active.id==='luding'){enterWalk('bridgehead');return;}
   const place = places[active.id];
   const historical = historySwitch.getAttribute('aria-pressed') !== 'true';
   const shot = historical ? place.historic : { ...place.historic, history: false, context: '今景 · 大渡河桥址' };

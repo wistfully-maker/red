@@ -16,7 +16,9 @@ function choose(id,focus=false){
  reel.forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.scene===id)));
  byId('coverTitle').textContent=item.title;byId('openingDate').textContent=item.date;byId('openingPlace').textContent=item.place;
  byId('openingLead').textContent=item.lead;byId('openingCoordinate').textContent=item.coordinate;
- enter.href='#station/'+id;enter.firstElementChild.textContent=item.enter;byId('openingStory').href='#station/'+id+'/people';
+ enter.href='#station/'+id;enter.firstElementChild.textContent=item.enter;
+ byId('openingStory').href='#station/'+id+(id==='luding'?'/journal':'/people');
+ byId('openingStory').firstElementChild.textContent=id==='luding'?'行记员手记':'沿途的人';
  let frame=landscape.querySelector('[data-plate="'+id+'"]');
  if(!frame){frame=new Image();frame.className='cinema-frame';frame.alt='';frame.dataset.plate=id;frame.src='assets/cinema/'+id+'.webp';landscape.append(frame);}
  const paint=()=>{

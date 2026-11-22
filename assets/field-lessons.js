@@ -1,4 +1,5 @@
 import { lessons } from './field-lessons-data.js';
+import { openLudingJournal } from './luding-journal.js';
 
 const notebookKey = 'long-march:field-note:';
 
@@ -26,6 +27,7 @@ export function createFieldGuide(root, stations, returnToScene) {
 
   return function renderFieldLesson(station) {
     const lesson = lessons[station.id];
+    root.dataset.station = station.id;
     root.innerHTML = `
       <header class="field-guide-header">
         <img src="${portrait}" width="52" height="52" alt="" decoding="async">
@@ -34,6 +36,7 @@ export function createFieldGuide(root, stations, returnToScene) {
           <h3>${lesson.title}</h3>
         </div>
       </header>
+      ${station.id === 'luding' ? `<button type="button" class="field-journal-entry"><span>泸定 · 行记员专题</span><strong>一座桥，两段年代。</strong><small>看构件、辨图像，留下有据的观察 <span aria-hidden="true">↗</span></small></button>` : ''}
       <section class="field-step">
         <h4>看现场</h4>
         <p>${lesson.look}</p>
@@ -80,6 +83,7 @@ export function createFieldGuide(root, stations, returnToScene) {
 
     root.querySelector('.field-visit p').textContent = station.base;
     root.querySelector('.field-return').addEventListener('click', returnToScene);
+    root.querySelector('.field-journal-entry')?.addEventListener('click', openLudingJournal);
     const feedback = root.querySelector('.field-feedback');
     const choices = root.querySelectorAll('[data-choice]');
     const textarea = root.querySelector('textarea');
@@ -152,5 +156,21 @@ export function createFieldGuide(root, stations, returnToScene) {
       renderNotebook();
     });
     renderNotebook();
+    // A saved journal and the compact study form share the same notebook entry.
+    root.onjournalsave = event => {
+      if (event.detail.id !== station.id) return;
+      const { note, stored } = event.detail;
+      drafts.delete(station.id);
+      if (stored) sessionNotes.delete(station.id);
+      else sessionNotes.set(station.id, note);
+      textarea.value = note;
+      noteStatus.textContent = stored ? '已保存' : '已暂存，刷新后会清除。';
+      renderNotebook();
+    };
   };
 }
+
+document.addEventListener('field-note-saved', event => {
+  const root = document.getElementById('studyPrompt');
+  root?.onjournalsave?.(event);
+});

@@ -954,6 +954,12 @@ export class TerrainView {
     return this.goal.distance <= limit * 1.001 && this.view.distance <= limit * 1.025;
   }
 
+  canEnterLuding() {
+    if(!this.goal||this.waitingForTerrain||this.local?.name!=='luding')return false;
+    const point=this.points.luding;
+    return (this.mode==='overview'||this.focus==='luding')&&Math.hypot(this.goal.x-point.x,this.goal.z-point.z)<2;
+  }
+
   refiningImagery() {
     return this.mode === 'overview' && this.goal && this.atlasImagery.loadingFiner(this.goal);
   }
@@ -991,6 +997,9 @@ export class TerrainView {
     const limit = this.zoomMinimum();
     const nextDistance = clamp(previousDistance * factor, limit, this.overviewView().distance * 1.16);
     if (Math.abs(nextDistance - previousDistance) < previousDistance * .0001) {
+      if(factor<1&&this.canEnterLuding()&&this.atZoomLimit()){
+        this.container.dispatchEvent(new Event('luding-arrival'));return;
+      }
       if (factor < 1 && this.refiningImagery()) this.queuedAtlasZoom = true;
       this.browseLocalTerrain();
       return;

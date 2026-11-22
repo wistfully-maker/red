@@ -2,7 +2,7 @@ import * as THREE from './vendor/three.module.min.js';
 import { loadModel } from './scene-models.js?v=cinema-20261121';
 import { landscapeMaterial } from './valley-materials.js?v=cinema-20261121';
 import { plantedGrove } from './green-groves.js?v=cinema-20261121';
-import { ExhibitFilm } from './exhibit-film.js?v=cinema-20261121';
+import { ExhibitFilm } from './exhibit-film.js?v=luding-studio';
 import { makeValleyEnvironment } from './bridge-materials.js?v=cinema-20261121';
 import { tableaux } from './scene-studies.js?v=cinema-20261121';
 
@@ -45,7 +45,12 @@ function disposeModel(root) {
   });
   root.removeFromParent();
   geometries.forEach(geometry => geometry.dispose());
-  materials.forEach(material => material.dispose());
+  const nativeMaps=new Set();
+  materials.forEach(material=>{
+    if(material.userData.ludingFinish)for(const item of Object.values(material))if(item?.isTexture)nativeMaps.add(item);
+    material.dispose();
+  });
+  nativeMaps.forEach(t=>t.dispose());
 }
 
 function valleyMist(span, clock, density) {
@@ -93,6 +98,7 @@ export class HistoryView {
     this.scene.add(new THREE.HemisphereLight(0xdce7ed,0x73745d,.82));
     this.sun=new THREE.DirectionalLight(0xffe0ac,2.25);
     this.scene.environment=makeValleyEnvironment(this.renderer,new THREE.Vector3(-.82,.48,.27).normalize());
+    this.defaultEnvironment=this.scene.environment;
     this.scene.environmentIntensity=.53;
     this.sun.castShadow=true;
     this.sun.shadow.mapSize.set(2048,2048);
@@ -107,7 +113,8 @@ export class HistoryView {
     this.animate = time => {
       this.frame=0;
       if (!this.active || !this.model || document.hidden || this.reduced.matches) return;
-      if (!this.last || time-this.last>65) {
+      const interval=this.walkTransit||this.descent?0:this.walk?(this.width<720?42:32):65;
+      if (!this.last || time-this.last>interval) {
         this.clock.value=time*.001;
         this.render();
         this.last=time;
@@ -118,8 +125,14 @@ export class HistoryView {
   }
 
   schedule() {
-    if (this.active && !this.frame && !document.hidden && !this.reduced.matches)
+    if (this.active && !this.pausedForReading&&!this.frame && !document.hidden && !this.reduced.matches)
       this.frame=requestAnimationFrame(this.animate);
+  }
+
+  pauseForReading(pause){
+    this.pausedForReading=pause;
+    if(pause){cancelAnimationFrame(this.frame);this.frame=0;this.walkTransit=null;}
+    else this.schedule();
   }
 
   async show(id, flyover=false) {
@@ -138,19 +151,31 @@ export class HistoryView {
     if (this.guideAsset) this.guideAsset.visible=false;
     this.model=null;
     this.renderer.clear();
-    const model=await loadModel('landscapes/'+id,'cinema-20261121');
+    const model=await loadModel('landscapes/'+id,id==='luding'?'luding-studio-1':'cinema-20261121');
     try {
       const mapped=new Map();
       let ground;
       model.traverse(mesh=>{if(mesh.isMesh && mesh.material.name.startsWith('ground_')) ground=mesh;});
       if (!ground) throw Error('Missing continuous terrain');
-      const registration=ground.geometry.getAttribute('uv1');
-      if(!registration) throw Error('Missing registered ground coordinates');
-      ground.geometry.setAttribute('atlasRegistration',registration);
+      const authored=!!ground.userData.authoredLuding;
+      if(!authored){
+        const registration=ground.geometry.getAttribute('uv1');
+        if(!registration) throw Error('Missing registered ground coordinates');
+        ground.geometry.setAttribute('atlasRegistration',registration);
+      }
+      let walk,sky,river;
+      if(authored){
+        this.riverStudio??=Promise.all([
+          fetch(new URL('./luding/walk.json',import.meta.url)).then(r=>{if(!r.ok)throw Error('历史现场机位未载入');return r.json();}),
+          new THREE.TextureLoader().loadAsync(new URL('./luding/surfaces/sky.jpg',import.meta.url).href).then(t=>{
+            t.colorSpace=THREE.SRGBColorSpace;t.mapping=THREE.EquirectangularReflectionMapping;return t;})
+        ]).catch(error=>{this.riverStudio=null;throw error;});
+        [walk,sky]=await this.riverStudio;
+      }
       model.traverse(mesh=>{
         if (!mesh.isMesh) return;
         const name=mesh.material.name;
-        if (!mapped.has(name)) mapped.set(name,landscapeMaterial(name,this.clock,ground.userData));
+        if (!authored&&!mapped.has(name)) mapped.set(name,landscapeMaterial(name,this.clock,ground.userData));
       });
       const resolved=await Promise.allSettled([...mapped].map(async ([name,value])=>[name,await value]));
       const materials=new Map(resolved.filter(result=>result.status==='fulfilled').map(result=>result.value));
@@ -165,13 +190,18 @@ export class HistoryView {
       const cutaway=[];
       model.traverse(mesh=>{
         if (!mesh.isMesh) return;
-        original.add(mesh.material);
+        if(!authored)original.add(mesh.material);
         const name=mesh.material.name;
         if (name==='iron_near') nearIron=mesh;
         if (name==='iron_far') farIron=mesh;
         if (mesh.userData.journalGuide) {mesh.visible=false;guides.push(mesh);}
         if(mesh.userData.roomCut)cutaway.push(mesh);
-        mesh.material=materials.get(name);
+        if(authored){
+          mesh.material.userData.ludingFinish=true;
+          if(name==='riparian_crown'){mesh.material.alphaTest=.39;mesh.material.transparent=false;mesh.material.depthWrite=true;}
+          if(name==='jade_water')river=mesh.material;
+          for(const m of ['map','normalMap','roughnessMap'])if(mesh.material[m])mesh.material[m].anisotropy=8;
+        }else mesh.material=materials.get(name);
         mesh.castShadow=mesh!==ground && name!=='canopy_side';
         mesh.receiveShadow=true;
       });
@@ -181,13 +211,16 @@ export class HistoryView {
       if (this.serial!==serial) { disposeModel(model); return false; }
       this.grove=grove;
       this.model=model; this.id=id;
-      this.scene.background=new THREE.Color(0xb5beb0);
+      this.walk=walk;this.waterMaterial=river;this.localSky=sky;this.walkTransit=null;
+      this.scene.background=sky||new THREE.Color(0xb5beb0);
+      this.scene.environment=sky||this.defaultEnvironment;
+      this.scene.environmentIntensity=sky?.90:.53;this.sun.intensity=sky?3.4:2.25;
       this.nearIron=nearIron;this.farIron=farIron;
       this.guides=guides;
       this.cutaway=cutaway;
       this.fieldShots={};
       const metadata=ground.userData;
-      if(id==='luding')this.fieldShots.deck=this.bridgeEye(12);
+      if(walk)for(const stop of walk.stops)this.fieldShots[stop.id]=this.bridgeEye(stop.metres);
       if(metadata.tableauView){
         const [x,y,z,distance,yaw,pitch]=metadata.tableauView;
         this.fieldShots.tableau={x,y,z,distance,yaw,pitch};
@@ -204,7 +237,7 @@ export class HistoryView {
       }
       this.shot=ground.userData.framingWidth;
       this.span=ground.userData.plateWidth;
-      model.add(valleyMist(this.span,this.clock,['wuqi','huining','jiangtai'].includes(id)?.16:.40));
+      if(!authored)model.add(valleyMist(this.span,this.clock,['wuqi','huining','jiangtai'].includes(id)?.16:.40));
       this.baseTarget=ground.userData.targetHeight;
       this.scaleData=metadata;
       this.shadowRegion='';
@@ -234,6 +267,7 @@ export class HistoryView {
     this.panZ=0;
     this.targetY=this.baseTarget;
     this.detail=null;
+    this.walkTransit=null;
     if(this.guideAsset)this.guideAsset.visible=false;
     this.guides?.forEach(mesh=>mesh.visible=false);
     this.shadowRegion='';
@@ -248,6 +282,9 @@ export class HistoryView {
     const shot=kind==='detail' ? detailViews[this.id] : this.fieldShots?.[kind];
     if (!shot || !this.active || this.flyover) return;
     const from=this.eyeState;
+    const walking=this.walk?.stops.find(s=>s.id===kind);
+    const previous=this.detail?.onDeck?this.walkMetres:null;
+    this.walkTransit=null;
     this.detail=shot;
     this.cutaway?.forEach(mesh=>mesh.visible=kind!=='tableau');
     if(this.guideAsset)this.guideAsset.visible=false;
@@ -257,27 +294,39 @@ export class HistoryView {
     this.panX=shot.x;this.panZ=shot.z;this.targetY=shot.y;
     this.yaw=shot.yaw;this.pitch=shot.pitch;this.zoom=1;
     this.descent=from && !this.reduced.matches ? {from,start:performance.now()} : null;
+    if(walking){
+      this.descent=null;
+      this.walkMetres=walking.metres;
+      if(previous!=null&&previous!==walking.metres&&!this.reduced.matches){
+        this.walkTransit={start:performance.now(),from:previous,to:walking.metres,duration:Math.min(2400,700+20*Math.abs(previous-walking.metres))};
+      }
+    }
     this.render();
     this.schedule();
   }
 
   bridgeEye(metres) {
-    // Match the board elevation of native_luding in the Blender scene.
-    const half=103.67/2;
-    const deck=x=>7.25+2.65*(Math.min(half,Math.abs(x))/half)**2;
-    const x=metres-half,eye=deck(x)+1.70,distance=7.5,pitch=.052;
-    const yaw=-1.77-.72*Math.sin(Math.PI*metres/(2*half));
+    const w=this.walk,half=w.span/2,stops=w.stops;
+    const b=stops.find(s=>s.metres>metres)||stops.at(-1),a=stops[Math.max(0,stops.indexOf(b)-1)];
+    const raw=THREE.MathUtils.clamp((metres-a.metres)/(b.metres-a.metres),0,1),t=raw*raw*(3-2*raw);
+    const x=metres-half,eye=w.floorAtCentre+w.sag*(Math.min(half,Math.abs(x))/half)**2+w.eyeHeight,distance=7.5;
+    const pitch=THREE.MathUtils.lerp(a.pitch,b.pitch,t);
+    const angle=b.yaw-a.yaw, yaw=a.yaw+Math.atan2(Math.sin(angle),Math.cos(angle))*t;
+    const z=metres<=stops[1].metres?THREE.MathUtils.lerp(stops[0].z,stops[1].z,t):
+      THREE.MathUtils.lerp(stops[1].z,stops.at(-1).z,THREE.MathUtils.smoothstep(metres,w.span,stops.at(-1).metres));
     const reach=distance*Math.cos(pitch);
-    return {x:x-reach*Math.sin(yaw),y:eye-distance*Math.sin(pitch),z:-.38-reach*Math.cos(yaw),
+    return {x:x-reach*Math.sin(yaw),y:eye-distance*Math.sin(pitch),z:z-reach*Math.cos(yaw),eye:[x,eye,z],
       distance,yaw,pitch,onDeck:true};
   }
 
   walkBridge(metres) {
     if(!this.active||this.id!=='luding'||!this.detail?.onDeck)return;
-    const shot=this.bridgeEye(metres);
+    this.walkTransit=null;this.walkMetres=THREE.MathUtils.clamp(metres,0,this.walk.stops.at(-1).metres);
+    const shot=this.bridgeEye(this.walkMetres);
     this.descent=null;this.detail=shot;this.panX=shot.x;this.panZ=shot.z;
     this.targetY=shot.y;this.yaw=shot.yaw;this.pitch=shot.pitch;this.zoom=1;
     this.render();
+    this.stage.dispatchEvent(new CustomEvent('walk-position',{detail:this.walkMetres}));
   }
 
   async placeRecorder() {
@@ -333,7 +382,7 @@ export class HistoryView {
     this.shadeClay(this.model,enabled);this.shadeClay(this.guideAsset,enabled);
     if(this.model){
       this.model.traverse(o=>{if(o.isMesh&&o.material.isShaderMaterial)o.visible=!enabled;});
-      this.scene.background=new THREE.Color(enabled?0xc7c3bb:0xb5beb0);
+      this.scene.background=enabled?new THREE.Color(0xc7c3bb):this.localSky||new THREE.Color(0xb5beb0);
     }
     this.shadowRegion='';this.render();
   }
@@ -355,7 +404,8 @@ export class HistoryView {
     }
     const aspect=w/h;
     let distance=(this.flyover ? this.span*.43 : this.shot/(.83*Math.min(1.55,Math.max(.80,aspect))))/this.zoom;
-    if (this.detail) distance=this.detail.distance/this.zoom*(aspect<.8&&!this.detail.onDeck?(this.detail.wideReach?1.55:1.28):1);
+    if (this.detail) distance=this.detail.distance/(this.detail.onDeck?1:this.zoom)*(aspect<.8&&!this.detail.onDeck?(this.detail.wideReach?1.55:1.28):1);
+    this.camera.fov=this.detail?.onDeck?(aspect<.8?THREE.MathUtils.lerp(64,49,Math.min(1,aspect/.8)):42)/this.zoom:42;
     let offsetY=0;
     if(this.detail?.wideReach && aspect<.85){
       const top=document.querySelector('.scene-title').getBoundingClientRect().bottom+23;
@@ -368,6 +418,18 @@ export class HistoryView {
     let orbit=this.yaw+(this.flyover && !this.reduced.matches ? .055*Math.sin(this.clock.value*.105) : 0);
     let pitch=this.pitch;
     let aimX=this.panX,aimY=this.targetY,aimZ=this.panZ;
+    if(this.walkTransit){
+      const transit=this.walkTransit,u=Math.min(1,(performance.now()-transit.start)/transit.duration),t=u*u*(3-2*u);
+      this.walkMetres=THREE.MathUtils.lerp(transit.from,transit.to,t);
+      this.detail=this.bridgeEye(this.walkMetres);
+      aimX=this.panX=this.detail.x;aimY=this.targetY=this.detail.y;aimZ=this.panZ=this.detail.z;
+      orbit=this.yaw=this.detail.yaw;pitch=this.pitch=this.detail.pitch;
+      const halfMetre=Math.round(this.walkMetres*2)/2;
+      if(halfMetre!==this.indicatedMetres){
+        this.indicatedMetres=halfMetre;this.stage.dispatchEvent(new CustomEvent('walk-position',{detail:halfMetre}));
+      }
+      if(u===1)this.walkTransit=null;
+    }
     if (this.descent) {
       const u=Math.min(1,(performance.now()-this.descent.start)/1700), t=u*u*(3-2*u);
       const [d,p,y,x,height,z]=this.descent.from;
@@ -393,7 +455,8 @@ export class HistoryView {
     if (this.shadowRegion!==region) {
       this.shadowRegion=region;
       this.sun.target.position.set(sx,sy,sz);
-      this.sun.position.set(sx-reach*2.6,sy+reach*1.74,sz+reach*.94);
+      if(this.walk)this.sun.position.set(sx+reach*1.34,sy+reach*1.65,sz+reach*1.96);
+      else this.sun.position.set(sx-reach*2.6,sy+reach*1.74,sz+reach*.94);
       Object.assign(this.sun.shadow.camera,{left:-reach,right:reach,top:reach,bottom:-reach,near:.1,far:reach*7.5});
       this.sun.shadow.normalBias=Math.min(.060,reach*.00047);
       this.sun.shadow.camera.updateProjectionMatrix();
@@ -410,7 +473,10 @@ export class HistoryView {
     this.camera.lookAt(aimX,aimY,aimZ);
     this.camera.updateMatrixWorld();
     this.grove?.userData.update(this.camera,w,h);
-    this.film.draw(this.scene,this.camera,{span:this.span,clay:this.clay,strength:this.clay?.35:1});
+    if(this.waterMaterial?.normalMap&&!this.reduced.matches){
+      this.waterMaterial.normalMap.offset.set(this.clock.value*.012,this.clock.value*.026);
+    }
+    this.film.draw(this.scene,this.camera,{span:this.walk?500:this.span,clay:this.clay,strength:this.clay?.35:1});
     const marker=document.getElementById('objectMarker'), subject=this.fieldShots?.tableau;
     if(marker){
       marker.hidden=!subject||this.flyover||!!this.detail||!!this.descent||this.clay;
@@ -450,12 +516,20 @@ export class HistoryView {
 
   rotate(dx, dy) {
     this.descent=null;
+    if(this.detail?.onDeck){
+      this.walkTransit=null;this.yaw-=dx*.005;
+      this.pitch=THREE.MathUtils.clamp(this.pitch+dy*.005,-1.12,1.15);
+      const [x,y,z]=this.detail.eye,d=this.detail.distance,r=d*Math.cos(this.pitch);
+      this.panX=x-r*Math.sin(this.yaw);this.targetY=y-d*Math.sin(this.pitch);this.panZ=z-r*Math.cos(this.yaw);
+      this.render();return;
+    }
     this.yaw -= dx * .008;
     this.pitch = THREE.MathUtils.clamp(this.pitch + dy * .007, this.detail ? .14 : .37, 1.46);
     this.render();
   }
 
   pan(dx,dy) {
+    if(this.detail?.onDeck){this.rotate(dx,dy);return;}
     const s=Math.sin(this.yaw), c=Math.cos(this.yaw), units=this.distance/Math.max(1,this.height)*.78;
     const limit=this.detail ? this.detail.distance*.42 : this.shot*.42;
     const x=this.detail?.x||0,z=this.detail?.z||0;
@@ -494,6 +568,9 @@ export class HistoryView {
     }, { passive: false });
     stage.addEventListener('keydown', e => {
       if (!this.model) return;
+      if(this.detail?.onDeck&&!e.shiftKey&&['ArrowUp','ArrowDown'].includes(e.key)){
+        this.walkBridge(this.walkMetres+(e.key==='ArrowUp'?1.5:-1.5));e.preventDefault();return;
+      }
       const delta = { ArrowLeft: [-12,0], ArrowRight: [12,0], ArrowUp: [0,9], ArrowDown: [0,-9] }[e.key];
       if (delta && e.shiftKey) this.pan(...delta);
       else if (delta) this.rotate(...delta);

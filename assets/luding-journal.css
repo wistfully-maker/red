@@ -1,0 +1,283 @@
+/* A scene-side journal. Content responds to the panel, not the viewport. */
+#ludingJournal {
+  --lj-paper:#f5f1e8;--lj-ink:#30343a;--lj-red:#9a4032;--lj-rule:#30343a30;
+  --lj-muted:#696760;--lj-progress:0;--lj-pad:clamp(24px,4.5cqw,48px);
+  container:journal / inline-size;
+  position:fixed;inset:28px 28px 28px auto;width:min(72vw,1060px);max-width:calc(100vw - 56px);
+  height:calc(100dvh - 56px);max-height:calc(100dvh - 56px);margin:0;padding:0;
+  border:1px solid #f8f5ec94;border-radius:10px;background:var(--lj-paper);color:var(--lj-ink);
+  overflow:hidden;font:14px/1.8 var(--sans,sans-serif);letter-spacing:0;
+  box-shadow:0 22px 80px #111b2345,0 1px 4px #131b1c26;
+}
+#ludingJournal[open]{display:flex;flex-direction:column}
+#ludingJournal::backdrop{background:#111a172b;backdrop-filter:none;-webkit-backdrop-filter:none}
+#ludingJournal *,#ludingJournal *::before,#ludingJournal *::after{box-sizing:border-box}
+#ludingJournal button,#ludingJournal textarea{font:inherit;color:inherit}
+#ludingJournal button{cursor:pointer;border-radius:0;border:0;background:none;-webkit-tap-highlight-color:#9a40321a}
+#ludingJournal button:focus-visible,#ludingJournal a:focus-visible,#ludingJournal summary:focus-visible,#ludingJournal textarea:focus-visible,#ludingJournal .lj-scroll:focus-visible{outline:2px solid var(--lj-red);outline-offset:3px}
+#ludingJournal h2,#ludingJournal h3,#ludingJournal h4,#ludingJournal p,#ludingJournal figure{margin:0}
+#ludingJournal a{color:var(--lj-red);text-decoration:underline;text-underline-offset:4px}
+#ludingJournal .lj-top{min-height:62px;flex:none;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:0 var(--lj-pad);position:relative;z-index:4;border-bottom:1px solid var(--lj-rule);background:var(--lj-paper)}
+#ludingJournal .lj-brand,#ludingJournal .lj-tools{display:flex;align-items:center;gap:20px}
+#ludingJournal .lj-brand>span:first-child{font:600 19px var(--serif,serif);letter-spacing:.1em;white-space:nowrap}
+#ludingJournal .lj-brand>span+span{border-left:1px solid var(--lj-rule);padding-left:20px;font-size:10px;letter-spacing:.08em;white-space:nowrap}
+#ludingJournal .lj-tools button{min-height:44px;font-size:11px;white-space:nowrap}
+#ludingJournal .lj-tools .lj-motion{color:var(--lj-muted);text-decoration:underline;text-underline-offset:4px}
+#ludingJournal .lj-close{display:flex;align-items:center;justify-content:space-between;gap:16px;min-width:68px}
+#ludingJournal .lj-close span{font-size:24px;font-weight:300}
+#ludingJournal .lj-close:hover span,#ludingJournal .lj-close:focus-visible span{rotate:90deg}
+#ludingJournal .lj-progress{position:absolute;inset:auto 0 -1px;height:2px;background:var(--lj-red);transform:scaleX(var(--lj-progress));transform-origin:left;pointer-events:none}
+#ludingJournal .lj-chapters{flex:none;display:grid;grid-template-columns:repeat(4,1fr);z-index:3;border-bottom:1px solid var(--lj-rule);background:var(--lj-paper);padding:0 var(--lj-pad)}
+#ludingJournal .lj-chapters button{min-height:52px;display:flex;justify-content:center;align-items:center;gap:12px;font-size:11px;border-inline-start:1px solid var(--lj-rule);position:relative}
+#ludingJournal .lj-chapters button:last-child{border-right:1px solid var(--lj-rule)}
+#ludingJournal .lj-chapters button::after{content:'';position:absolute;inset:auto 0 0;height:2px;background:var(--lj-red);scale:0 1;transform-origin:left}
+#ludingJournal .lj-chapters button span{font:9px var(--mono,monospace);color:var(--lj-muted)}
+#ludingJournal .lj-chapters button[aria-current]{background:var(--lj-ink);color:var(--lj-paper)}
+#ludingJournal .lj-chapters button[aria-current] span{color:var(--lj-paper)}
+#ludingJournal .lj-chapters button:is(:hover,:focus-visible)::after{scale:1 1}
+#ludingJournal .lj-scroll{min-height:0;flex:1;overflow-y:auto;overflow-x:hidden;overscroll-behavior:contain;position:relative;scrollbar-color:#a6a297 var(--lj-paper);scrollbar-width:thin;scrollbar-gutter:stable}
+#ludingJournal .lj-cover{display:grid;grid-template-columns:44% minmax(0,1fr);grid-template-rows:1fr auto auto;position:relative;padding:46px var(--lj-pad) 30px;gap:0 25px;min-height:560px}
+#ludingJournal .lj-cover-heading{grid-column:1;grid-row:1;padding-top:18px;position:relative;z-index:1}
+#ludingJournal .lj-eyebrow{font:600 10px/1.5 var(--sans,sans-serif);letter-spacing:.12em}
+#ludingJournal .lj-cover h2{font:500 clamp(42px,6.3cqw,69px)/1.2 var(--serif,serif);letter-spacing:-.05em;margin:22px -12px 17px 0}
+#ludingJournal h2 em{font-style:normal;color:var(--lj-red)}
+#ludingJournal .lj-cover-lead{font:400 17px/1.7 var(--serif,serif);letter-spacing:.04em}
+#ludingJournal .lj-cover-meta{display:grid;gap:4px;margin-top:22px;font:9px/1.8 var(--mono,monospace);letter-spacing:.03em;color:var(--lj-muted)}
+#ludingJournal .lj-cover-photo{grid-column:2;grid-row:1/4;align-self:center}
+#ludingJournal .lj-figure .lj-image{position:relative;overflow:hidden;background:#dcdacf}
+#ludingJournal .lj-image img{display:block;width:100%;object-fit:cover}
+#ludingJournal .lj-cover-photo .lj-image{height:clamp(260px,36cqw,400px)}
+#ludingJournal .lj-cover-photo .lj-image img{height:100%;object-position:55% 50%}
+#ludingJournal .lj-media-kind{position:absolute;left:9px;top:9px;padding:3px 6px;background:var(--lj-paper);color:var(--lj-ink);font-size:9px;line-height:1.5;border:1px solid #30343a20}
+#ludingJournal figcaption{font-size:10px;line-height:1.8;padding-top:9px;color:var(--lj-muted)}
+#ludingJournal .lj-photo-title{display:flex;align-items:center;gap:15px;font:600 12px/1.6 var(--serif,serif);min-height:36px;text-align:left;color:var(--lj-ink);width:100%;margin-bottom:5px;border-bottom:1px solid transparent}
+#ludingJournal .lj-photo-title span{margin-left:auto;display:inline-block;font:13px var(--sans,sans-serif)}
+#ludingJournal .lj-photo-title:is(:hover,:focus-visible),#ludingJournal .lj-photo-title[aria-pressed="true"]{color:var(--lj-red);border-bottom-color:var(--lj-red)}
+#ludingJournal .lj-photo-title:is(:hover,:focus-visible) span{translate:2px -2px}
+#ludingJournal figcaption small{display:block;font-size:9px;line-height:1.75;margin-top:4px}
+#ludingJournal .lj-cover-guide{grid-column:1;grid-row:2;display:flex;align-items:center;gap:12px;padding:24px 0 0}
+#ludingJournal .lj-cover-guide img{width:62px;height:83px;object-fit:cover;object-position:50% 18%;align-self:end}
+#ludingJournal .lj-cover-guide .lj-eyebrow{font-size:8px;color:var(--lj-red);letter-spacing:.03em}
+#ludingJournal .lj-cover-guide p+p{font:400 12px/1.8 var(--serif,serif);margin-top:6px}
+#ludingJournal .lj-cover-guide small{display:block;font-size:8px;color:var(--lj-muted);margin-top:3px}
+#ludingJournal .lj-begin{grid-column:1;grid-row:3;display:flex;justify-content:space-between;align-items:center;width:100%;min-height:46px;margin-top:21px;border-top:1px solid var(--lj-rule);font-size:11px;text-align:left}
+#ludingJournal .lj-begin span{font-size:19px}
+#ludingJournal .lj-section{display:grid;grid-template-columns:30% minmax(0,1fr);gap:5cqw;padding:66px var(--lj-pad);border-top:1px solid var(--lj-rule)}
+#ludingJournal .lj-section-title .lj-eyebrow{color:var(--lj-red)}
+#ludingJournal .lj-section-title h3{font:500 clamp(27px,3.5cqw,37px)/1.4 var(--serif,serif);letter-spacing:-.02em;margin:18px -15px 21px 0}
+#ludingJournal .lj-section-title>p:last-of-type{font-size:12px;line-height:1.9;max-width:25em;color:var(--lj-muted)}
+#ludingJournal .lj-diagram{background:#e6e5dd;position:relative;padding-bottom:18px;color:var(--lj-ink)}
+#ludingJournal .lj-bridge-svg{display:block;width:100%;height:auto}
+#ludingJournal .lj-river-lines{opacity:.2}
+#ludingJournal .lj-diagram-labels{fill:var(--lj-muted);stroke:none;font-family:var(--sans,sans-serif)}
+#ludingJournal .lj-abutments{opacity:.7}
+#ludingJournal .lj-boards{color:#a6a297}
+#ludingJournal [data-board="false"] .lj-boards{opacity:0}
+#ludingJournal [data-observation="0"] .lj-bottom-chains,#ludingJournal [data-observation="1"] .lj-rail-chains,#ludingJournal [data-observation="2"] .lj-abutments{color:var(--lj-red);opacity:1}
+#ludingJournal .lj-board-toggle{display:block;min-height:44px;padding:5px 15px;margin:0 auto;border:1px solid var(--lj-rule);font-size:11px;background:var(--lj-paper)}
+#ludingJournal .lj-board-toggle[aria-pressed="true"]{border-color:var(--lj-red);color:var(--lj-red)}
+#ludingJournal .lj-figcaption{font-size:9px;line-height:1.8;color:var(--lj-muted);margin-top:10px}
+#ludingJournal .lj-cite{white-space:nowrap;font:10px var(--mono,monospace)}
+#ludingJournal .lj-observe-tabs{display:grid;grid-template-columns:repeat(3,1fr);margin-top:22px;border-block:1px solid var(--lj-rule)}
+#ludingJournal .lj-observe-tabs button{min-height:46px;border-bottom:2px solid transparent;font-size:11px;text-align:left}
+#ludingJournal .lj-observe-tabs button span{font:9px var(--mono,monospace);color:var(--lj-muted);margin-right:10px}
+#ludingJournal .lj-observe-tabs button[aria-pressed="true"]{border-bottom-color:var(--lj-red);color:var(--lj-red)}
+#ludingJournal .lj-observation{padding-top:17px;min-height:190px}
+#ludingJournal .lj-observation h4{font:600 18px/1.6 var(--serif,serif);margin-bottom:7px}
+#ludingJournal .lj-observation p{font-size:12px;line-height:1.9}
+#ludingJournal .lj-observation .lj-observe-question{margin-top:9px;color:var(--lj-red);font-size:11px}
+#ludingJournal .lj-evidence{background:#30343a;color:var(--lj-paper)}
+#ludingJournal .lj-evidence .lj-section-title .lj-eyebrow,#ludingJournal .lj-evidence a{color:#efb8a8}
+#ludingJournal .lj-evidence .lj-section-title>p:last-of-type{color:#cbc8bf}
+#ludingJournal .lj-time-pair{display:grid;grid-template-columns:1fr 1fr;gap:25px}
+#ludingJournal .lj-time-pair article>span{font:400 clamp(39px,5.8cqw,62px)/1 var(--serif,serif);letter-spacing:-.04em;display:block;padding-bottom:17px;border-bottom:1px solid #f5f1e83b;margin-bottom:16px}
+#ludingJournal .lj-time-pair h4{font:500 17px/1.6 var(--serif,serif);margin-bottom:9px}
+#ludingJournal .lj-time-pair p{font-size:12px;line-height:1.9;color:#e0ddd4}
+#ludingJournal .lj-cooperation{margin-top:32px;padding-top:22px;border-top:1px solid #f5f1e83b}
+#ludingJournal .lj-cooperation>.lj-eyebrow{color:#d3c8b5;letter-spacing:.06em;font-size:9px}
+#ludingJournal .lj-cooperation ol{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;padding:0;margin:22px 0 18px;list-style:none}
+#ludingJournal .lj-cooperation li>span{font:9px var(--mono,monospace);color:#efb8a8}
+#ludingJournal .lj-cooperation h4{font:500 17px/1.6 var(--serif,serif);margin:7px 0}
+#ludingJournal .lj-cooperation li p{font-size:11px;line-height:1.9;color:#e0ddd4}
+#ludingJournal .lj-task-note{font-size:9px;color:#c8c5bc;line-height:1.85}
+#ludingJournal .lj-guide-question{margin:30px 0 0;padding-left:17px;border-left:2px solid #ad6857}
+#ludingJournal .lj-guide-question>span{font-size:9px;color:#efb8a8;letter-spacing:.08em}
+#ludingJournal .lj-guide-question>p{font:400 clamp(19px,2.5cqw,25px)/1.65 var(--serif,serif);margin-top:7px}
+#ludingJournal .lj-images{display:block}
+#ludingJournal .lj-images>.lj-section-title{max-width:580px}
+#ludingJournal .lj-images>.lj-section-title h3{margin-right:0}
+#ludingJournal .lj-images>.lj-section-title>p:last-of-type{max-width:40em}
+#ludingJournal .lj-image-wall{display:grid;grid-template-columns:1.05fr .85fr;gap:4cqw;align-items:start;margin-top:38px;position:relative}
+#ludingJournal .lj-wall-real{grid-column:1;grid-row:1;padding-top:78px}
+#ludingJournal .lj-wall-art{grid-column:2;grid-row:1;z-index:1}
+#ludingJournal .lj-wall-real img{aspect-ratio:3/2}
+#ludingJournal .lj-photo-point{position:absolute;width:44px;height:44px;padding:0;font:600 10px var(--mono,monospace);border:1px solid var(--lj-paper);color:var(--lj-paper);background:var(--lj-red);border-radius:50%;transform:translate(-50%,-50%);box-shadow:0 0 0 3px #f5f1e854}
+#ludingJournal .lj-point-ring{left:11%;top:69%}
+#ludingJournal .lj-point-boards{left:52%;top:84%}
+#ludingJournal .lj-photo-point:is(:hover,:focus-visible),#ludingJournal .lj-photo-point[aria-pressed="true"]{background:var(--lj-ink);box-shadow:0 0 0 6px #f5f1e8a6;scale:1.08}
+#ludingJournal .lj-photo-observation{display:grid;margin-top:18px;padding-left:13px;border-left:2px solid var(--lj-red);font-size:11px;line-height:1.85}
+#ludingJournal .lj-photo-observation>div{grid-area:1/1;opacity:0;visibility:hidden;translate:0 5px;pointer-events:none}
+#ludingJournal .lj-photo-observation>div.is-active{opacity:1;visibility:visible;translate:0 0;pointer-events:auto}
+#ludingJournal .lj-photo-observation h4{font:600 15px/1.7 var(--serif,serif);margin-bottom:6px}
+#ludingJournal .lj-wall-art img{aspect-ratio:5/4;object-position:40% 50%}
+#ludingJournal .lj-boundary{font-size:10px;line-height:1.9;padding-top:12px;margin-top:13px;border-top:1px solid var(--lj-rule);color:var(--lj-muted)}
+#ludingJournal .lj-wall-note{margin-top:28px;padding-left:18px;border-left:1px solid var(--lj-rule);color:var(--lj-muted)}
+#ludingJournal .lj-wall-note>span{font:9px var(--mono,monospace);letter-spacing:.08em}
+#ludingJournal .lj-wall-note p{font:400 clamp(23px,3.5cqw,35px)/1.5 var(--serif,serif);margin-top:10px}
+#ludingJournal .lj-wall-note em{font-style:normal;color:var(--lj-red)}
+#ludingJournal .lj-image-question{width:80%;margin:45px 0 0;padding:23px 0 0;border:0;border-top:1px solid var(--lj-rule);min-inline-size:0}
+#ludingJournal .lj-image-question legend{font:600 20px/1.6 var(--serif,serif);padding-right:16px}
+#ludingJournal .lj-image-question>p{font-size:11px;margin-bottom:14px}
+#ludingJournal .lj-image-question button{display:flex;align-items:baseline;gap:13px;text-align:left;width:100%;min-height:52px;padding:12px 0;border-bottom:1px solid var(--lj-rule);font-size:11px;line-height:1.9}
+#ludingJournal .lj-image-question button span{font:9px var(--mono,monospace);color:var(--lj-muted);flex:none}
+#ludingJournal .lj-image-question button[aria-pressed="true"]{color:var(--lj-red);border-bottom-color:var(--lj-red);background:#9a403208}
+#ludingJournal .lj-image-question .lj-answer:not(:empty){border-left:2px solid var(--lj-red);padding:10px 13px;margin:16px 0 0;font-size:11px;background:#9a403208}
+#ludingJournal .lj-image-question .lj-answer[data-correct="true"]{border-left-color:#51644e;background:#51644e0b}
+#ludingJournal .lj-note-section{background:#e9e7de}
+#ludingJournal .lj-return-scene{border-bottom:1px solid var(--lj-red);color:var(--lj-red);margin-top:20px;min-height:44px;font-size:11px}
+#ludingJournal .lj-note-form label{font:600 23px/1.6 var(--serif,serif);display:block;margin-bottom:16px}
+#ludingJournal .lj-note-form #ljNoteHelp{font-size:11px;line-height:1.9;color:var(--lj-muted);margin-bottom:17px}
+#ludingJournal .lj-note-form textarea{display:block;width:100%;min-height:175px;padding:15px 17px;border:1px solid #30343a5c;border-radius:2px;background:var(--lj-paper);resize:vertical;font-size:14px;line-height:1.9}
+#ludingJournal #ljStorageHelp{font-size:10px;color:var(--lj-muted);margin-top:9px}
+#ludingJournal .lj-note-actions{display:flex;flex-wrap:wrap;gap:9px;margin-top:19px}
+#ludingJournal .lj-note-actions button{min-height:45px;padding:8px 18px;font-size:11px;border:1px solid var(--lj-ink)}
+#ludingJournal .lj-note-actions button[type="submit"]{background:var(--lj-ink);color:var(--lj-paper)}
+#ludingJournal .lj-note-status{min-height:23px;font-size:11px;margin-top:11px;color:var(--lj-red)}
+#ludingJournal .lj-sources{grid-column:2;margin-top:12px;border-top:1px solid var(--lj-rule);padding-top:25px}
+#ludingJournal .lj-sources h4{font:600 20px/1.6 var(--serif,serif);margin-bottom:11px}
+#ludingJournal .lj-sources>p{font-size:11px;line-height:1.9;color:var(--lj-muted);margin-bottom:20px}
+#ludingJournal .lj-sources details{border-top:1px solid var(--lj-rule);font-size:11px}
+#ludingJournal .lj-sources summary{display:flex;align-items:baseline;gap:11px;min-height:46px;padding:12px 0;cursor:pointer;list-style:none;line-height:1.8}
+#ludingJournal .lj-sources summary::-webkit-details-marker{display:none}
+#ludingJournal .lj-sources summary::after{content:'+';margin-left:auto;font-size:16px}
+#ludingJournal .lj-sources details[open] summary::after{content:'−'}
+#ludingJournal .lj-sources summary span{font:10px var(--mono,monospace);color:var(--lj-red);flex:none}
+#ludingJournal .lj-sources details p{padding-bottom:10px;line-height:1.85}
+#ludingJournal .lj-sources details a{display:inline-block;margin-bottom:15px}
+#ludingJournal .lj-footer{display:flex;align-items:center;justify-content:space-between;gap:14px;padding:19px var(--lj-pad);font-size:9px;letter-spacing:.06em;border-top:1px solid var(--lj-rule)}
+#ludingJournal .lj-footer button{font-size:10px;min-height:44px}
+#ludingJournal .lj-caption{height:86px;min-height:86px;flex:none;display:flex;align-items:center;gap:14px;padding:13px var(--lj-pad);border-top:1px solid var(--lj-rule);background:#efe9dc;position:relative;z-index:3}
+#ludingJournal .lj-caption>img{width:39px;height:52px;object-fit:cover;object-position:center 18%;flex:none;mix-blend-mode:multiply}
+#ludingJournal .lj-caption-area{min-width:0;flex:1;height:50px;position:relative}
+#ludingJournal .lj-caption-layer{position:absolute;inset:0;display:flex;justify-content:center;flex-direction:column;gap:3px;opacity:0;translate:0 6px;pointer-events:none}
+#ludingJournal .lj-caption-layer.is-active{opacity:1;translate:0 0}
+#ludingJournal .lj-caption-layer strong{font:500 15px/1.5 var(--serif,serif);color:var(--lj-red)}
+#ludingJournal .lj-caption-layer span{font-size:11px;line-height:1.6;color:var(--lj-muted)}
+#ludingJournal .lj-caption-mark{font:9px/1.8 var(--mono,monospace);letter-spacing:.08em;text-align:right;padding-left:13px;border-left:1px solid var(--lj-rule);color:var(--lj-muted)}
+#ludingJournal .lj-sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
+#ludingJournal[data-motion="full"][open]{animation:lj-panel-in .46s cubic-bezier(.2,.75,.2,1) both}
+#ludingJournal[data-motion="full"] .lj-caption-layer{transition:opacity .24s ease,translate .32s cubic-bezier(.2,.75,.2,1)}
+#ludingJournal[data-motion="full"] .lj-photo-observation>div{transition:opacity .2s ease,translate .28s ease,visibility .28s}
+#ludingJournal[data-motion="full"] :is(button,button::after,button span,.lj-abutments,.lj-rail-chains,.lj-bottom-chains){transition:background-color .2s,color .2s,border-color .2s,scale .25s,translate .25s,rotate .3s}
+#ludingJournal[data-motion="full"] .lj-boards{transition:opacity .35s ease}
+@keyframes lj-panel-in{from{opacity:0;translate:22px 7px}to{opacity:1;translate:0 0}}
+@container journal (max-width:760px){
+  #ludingJournal .lj-brand>span+span{display:none}
+  #ludingJournal .lj-cover{display:block;min-height:0;padding-top:32px}
+  #ludingJournal .lj-cover-heading{padding-top:0}
+  #ludingJournal .lj-cover h2{font-size:clamp(46px,7.4cqw,59px);margin:15px 0}
+  #ludingJournal .lj-cover h2 br{display:none}
+  #ludingJournal .lj-cover h2 em{display:block}
+  #ludingJournal .lj-cover-meta{display:flex;flex-wrap:wrap;gap:3px 15px;margin-top:16px}
+  #ludingJournal .lj-cover-photo{margin-top:25px}
+  #ludingJournal .lj-cover-photo .lj-image{height:auto}
+  #ludingJournal .lj-cover-photo .lj-image img{height:auto;aspect-ratio:1.8;object-position:50% 55%}
+  #ludingJournal .lj-cover-guide{padding-top:22px;max-width:100%}
+  #ludingJournal .lj-cover-guide img{height:78px;width:58px}
+  #ludingJournal .lj-cover-guide p+p{font-size:13px}
+  #ludingJournal .lj-begin{margin-top:18px}
+  #ludingJournal .lj-section{display:block;padding-block:43px}
+  #ludingJournal .lj-section-title h3{font-size:32px;margin:16px 0}
+  #ludingJournal .lj-section-title>p:last-of-type{max-width:100%}
+  #ludingJournal .lj-structure,#ludingJournal .lj-evidence-body{margin-top:28px}
+  #ludingJournal .lj-diagram-labels{font-size:17px}
+  #ludingJournal .lj-observation{min-height:170px}
+  #ludingJournal .lj-image-wall{gap:24px;margin-top:30px}
+  #ludingJournal .lj-wall-real{padding-top:55px}
+  #ludingJournal .lj-image-question{width:100%}
+  #ludingJournal .lj-note-form{margin-top:28px}
+  #ludingJournal .lj-sources{margin-top:28px}
+  #ludingJournal .lj-caption-mark{display:none}
+}
+@container journal (max-width:520px){
+  #ludingJournal .lj-top{min-height:56px;padding:0 18px;gap:7px}
+  #ludingJournal .lj-brand>span:first-child{font-size:17px}
+  #ludingJournal .lj-tools{gap:14px}
+  #ludingJournal .lj-tools button{font-size:10px}
+  #ludingJournal .lj-close{min-width:62px;gap:10px}
+  #ludingJournal .lj-chapters{padding:0}
+  #ludingJournal .lj-chapters button{min-height:47px;gap:6px;font-size:10px}
+  #ludingJournal .lj-chapters button span{font-size:8px}
+  #ludingJournal .lj-chapters button:first-child{border-left:0}
+  #ludingJournal .lj-chapters button:last-child{border-right:0}
+  #ludingJournal .lj-cover{padding:27px 22px 22px}
+  #ludingJournal .lj-cover .lj-eyebrow{font-size:9px}
+  #ludingJournal .lj-cover h2{font-size:clamp(41px,12.6cqw,57px);line-height:1.2;margin:14px 0}
+  #ludingJournal .lj-cover-lead{font-size:15px}
+  #ludingJournal .lj-cover-meta{font-size:8px;gap:2px 10px;margin-top:14px}
+  #ludingJournal .lj-cover-photo{margin:23px -22px 0}
+  #ludingJournal .lj-cover-photo figcaption{padding:9px 22px 0}
+  #ludingJournal .lj-cover-photo .lj-image img{aspect-ratio:1.65}
+  #ludingJournal .lj-cover-guide p+p{font-size:12px}
+  #ludingJournal .lj-cover-guide small{font-size:8px}
+  #ludingJournal .lj-section{padding:35px 22px}
+  #ludingJournal .lj-section-title h3{font-size:29px;line-height:1.4}
+  #ludingJournal .lj-section-title>p:last-of-type{font-size:11px}
+  #ludingJournal .lj-diagram{margin:0 -10px;padding-bottom:15px}
+  #ludingJournal .lj-diagram-labels{font-size:20px}
+  #ludingJournal .lj-board-toggle{font-size:10px}
+  #ludingJournal .lj-observe-tabs button{font-size:11px}
+  #ludingJournal .lj-observe-tabs button span{margin-right:8px}
+  #ludingJournal .lj-observation{min-height:205px}
+  #ludingJournal .lj-observation h4{font-size:17px}
+  #ludingJournal .lj-observation p{font-size:11px}
+  #ludingJournal .lj-time-pair{gap:17px}
+  #ludingJournal .lj-time-pair article>span{font-size:40px}
+  #ludingJournal .lj-time-pair h4{font-size:15px}
+  #ludingJournal .lj-time-pair p{font-size:11px}
+  #ludingJournal .lj-cooperation ol{display:block;margin:17px 0}
+  #ludingJournal .lj-cooperation li{display:flex;gap:17px;border-top:1px solid #f5f1e824;padding-top:12px;margin-top:12px}
+  #ludingJournal .lj-cooperation li>span{padding-top:6px}
+  #ludingJournal .lj-cooperation h4{margin:0 0 4px;font-size:17px}
+  #ludingJournal .lj-guide-question{margin-top:26px;padding-left:14px}
+  #ludingJournal .lj-guide-question>p{font-size:19px}
+  #ludingJournal .lj-image-wall{display:block;margin-top:27px}
+  #ludingJournal .lj-wall-real{padding-top:0;margin-right:12px}
+  #ludingJournal .lj-wall-art{margin:27px 0 0 17px}
+  #ludingJournal .lj-wall-note{margin:25px 0 0;padding-left:14px}
+  #ludingJournal .lj-wall-note p{font-size:25px;margin-top:5px}
+  #ludingJournal .lj-wall-note br{display:none}
+  #ludingJournal .lj-wall-note>span{font-size:8px}
+  #ludingJournal .lj-photo-title{font-size:12px;min-height:40px}
+  #ludingJournal .lj-photo-observation h4{font-size:15px}
+  #ludingJournal .lj-photo-observation{font-size:11px}
+  #ludingJournal figcaption{font-size:10px}
+  #ludingJournal figcaption small{font-size:8px}
+  #ludingJournal .lj-boundary{font-size:10px}
+  #ludingJournal .lj-image-question{margin-top:32px;padding-top:17px}
+  #ludingJournal .lj-image-question legend{font-size:18px;padding-right:8px}
+  #ludingJournal .lj-image-question button{gap:9px;min-height:55px}
+  #ludingJournal .lj-note-form label{font-size:21px}
+  #ludingJournal .lj-note-form textarea{font-size:16px;min-height:185px;padding:12px}
+  #ludingJournal .lj-note-actions button{min-height:46px;padding:8px 13px}
+  #ludingJournal .lj-sources details{font-size:10px}
+  #ludingJournal .lj-footer{padding:14px 22px}
+  #ludingJournal .lj-footer>span:last-child{display:none}
+  #ludingJournal .lj-caption{height:85px;min-height:85px;padding:11px 16px;gap:11px}
+  #ludingJournal .lj-caption>img{width:32px;height:45px}
+  #ludingJournal .lj-caption-layer strong{font-size:13px;line-height:1.6}
+  #ludingJournal .lj-caption-layer span{font-size:10px;line-height:1.65}
+}
+@media(max-width:650px){
+  #ludingJournal{inset:auto 8px max(8px,env(safe-area-inset-bottom)) 8px;width:calc(100vw - 16px);max-width:calc(100vw - 16px);height:76dvh;max-height:76dvh;border-radius:19px 19px 12px 12px}
+  #ludingJournal .lj-top{padding-top:5px}
+  #ludingJournal .lj-top::before{content:'';position:absolute;width:29px;height:3px;border-radius:3px;background:#aaa398;top:6px;left:calc(50% - 14.5px)}
+  #ludingJournal[data-motion="full"][open]{animation-name:lj-drawer-in}
+}
+@container journal (max-width:340px){
+  #ludingJournal .lj-section-title h3{font-size:26px}
+  #ludingJournal .lj-caption-layer strong{font-size:12px}
+}
+@keyframes lj-drawer-in{from{opacity:0;translate:0 22px}to{opacity:1;translate:0 0}}
+#ludingJournal[data-motion="reduce"] *,#ludingJournal[data-motion="reduce"] *::before,#ludingJournal[data-motion="reduce"] *::after,#ludingJournal[data-motion="reduce"]{animation:none!important;transition:none!important;scroll-behavior:auto!important}
+@media(prefers-reduced-motion:reduce){#ludingJournal,#ludingJournal *,#ludingJournal *::before,#ludingJournal *::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
