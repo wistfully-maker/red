@@ -19,6 +19,12 @@ class Figures:
         self.is_guide=False
         self.anchor=None
         self.people=[]
+        self.identities=[]
+        self.portrait_candidates=[]
+        self.appearance_index=0
+        self.scene_people_edits=[]
+        from field_supplied import bind_scene
+        bind_scene(env)
 
     def transform(self,p):
         x,y,z=p;c,s=math.cos(self.yaw),math.sin(self.yaw)
@@ -134,6 +140,27 @@ class Figures:
         self.tube([centre+Vector((.022,0,.005)),end+Vector((.037,-.007,-.001))],[.009,.006],'skin',7)
 
     def build(self,x,y,z,height=1.67,yaw=0,pose='walk',role='walker',guide=False):
+        # The contemporary recorder anchor stays independent of historical
+        # actors. Luding's historical people now use the supplied meshes too.
+        if guide:
+            return self._legacy_build(x,y,z,height,yaw,pose,role,guide)
+        # Advance the appearance slot even for a deliberately removed person.
+        # Other figures keep their original cloth, gender and supplied model.
+        self.appearance_index+=1
+        from field_scene_people import scene_actor_edit
+        edit=scene_actor_edit(self.env.sid,x,y,z,pose,role)
+        if edit:
+            self.scene_people_edits.append({**edit,'original_position':[x,y,z],
+                                           'appearance_index':self.appearance_index})
+            if edit.get('remove'):return
+            x,y,z=edit['position'];role=edit['role']
+            yaw=edit.get('yaw',yaw)
+        from field_supplied import try_build_person
+        if try_build_person(self,x,y,z,height,yaw,pose,role):return
+        from field_personnel import build_person
+        return build_person(self,x,y,z,height,yaw,pose,role)
+
+    def _legacy_build(self,x,y,z,height=1.67,yaw=0,pose='walk',role='walker',guide=False):
         if guide:
             # One high-detail sculpt is shared across the 19 guide cameras.
             self.anchor=[float(x),float(z+1.14),float(-y),float(yaw)]
@@ -217,8 +244,13 @@ class Figures:
         self.is_guide=False
 
     def flush(self,geometry):
+        from field_supplied import flush_supplied
+        flush_supplied(self)
         for (guide,mat),(vs,fs,uv) in self.parts.items():
             name=('Journal guide ' if guide else 'People ')+mat
             obj=geometry(name,vs,fs,mat,uv or None,mat not in ['book','bag','bagflap','pages','sealred','pencil'])
             if guide:obj['journalGuide']=True
+            if mat.startswith('fig_'):
+                from field_personnel import finish_figure
+                finish_figure(obj,mat,self.identities)
 

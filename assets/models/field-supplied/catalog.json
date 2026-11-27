@@ -1,0 +1,630 @@
+{
+  "version": 2,
+  "units": "metres",
+  "blender_up": "+Z",
+  "assets": {
+    "marcher-male": {
+      "file": "assets/models/field-supplied/chinese-soldier.glb",
+      "role": "red_army",
+      "pose": "standing march pause",
+      "source_name": "中国军装士兵3d模型.glb",
+      "dimensions_blender": [
+        0.8404300808906555,
+        1.0,
+        2.562502384185791
+      ],
+      "bounds_blender": [
+        [
+          -0.42021504044532776,
+          -0.5,
+          0.0
+        ],
+        [
+          0.42021504044532776,
+          0.5,
+          2.562502384185791
+        ]
+      ],
+      "triangles": 20223,
+      "materials": 14,
+      "textures": 28,
+      "bytes": 3448872,
+      "sha256": "a7dcbb7ea6516824260986d917ba9d775d269b1f0e813ae2baf674d30ee15a4f",
+      "pivot": "bottom centre; longest horizontal extent is one metre",
+      "front_blender": [
+        1,
+        0,
+        0
+      ],
+      "yaw_to_minus_y": -1.5707963267948966
+    },
+    "soldier-female": {
+      "file": "assets/models/field-supplied/soldier.glb",
+      "role": "red_army",
+      "pose": "standing",
+      "source_name": "军装士兵3d模型.glb",
+      "dimensions_blender": [
+        0.6965092420578003,
+        1.0,
+        2.4066367149353027
+      ],
+      "bounds_blender": [
+        [
+          -0.34825462102890015,
+          -0.5,
+          0.0
+        ],
+        [
+          0.34825462102890015,
+          0.5,
+          2.4066367149353027
+        ]
+      ],
+      "triangles": 19983,
+      "materials": 17,
+      "textures": 34,
+      "bytes": 3121936,
+      "sha256": "c61a3743ad56c8315f19e8d097a66ba624447d3479eb8dcbd786111d30b1b696",
+      "pivot": "bottom centre; longest horizontal extent is one metre",
+      "front_blender": [
+        1,
+        0,
+        0
+      ],
+      "yaw_to_minus_y": -1.5707963267948966
+    },
+    "recorder": {
+      "file": "assets/models/field-supplied/returned-person.glb",
+      "role": "contemporary_guide",
+      "pose": "holding red-tab journal",
+      "source_name": "人物3d模型.glb",
+      "dimensions_blender": [
+        0.9399686455726624,
+        1.0,
+        3.0256552696228027
+      ],
+      "bounds_blender": [
+        [
+          -0.4699843227863312,
+          -0.5,
+          0.0
+        ],
+        [
+          0.4699843227863312,
+          0.5,
+          3.0256552696228027
+        ]
+      ],
+      "triangles": 19508,
+      "materials": 13,
+      "textures": 26,
+      "bytes": 3085572,
+      "sha256": "96dbf3abdba23e78f76ade8249cfa88a04f0de7c6754ae452ef28ab469b0da88",
+      "pivot": "bottom centre; longest horizontal extent is one metre",
+      "front_blender": [
+        1,
+        0,
+        0
+      ],
+      "yaw_to_minus_y": -1.5707963267948966
+    },
+    "blanket-roll": {
+      "file": "assets/models/field-supplied/blanket-roll.glb",
+      "role": "prop",
+      "pose": "double roll and tied bundle",
+      "source_name": "卷毯3d模型.glb",
+      "dimensions_blender": [
+        0.5396199226379395,
+        1.0,
+        0.5883359909057617
+      ],
+      "bounds_blender": [
+        [
+          -0.2698099613189697,
+          -0.5,
+          0.0
+        ],
+        [
+          0.2698099613189697,
+          0.5,
+          0.5883359909057617
+        ]
+      ],
+      "triangles": 4495,
+      "materials": 1,
+      "textures": 2,
+      "bytes": 861772,
+      "sha256": "5c7eb719a4b39c9eb7b24b2027596cb0a5defe34f432e96d76a1aab7ee551c31",
+      "pivot": "bottom centre; longest horizontal extent is one metre",
+      "front_blender": [
+        1,
+        0,
+        0
+      ],
+      "yaw_to_minus_y": -1.5707963267948966
+    },
+    "walking-stick": {
+      "file": "assets/models/field-supplied/walking-stick.glb",
+      "role": "prop",
+      "pose": "diagonal natural wooden staff",
+      "source_name": "木制拐杖3d模型.glb",
+      "dimensions_blender": [
+        0.13357387483119965,
+        1.0,
+        1.0496790409088135
+      ],
+      "bounds_blender": [
+        [
+          -0.06678693741559982,
+          -0.5,
+          0.0
+        ],
+        [
+          0.06678693741559982,
+          0.5,
+          1.0496790409088135
+        ]
+      ],
+      "triangles": 2498,
+      "materials": 1,
+      "textures": 2,
+      "bytes": 379964,
+      "sha256": "14f6d5568137729c2aa90f818e31a51af407c01e4f4a0789556049e76b933e7b",
+      "pivot": "bottom centre; longest horizontal extent is one metre",
+      "front_blender": [
+        1,
+        0,
+        0
+      ],
+      "yaw_to_minus_y": -1.5707963267948966,
+      "principal_axis": [
+        0.006269325734879603,
+        0.6513758601905005,
+        0.7587293221669477
+      ],
+      "principal_length": 1.4175278604204562,
+      "lower_endpoint": [
+        0.005504105462543001,
+        -0.4792264210326331,
+        0.015242893590419996
+      ]
+    },
+    "folding-chair": {
+      "file": "assets/models/field-supplied/folding-chair.glb",
+      "role": "prop",
+      "pose": "open X-frame with woven seat",
+      "source_name": "木质折叠椅3d模型.glb",
+      "dimensions_blender": [
+        1.0000001192092896,
+        0.9518945813179016,
+        1.5650604963302612
+      ],
+      "bounds_blender": [
+        [
+          -0.5000000596046448,
+          -0.4759472906589508,
+          0.0
+        ],
+        [
+          0.5000000596046448,
+          0.4759472906589508,
+          1.5650604963302612
+        ]
+      ],
+      "triangles": 6498,
+      "materials": 1,
+      "textures": 2,
+      "bytes": 1162948,
+      "sha256": "b5282fda541057e15b3110a7f2bb0cfc446cb8baa2a19e08fe39b195dfe3bc1b",
+      "pivot": "bottom centre; longest horizontal extent is one metre",
+      "front_blender": [
+        1,
+        0,
+        0
+      ],
+      "yaw_to_minus_y": -1.5707963267948966,
+      "seat_height": 0.7786169109338931
+    },
+    "old-porter": {
+      "file": "assets/luding/props/kf-porter.glb",
+      "role": "civilian_porter",
+      "pose": "standing",
+      "source_name": "previous user-supplied porter",
+      "dimensions_blender": [
+        0.4083642363548279,
+        1.0,
+        1.9220994710922241
+      ],
+      "front_blender": [
+        1,
+        0,
+        0
+      ],
+      "yaw_to_minus_y": -1.5707963267948966,
+      "triangles": 17999,
+      "bytes": 1691512,
+      "sha256": "a9bc99bfbea8fd5345c11602dfb8f286141008a37dc70c16d76ea77d5947f640"
+    },
+    "boatman-rowing": {
+      "file": "assets/models/field-supplied/boatman-rowing.glb",
+      "role": "boatman",
+      "pose": "row",
+      "source_number": "01",
+      "source_name": "01渔夫3d模型.glb",
+      "source_sha256": "97ab442e0a49c56b7e142765f1a15c02c9525583937689c7cb9a0b343849af29",
+      "dimensions_blender": [
+        0.4328386187553406,
+        1.0,
+        1.0895938873291016
+      ],
+      "bounds_blender": [
+        [
+          -0.2164193093776703,
+          -0.5,
+          0.0
+        ],
+        [
+          0.2164193093776703,
+          0.5,
+          1.0895938873291016
+        ]
+      ],
+      "triangles": 19658,
+      "materials": 1,
+      "textures": 2,
+      "bytes": 2557272,
+      "sha256": "da156ab57a37a9265ed12f025127d22845f31a283d26427c2efaf8a4055f5e8d",
+      "pivot": "bottom centre; longest horizontal extent is one metre",
+      "front_blender": [
+        1,
+        0,
+        0
+      ],
+      "yaw_to_minus_y": -1.5707963267948966,
+      "pose_height_ratio": 1.0,
+      "embedded_support": null,
+      "orientation_review": "Front +X and back -X checked against the actual source geometry/UVs."
+    },
+    "farmer-greeting": {
+      "file": "assets/models/field-supplied/farmer-greeting.glb",
+      "role": "civilian",
+      "pose": "greet",
+      "source_number": "02",
+      "source_name": "02农夫3d模型.glb",
+      "source_sha256": "4201cd166c91f12b03b1184ed1383417b43a51b0d8cb9995e74478b937a424f4",
+      "dimensions_blender": [
+        0.665113627910614,
+        1.0,
+        2.445063829421997
+      ],
+      "bounds_blender": [
+        [
+          -0.332556813955307,
+          -0.5,
+          0.0
+        ],
+        [
+          0.332556813955307,
+          0.5,
+          2.445063829421997
+        ]
+      ],
+      "triangles": 19467,
+      "materials": 1,
+      "textures": 2,
+      "bytes": 2491120,
+      "sha256": "9907c20290ce57177f8f7e21c20f191bacd7d657dfb380fd4c4f7a5b65339be7",
+      "pivot": "bottom centre; longest horizontal extent is one metre",
+      "front_blender": [
+        1,
+        0,
+        0
+      ],
+      "yaw_to_minus_y": -1.5707963267948966,
+      "pose_height_ratio": 1.0,
+      "embedded_support": null,
+      "orientation_review": "Front +X and back -X checked against the actual source geometry/UVs."
+    },
+    "newspaper-reader": {
+      "file": "assets/models/field-supplied/newspaper-reader.glb",
+      "role": "red_army",
+      "pose": "read",
+      "source_number": "03",
+      "source_name": "03士兵 3d模型 阅读报纸.glb",
+      "source_sha256": "1a71d7f23ebefccbb33c68029742b6c69692c516b928051f45275b31ed673623",
+      "dimensions_blender": [
+        1.0,
+        0.9698377847671509,
+        2.5679149627685547
+      ],
+      "bounds_blender": [
+        [
+          -0.5,
+          -0.48491889238357544,
+          0.0
+        ],
+        [
+          0.5,
+          0.48491889238357544,
+          2.5679149627685547
+        ]
+      ],
+      "triangles": 18666,
+      "materials": 1,
+      "textures": 2,
+      "bytes": 2366092,
+      "sha256": "f701ad0210c86be98ea6ad503a28866089162d96fea6117f3e78770bee8309be",
+      "pivot": "bottom centre; longest horizontal extent is one metre",
+      "front_blender": [
+        1,
+        0,
+        0
+      ],
+      "yaw_to_minus_y": -1.5707963267948966,
+      "pose_height_ratio": 1.0,
+      "embedded_support": null,
+      "orientation_review": "Front +X and back -X checked against the actual source geometry/UVs."
+    },
+    "seated-delegate": {
+      "file": "assets/models/field-supplied/seated-delegate.glb",
+      "role": "red_army",
+      "pose": "sit",
+      "source_number": "04",
+      "source_name": "04士兵3d模型.glb",
+      "source_sha256": "dfbd1d6d1015827003a32e8fa9b8456d8af46e1950951f72f30555fed85796fd",
+      "dimensions_blender": [
+        0.9647778868675232,
+        1.0,
+        2.251195192337036
+      ],
+      "bounds_blender": [
+        [
+          -0.4823889434337616,
+          -0.5,
+          0.0
+        ],
+        [
+          0.4823889434337616,
+          0.5,
+          2.251195192337036
+        ]
+      ],
+      "triangles": 18424,
+      "materials": 1,
+      "textures": 2,
+      "bytes": 2378564,
+      "sha256": "e073265d64c61a0830941b9ff2474bb36c5a260d94415d4f511308ef73c7bc8f",
+      "pivot": "bottom centre; longest horizontal extent is one metre",
+      "front_blender": [
+        1,
+        0,
+        0
+      ],
+      "yaw_to_minus_y": -1.5707963267948966,
+      "pose_height_ratio": 0.755,
+      "embedded_support": "chair",
+      "orientation_review": "Front +X and back -X checked against the actual source geometry/UVs."
+    },
+    "journal-writer": {
+      "file": "assets/models/field-supplied/journal-writer.glb",
+      "role": "red_army",
+      "pose": "write",
+      "source_number": "05",
+      "source_name": "05军装士兵模型.glb",
+      "source_sha256": "dc7d7d41514f3c2397c0f49e01803e21fc5a863732505a4cd5c8eb709b2e5b5e",
+      "dimensions_blender": [
+        0.9548029899597168,
+        0.9999999403953552,
+        2.8870298862457275
+      ],
+      "bounds_blender": [
+        [
+          -0.4774014949798584,
+          -0.4999999701976776,
+          0.0
+        ],
+        [
+          0.4774014949798584,
+          0.4999999701976776,
+          2.8870298862457275
+        ]
+      ],
+      "triangles": 19165,
+      "materials": 1,
+      "textures": 2,
+      "bytes": 2396400,
+      "sha256": "db8bf6ef45f09f7184ff7807be65fef1645d5843b8095e4d7f453b07d740311a",
+      "pivot": "bottom centre; longest horizontal extent is one metre",
+      "front_blender": [
+        1,
+        0,
+        0
+      ],
+      "yaw_to_minus_y": -1.5707963267948966,
+      "pose_height_ratio": 1.0,
+      "embedded_support": null,
+      "orientation_review": "Front +X and back -X checked against the actual source geometry/UVs."
+    },
+    "seated-civilian-woman": {
+      "file": "assets/models/field-supplied/seated-civilian-woman.glb",
+      "role": "civilian",
+      "pose": "sit",
+      "source_number": "06",
+      "source_name": "06女性编篮3d模型.glb",
+      "source_sha256": "9d7538c8d1e7f3a000ef2977fd8dfea29b6a34c8aa3635023f7c8b89b521f380",
+      "dimensions_blender": [
+        1.0,
+        0.9524596333503723,
+        1.8605945110321045
+      ],
+      "bounds_blender": [
+        [
+          -0.5,
+          -0.47622981667518616,
+          0.0
+        ],
+        [
+          0.5,
+          0.47622981667518616,
+          1.8605945110321045
+        ]
+      ],
+      "triangles": 22484,
+      "materials": 22,
+      "textures": 44,
+      "bytes": 3838188,
+      "sha256": "52b1bb17ef0eb04cc1e90af5b000dd817eb6e4952731f8c0ee76a677d3eb61dc",
+      "pivot": "bottom centre; longest horizontal extent is one metre",
+      "front_blender": [
+        1,
+        0,
+        0
+      ],
+      "yaw_to_minus_y": -1.5707963267948966,
+      "pose_height_ratio": 0.745,
+      "embedded_support": "stool",
+      "orientation_review": "Front +X and back -X checked against the actual source geometry/UVs."
+    },
+    "kneeling-caregiver": {
+      "file": "assets/models/field-supplied/kneeling-caregiver.glb",
+      "role": "civilian",
+      "pose": "kneel",
+      "source_number": "07",
+      "source_name": "07工人装束3d模型.glb",
+      "source_sha256": "bd550f32a3098e2652b0140497a8f795f0d01aaf30d26d639b66943d1410881c",
+      "dimensions_blender": [
+        0.9999999403953552,
+        0.8071399927139282,
+        1.407719612121582
+      ],
+      "bounds_blender": [
+        [
+          -0.4999999701976776,
+          -0.4035699963569641,
+          0.0
+        ],
+        [
+          0.4999999701976776,
+          0.4035699963569641,
+          1.407719612121582
+        ]
+      ],
+      "triangles": 18882,
+      "materials": 1,
+      "textures": 2,
+      "bytes": 2324844,
+      "sha256": "7ff06632c7e98dfd2621d741f45a16d228b36245fb84da0f3f674e7d48ff7713",
+      "pivot": "bottom centre; longest horizontal extent is one metre",
+      "front_blender": [
+        1,
+        0,
+        0
+      ],
+      "yaw_to_minus_y": -1.5707963267948966,
+      "pose_height_ratio": 0.675,
+      "embedded_support": null,
+      "orientation_review": "Front +X and back -X checked against the actual source geometry/UVs."
+    },
+    "resting-marcher": {
+      "file": "assets/models/field-supplied/resting-marcher.glb",
+      "role": "red_army",
+      "pose": "sit",
+      "source_number": "08",
+      "source_name": "08历史士兵3d模型.glb",
+      "source_sha256": "590297b0fd0d52591a5511786a18aa1b6f99c0c76c195d52fde04963a92f6394",
+      "dimensions_blender": [
+        0.9999999403953552,
+        0.819133996963501,
+        1.3204947710037231
+      ],
+      "bounds_blender": [
+        [
+          -0.4999999701976776,
+          -0.4095669984817505,
+          0.0
+        ],
+        [
+          0.4999999701976776,
+          0.4095669984817505,
+          1.3204947710037231
+        ]
+      ],
+      "triangles": 19517,
+      "materials": 1,
+      "textures": 2,
+      "bytes": 2708716,
+      "sha256": "f3322a1ed341b7635846f92925cba945b609fbcd8d47d857110cb335a0db3687",
+      "pivot": "bottom centre; longest horizontal extent is one metre",
+      "front_blender": [
+        1,
+        0,
+        0
+      ],
+      "yaw_to_minus_y": -1.5707963267948966,
+      "pose_height_ratio": 0.66,
+      "embedded_support": "blanket-roll",
+      "orientation_review": "Front +X and back -X checked against the actual source geometry/UVs."
+    },
+    "staff-climber": {
+      "file": "assets/models/field-supplied/staff-climber.glb",
+      "role": "red_army",
+      "pose": "climb",
+      "source_number": "09",
+      "source_name": "09 人物模型.glb",
+      "source_sha256": "b4035ecdfb9ec62c43808f637afcb38209dbb02ed1a90fb15036e496236ae3b7",
+      "dimensions_blender": [
+        0.8242274522781372,
+        0.9999999403953552,
+        2.138071298599243
+      ],
+      "bounds_blender": [
+        [
+          -0.4121137261390686,
+          -0.4999999701976776,
+          0.0
+        ],
+        [
+          0.4121137261390686,
+          0.4999999701976776,
+          2.138071298599243
+        ]
+      ],
+      "triangles": 19412,
+      "materials": 1,
+      "textures": 2,
+      "bytes": 2750336,
+      "sha256": "aae03c7a8d2e0737aadce7a61bab973cac4cf1087d0b6818f732c703b516fff9",
+      "pivot": "bottom centre; longest horizontal extent is one metre",
+      "front_blender": [
+        1,
+        0,
+        0
+      ],
+      "yaw_to_minus_y": -1.5707963267948966,
+      "pose_height_ratio": 1.0,
+      "embedded_support": "foot-rock",
+      "orientation_review": "Front +X and back -X checked against the actual source geometry/UVs."
+    }
+  },
+  "excluded_assets": [
+    "军装女兵3d模型.glb: cancelled by user; never instantiate or regenerate."
+  ],
+  "journal_recorder": {
+    "file": "assets/models/journal-recorder.glb",
+    "height": 1.64,
+    "forward_gltf": "+Z",
+    "sha256": "eb268a9851132c600d1d137a5ea61533ca07870124a7bdd03a7223e7b26b0177",
+    "backup": ".workbuddy\\field-supplied\\journal-recorder-before-supplied.glb"
+  },
+  "numbered_people": [
+    "boatman-rowing",
+    "farmer-greeting",
+    "newspaper-reader",
+    "seated-delegate",
+    "journal-writer",
+    "seated-civilian-woman",
+    "kneeling-caregiver",
+    "resting-marcher",
+    "staff-climber"
+  ]
+}

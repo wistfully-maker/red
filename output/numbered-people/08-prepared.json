@@ -1,0 +1,83 @@
+{
+  "asset": "resting-marcher",
+  "source": {
+    "file": "C:\\Users\\李冠桥\\Downloads\\08历史士兵3d模型.glb",
+    "sha256": "590297b0fd0d52591a5511786a18aa1b6f99c0c76c195d52fde04963a92f6394",
+    "mesh_count": 1,
+    "triangles": 19517
+  },
+  "result": {
+    "file": "D:\\program\\自媒体\\长征探索地图\\assets\\models\\field-supplied\\resting-marcher.glb",
+    "bytes": 2708664,
+    "mesh_count": 1,
+    "triangles": 19517,
+    "material_count": 1,
+    "texture_count": 2,
+    "texture_encoding": "WEBP",
+    "texture_quality": 90,
+    "bounds_blender": [
+      [
+        -0.4999999701976776,
+        -0.4095669984817505,
+        0.0
+      ],
+      [
+        0.4999999701976776,
+        0.4095669984817505,
+        1.3204947710037231
+      ]
+    ],
+    "dimensions_blender": [
+      0.9999999403953552,
+      0.819133996963501,
+      1.3204947710037231
+    ],
+    "dimensions_gltf": [
+      0.9999999403953552,
+      1.3204947710037231,
+      0.819133996963501
+    ]
+  },
+  "normalisation": {
+    "span_metres": 1.0,
+    "scale_from_import": 1.3512577319587629,
+    "bottom_centre_before_scale": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "yaw_degrees": 0.0
+  },
+  "textures": [
+    {
+      "name": "08历史士兵3d模型_basecolor.jpg",
+      "before": [
+        4096,
+        4096
+      ],
+      "after": [
+        2048,
+        2048
+      ],
+      "color_space": "sRGB"
+    },
+    {
+      "name": "08历史士兵3d模型_normal.jpg",
+      "before": [
+        4096,
+        4096
+      ],
+      "after": [
+        2048,
+        2048
+      ],
+      "color_space": "Non-Color"
+    }
+  ],
+  "preview_files": [],
+  "notes": [
+    "GLB includes textures; source GLB is unchanged.",
+    "Scale is normalised, not an assertion of measured historical dimensions.",
+    "Inspect the front/back/top views for generated geometry defects before placement."
+  ]
+}

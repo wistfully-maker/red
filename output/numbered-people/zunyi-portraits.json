@@ -1,0 +1,12 @@
+[
+  {
+    "station": "zunyi",
+    "sourceSHA256": "b36d00afeb92c892e7282ccfffdd672a7c323c1d548a425f5d4b1ea034f15197",
+    "actor": "seated-delegate",
+    "portraits": [
+      "D:\\program\\自媒体\\长征探索地图\\output\\numbered-people\\zunyi-seated-delegate-front.jpg",
+      "D:\\program\\自媒体\\长征探索地图\\output\\numbered-people\\zunyi-seated-delegate-back.jpg"
+    ],
+    "scope": "Actual exported actor; surrounding objects hidden for a clear front/back geometry and texture check."
+  }
+]

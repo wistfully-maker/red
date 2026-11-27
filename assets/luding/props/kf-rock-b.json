@@ -1,0 +1,118 @@
+{
+  "asset": "kf-rock-b",
+  "source": {
+    "file": "D:\\program\\自媒体\\长征探索地图\\.workbuddy\\luding-keyframe-assets\\connected-kf-rock-b.glb",
+    "sha256": "a26f38924d7a77f7246b1b4b000403dd7290e4251f0bc4f8c3f9b3e468033d99",
+    "mesh_count": 1,
+    "triangles": 4799
+  },
+  "result": {
+    "file": "D:\\program\\自媒体\\长征探索地图\\assets\\luding\\props\\kf-rock-b.glb",
+    "bytes": 700460,
+    "mesh_count": 1,
+    "triangles": 4799,
+    "material_count": 1,
+    "texture_count": 2,
+    "texture_encoding": "WEBP",
+    "texture_quality": 90,
+    "bounds_blender": [
+      [
+        -0.3908783495426178,
+        -0.5,
+        0.0
+      ],
+      [
+        0.3908783495426178,
+        0.5,
+        0.7031290531158447
+      ]
+    ],
+    "dimensions_blender": [
+      0.7817566990852356,
+      1.0,
+      0.7031290531158447
+    ],
+    "dimensions_gltf": [
+      0.7817566990852356,
+      0.7031290531158447,
+      1.0
+    ],
+    "sha256": "9a63dfd37e1ba0f9874ac21ee7cc3f0ce23cebe9d39835d5ad17e31a8e4d4008"
+  },
+  "normalisation": {
+    "span_metres": 1.0,
+    "scale_from_import": 1.0220157897792306,
+    "bottom_centre_before_scale": [
+      9.740889072418213e-05,
+      -0.000553131103515625,
+      -0.00012564628559630364
+    ],
+    "yaw_degrees": 0.0
+  },
+  "textures": [
+    {
+      "name": "岩石3d模型_basecolor",
+      "before": [
+        2048,
+        2048
+      ],
+      "after": [
+        1024,
+        1024
+      ],
+      "color_space": "sRGB"
+    },
+    {
+      "name": "岩石3d模型_normal",
+      "before": [
+        2048,
+        2048
+      ],
+      "after": [
+        1024,
+        1024
+      ],
+      "color_space": "Non-Color"
+    }
+  ],
+  "preview_files": [
+    "D:\\program\\自媒体\\长征探索地图\\output\\luding-keyframe\\asset-review\\kf-rock-b-front.png",
+    "D:\\program\\自媒体\\长征探索地图\\output\\luding-keyframe\\asset-review\\kf-rock-b-back.png",
+    "D:\\program\\自媒体\\长征探索地图\\output\\luding-keyframe\\asset-review\\kf-rock-b-top.png"
+  ],
+  "notes": [
+    "GLB includes textures; source GLB is unchanged.",
+    "Scale is normalised, not an assertion of measured historical dimensions.",
+    "Inspect the front/back/top views for generated geometry defects before placement."
+  ],
+  "provided_source": {
+    "file": "C:\\Users\\李冠桥\\Downloads\\岩石3d模型 (1).glb",
+    "sha256": "e9a93ff50d0bc3736591c339b4975d1576ed0f940c7928728b42e5ecb0e4c31c"
+  },
+  "topology_preparation": {
+    "coincident_vertex_weld_tolerance": 1e-06,
+    "vertices_before_weld": 20872,
+    "vertices_after_weld": 9799,
+    "original_triangles": 19589,
+    "method": "Weld coincident positions while preserving loop UVs; reduce before GLB seam splitting."
+  },
+  "delivered_materials": [
+    {
+      "doubleSided": true,
+      "extras": {
+        "ludingFinish": true
+      },
+      "name": "tripo_node_5304b186-408c-4a9a-8e18-2e03ad1d1eeb_material.001",
+      "normalTexture": {
+        "index": 0
+      },
+      "pbrMetallicRoughness": {
+        "baseColorTexture": {
+          "index": 1
+        },
+        "metallicFactor": 0,
+        "roughnessFactor": 0.8999999761581421
+      }
+    }
+  ]
+}

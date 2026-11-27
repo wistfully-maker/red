@@ -188,7 +188,8 @@ export const terrainFragment = /* glsl */ `
         texture2D(atlasPhoto, vec2(current.x, 1.0 - current.y)).rgb * now +
         texture2D(previousAtlasPhoto, vec2(previous.x, 1.0 - previous.y)).rgb * before;
     }
-    if(museumRelief>.5){
+    vec3 museumColor = ink;
+    if(museumRelief>.001){
       vec3 n=normalize(vSlope);
       float h=max(0.,vGround.y), slope=1.-n.y;
       float planted=terrainNoise(vGround.xz*.026)*.52+terrainNoise(vGround.xz*.11)*.28+terrainNoise(vGround.xz*.004)*.20;
@@ -208,9 +209,7 @@ export const terrainFragment = /* glsl */ `
         vec3 coastal=photographed*.91+vec3(.008,.024,.030);
         printColor=mix(coastal,printColor,smoothstep(.0002,.004,h));
       }
-      gl_FragColor=vec4(printColor,1.);
-      #include <colorspace_fragment>
-      return;
+      museumColor=printColor;
     }
     float era = history * (1.0 - smoothstep(.24, .98, distance(vGround.xz, bridgeCenter)));
     if (era > 0.001) {
@@ -232,7 +231,9 @@ export const terrainFragment = /* glsl */ `
     ink = mix(vec3(bright), ink, 1.06) * vec3(1.02, 1.04, 0.98);
     ink = pow(max(ink, vec3(0.0)), vec3(0.86));
     float distanceToEye = distance(cameraPosition, vGround);
-    float fine = 1.0 - smoothstep(3.0, 28.0, distanceToEye);
+    vec2 detailEdges = min(vUv, 1.0 - vUv);
+    float detailInterior = hasParent > .5 ? smoothstep(.0, .085, min(detailEdges.x, detailEdges.y)) : 1.0;
+    float fine = (1.0 - smoothstep(3.0, 28.0, distanceToEye)) * detailInterior;
     float low = clamp((0.36 - bright) * 3.3, 0.0, 1.0);
     float lightFacing = smoothstep(-.21, .89, dot(normal, sunDirection));
     float terrainShadow = mix(.52, 1.0, vRelief.x) * mix(.69, 1.0, vRelief.y);
@@ -362,7 +363,7 @@ export const terrainFragment = /* glsl */ `
       ink = mix(vec3(dot(ink, vec3(.2126,.7152,.0722))), ink, .91);
 
     }
-    gl_FragColor = vec4(ink, 1.0);
+    gl_FragColor = vec4(mix(ink, museumColor, clamp(museumRelief, 0.0, 1.0)), 1.0);
     #include <colorspace_fragment>
   }
 `;

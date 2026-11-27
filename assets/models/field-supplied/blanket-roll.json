@@ -1,0 +1,91 @@
+{
+  "asset": "blanket-roll",
+  "source": {
+    "file": "D:\\program\\自媒体\\长征探索地图\\.workbuddy\\field-supplied\\connected-blanket-roll.glb",
+    "sha256": "895cae3b7f747f4485554c1c79634695ac87505ae821cb1fc24703b9178d57e6",
+    "mesh_count": 1,
+    "triangles": 4495
+  },
+  "result": {
+    "file": "D:\\program\\自媒体\\长征探索地图\\assets\\models\\field-supplied\\blanket-roll.glb",
+    "bytes": 861676,
+    "mesh_count": 1,
+    "triangles": 4495,
+    "material_count": 1,
+    "texture_count": 2,
+    "texture_encoding": "WEBP",
+    "texture_quality": 92,
+    "bounds_blender": [
+      [
+        -0.2698099613189697,
+        -0.5,
+        0.0
+      ],
+      [
+        0.2698099613189697,
+        0.5,
+        0.5883359909057617
+      ]
+    ],
+    "dimensions_blender": [
+      0.5396199226379395,
+      1.0,
+      0.5883359909057617
+    ],
+    "dimensions_gltf": [
+      0.5396199226379395,
+      0.5883359909057617,
+      1.0
+    ]
+  },
+  "normalisation": {
+    "span_metres": 1.0,
+    "scale_from_import": 1.002362694449108,
+    "bottom_centre_before_scale": [
+      -0.0007111579179763794,
+      -0.00035446882247924805,
+      -0.00025484865182079375
+    ],
+    "yaw_degrees": 0.0
+  },
+  "textures": [
+    {
+      "name": "卷毯3d模型_basecolor",
+      "before": [
+        2048,
+        2048
+      ],
+      "after": [
+        1024,
+        1024
+      ],
+      "color_space": "sRGB"
+    },
+    {
+      "name": "卷毯3d模型_normal",
+      "before": [
+        2048,
+        2048
+      ],
+      "after": [
+        1024,
+        1024
+      ],
+      "color_space": "Non-Color"
+    }
+  ],
+  "preview_files": [
+    "D:\\program\\自媒体\\长征探索地图\\output\\field-supplied\\blanket-roll-front.png",
+    "D:\\program\\自媒体\\长征探索地图\\output\\field-supplied\\blanket-roll-back.png",
+    "D:\\program\\自媒体\\长征探索地图\\output\\field-supplied\\blanket-roll-top.png"
+  ],
+  "notes": [
+    "GLB includes textures; source GLB is unchanged.",
+    "Scale is normalised, not an assertion of measured historical dimensions.",
+    "Inspect the front/back/top views for generated geometry defects before placement."
+  ],
+  "provided_source": {
+    "file": "C:\\Users\\李冠桥\\Downloads\\卷毯3d模型.glb",
+    "sha256": "360a598121b6e02f747e5421c122c0d924832a1e6f4df366ee506b828848f51d"
+  }
+}

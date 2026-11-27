@@ -1,0 +1,148 @@
+{
+  "station": "anshun",
+  "passed": true,
+  "sha256": "613d1f5379c77ef26d64b04c9cc7fed7c5bdf6c9f6f9995fe0d2585cf799e2f3",
+  "bytes": 15928944,
+  "people": 5,
+  "counts": {
+    "boatman-rowing": 1,
+    "farmer-greeting": 1,
+    "old-porter": 2,
+    "seated-civilian-woman": 1
+  },
+  "proceduralPeople": [],
+  "actors": [
+    {
+      "asset": "boatman-rowing",
+      "position": [
+        7.039692401885986,
+        3.768855094909668,
+        0.4191223382949829
+      ],
+      "requestedPose": "row",
+      "sourcePose": "row",
+      "floor": 0.4191223382949829,
+      "height": 1.6800001859664917,
+      "nominalAdultHeight": 1.68,
+      "frontBlender": [
+        0.9044122695922852,
+        -0.42665979266166687,
+        0.0
+      ],
+      "embeddedSupport": "",
+      "sourceRole": "boatman",
+      "sourceIdentity": "boatman",
+      "historicalRole": "boatman"
+    },
+    {
+      "asset": "farmer-greeting",
+      "position": [
+        2.0999999046325684,
+        -3.0999999046325684,
+        0.35870325565338135
+      ],
+      "requestedPose": "greet",
+      "sourcePose": "greet",
+      "floor": 0.35870325565338135,
+      "height": 1.697182059288025,
+      "nominalAdultHeight": 1.6971819220159665,
+      "frontBlender": [
+        -0.6131168603897095,
+        -0.7899922132492065,
+        0.0
+      ],
+      "embeddedSupport": "",
+      "sourceRole": "porter",
+      "sourceIdentity": "porter",
+      "historicalRole": "civilian"
+    },
+    {
+      "asset": "old-porter",
+      "position": [
+        -2.0,
+        -4.0,
+        0.3762420117855072
+      ],
+      "requestedPose": "walk",
+      "sourcePose": "standing",
+      "floor": 0.3762420117855072,
+      "height": 1.5801681578159332,
+      "nominalAdultHeight": 1.5801681350286516,
+      "frontBlender": [
+        0.6365371942520142,
+        -0.7712460160255432,
+        0.0
+      ],
+      "embeddedSupport": "",
+      "sourceRole": "porter",
+      "sourceIdentity": "porter",
+      "historicalRole": "porter"
+    },
+    {
+      "asset": "seated-civilian-woman",
+      "position": [
+        -4.0,
+        -4.579999923706055,
+        0.3466225862503052
+      ],
+      "requestedPose": "stand",
+      "sourcePose": "sit",
+      "floor": 0.3466225862503052,
+      "height": 1.2618565559387207,
+      "nominalAdultHeight": 1.6937671874677411,
+      "frontBlender": [
+        0.7457051277160645,
+        0.6662760376930237,
+        0.0
+      ],
+      "embeddedSupport": "stool",
+      "sourceRole": "local",
+      "sourceIdentity": "civilian",
+      "historicalRole": "civilian"
+    },
+    {
+      "asset": "old-porter",
+      "position": [
+        -13.770000457763672,
+        -4.739999771118164,
+        0.36771923303604126
+      ],
+      "requestedPose": "stand",
+      "sourcePose": "standing",
+      "floor": 0.36771923303604126,
+      "height": 1.6300000548362732,
+      "nominalAdultHeight": 1.63,
+      "frontBlender": [
+        -0.3050585985183716,
+        -0.9523335099220276,
+        0.0
+      ],
+      "embeddedSupport": "",
+      "sourceRole": "porter",
+      "sourceIdentity": "porter",
+      "historicalRole": "porter"
+    }
+  ],
+  "checks": [
+    "bottom on authored floor",
+    "pose-specific height",
+    "front direction",
+    "native UV/PBR retained",
+    "no duplicate supplied chair",
+    "no procedural historical mesh"
+  ],
+  "residentView": [
+    7.039692401885986,
+    1.5351463556289673,
+    -3.768855094909668,
+    2.7216,
+    0.3900000000000001,
+    0.3
+  ],
+  "residentCameraUsesActualPosedHeight": true,
+  "historicalRoles": {
+    "boatman": 1,
+    "civilian": 2,
+    "porter": 2
+  }
+}

@@ -1,0 +1,83 @@
+{
+  "asset": "newspaper-reader",
+  "source": {
+    "file": "C:\\Users\\李冠桥\\Downloads\\03士兵 3d模型 阅读报纸.glb",
+    "sha256": "1a71d7f23ebefccbb33c68029742b6c69692c516b928051f45275b31ed673623",
+    "mesh_count": 1,
+    "triangles": 18666
+  },
+  "result": {
+    "file": "D:\\program\\自媒体\\长征探索地图\\assets\\models\\field-supplied\\newspaper-reader.glb",
+    "bytes": 2366060,
+    "mesh_count": 1,
+    "triangles": 18666,
+    "material_count": 1,
+    "texture_count": 2,
+    "texture_encoding": "WEBP",
+    "texture_quality": 90,
+    "bounds_blender": [
+      [
+        -0.5,
+        -0.48491889238357544,
+        0.0
+      ],
+      [
+        0.5,
+        0.48491889238357544,
+        2.5679149627685547
+      ]
+    ],
+    "dimensions_blender": [
+      1.0,
+      0.9698377847671509,
+      2.5679149627685547
+    ],
+    "dimensions_gltf": [
+      1.0,
+      2.5679149627685547,
+      0.9698377847671509
+    ]
+  },
+  "normalisation": {
+    "span_metres": 1.0,
+    "scale_from_import": 2.625115161225716,
+    "bottom_centre_before_scale": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "yaw_degrees": 0.0
+  },
+  "textures": [
+    {
+      "name": "03士兵_3d模型_阅读报纸_basecolor.jpg",
+      "before": [
+        4096,
+        4096
+      ],
+      "after": [
+        2048,
+        2048
+      ],
+      "color_space": "sRGB"
+    },
+    {
+      "name": "03士兵_3d模型_阅读报纸_normal.jpg",
+      "before": [
+        4096,
+        4096
+      ],
+      "after": [
+        2048,
+        2048
+      ],
+      "color_space": "Non-Color"
+    }
+  ],
+  "preview_files": [],
+  "notes": [
+    "GLB includes textures; source GLB is unchanged.",
+    "Scale is normalised, not an assertion of measured historical dimensions.",
+    "Inspect the front/back/top views for generated geometry defects before placement."
+  ]
+}

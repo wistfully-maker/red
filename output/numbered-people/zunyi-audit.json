@@ -1,0 +1,123 @@
+{
+  "station": "zunyi",
+  "passed": true,
+  "sha256": "f0e54f0f280c373acfaa1acd929d2bff2f0b9d0226536fd4c7aa9264bd49e626",
+  "bytes": 14018644,
+  "people": 4,
+  "counts": {
+    "old-porter": 2,
+    "seated-delegate": 2
+  },
+  "proceduralPeople": [],
+  "actors": [
+    {
+      "asset": "old-porter",
+      "position": [
+        0.550000011920929,
+        -4.400000095367432,
+        0.3199999928474426
+      ],
+      "requestedPose": "walk",
+      "sourcePose": "standing",
+      "floor": 0.3199999928474426,
+      "height": 1.5795688033103943,
+      "nominalAdultHeight": 1.579568820204111,
+      "frontBlender": [
+        0.13151825964450836,
+        -0.9913137555122375,
+        0.0
+      ],
+      "embeddedSupport": "",
+      "sourceRole": "local",
+      "sourceIdentity": "civilian",
+      "historicalRole": "porter"
+    },
+    {
+      "asset": "old-porter",
+      "position": [
+        1.2000000476837158,
+        -4.099999904632568,
+        0.3199999928474426
+      ],
+      "requestedPose": "stand",
+      "sourcePose": "standing",
+      "floor": 0.3199999928474426,
+      "height": 1.6853720545768738,
+      "nominalAdultHeight": 1.6853719859479286,
+      "frontBlender": [
+        -0.5431675314903259,
+        -0.8396244049072266,
+        0.0
+      ],
+      "embeddedSupport": "",
+      "sourceRole": "local",
+      "sourceIdentity": "civilian",
+      "historicalRole": "porter"
+    },
+    {
+      "asset": "seated-delegate",
+      "position": [
+        -0.5379999876022339,
+        -0.10000000149011612,
+        3.4159998893737793
+      ],
+      "requestedPose": "sit",
+      "sourcePose": "sit",
+      "floor": 3.4159998893737793,
+      "height": 1.2457499504089355,
+      "nominalAdultHeight": 1.65,
+      "frontBlender": [
+        -4.371138473402425e-08,
+        1.0,
+        0.0
+      ],
+      "embeddedSupport": "chair",
+      "sourceRole": "delegate",
+      "sourceIdentity": "red_army",
+      "historicalRole": "red_army"
+    },
+    {
+      "asset": "seated-delegate",
+      "position": [
+        0.7300000190734863,
+        -0.10000000149011612,
+        3.4159998893737793
+      ],
+      "requestedPose": "sit",
+      "sourcePose": "sit",
+      "floor": 3.4159998893737793,
+      "height": 1.2457499504089355,
+      "nominalAdultHeight": 1.65,
+      "frontBlender": [
+        -4.371138473402425e-08,
+        1.0,
+        0.0
+      ],
+      "embeddedSupport": "chair",
+      "sourceRole": "delegate",
+      "sourceIdentity": "red_army",
+      "historicalRole": "red_army"
+    }
+  ],
+  "checks": [
+    "bottom on authored floor",
+    "pose-specific height",
+    "front direction",
+    "native UV/PBR retained",
+    "no duplicate supplied chair",
+    "no procedural historical mesh"
+  ],
+  "residentView": [
+    -0.5379999876022339,
+    4.243551731109619,
+    0.10000000149011612,
+    2.15,
+    3.441592653589793,
+    0.14
+  ],
+  "residentCameraUsesActualPosedHeight": true,
+  "historicalRoles": {
+    "porter": 2,
+    "red_army": 2
+  }
+}

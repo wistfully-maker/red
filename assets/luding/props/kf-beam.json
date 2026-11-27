@@ -1,0 +1,118 @@
+{
+  "asset": "kf-beam",
+  "source": {
+    "file": "D:\\program\\自媒体\\长征探索地图\\.workbuddy\\luding-keyframe-assets\\connected-kf-beam.glb",
+    "sha256": "1afc7db9ebdaff8990113b2c7e152114d770832b1fe641dc604448b726edb325",
+    "mesh_count": 1,
+    "triangles": 2998
+  },
+  "result": {
+    "file": "D:\\program\\自媒体\\长征探索地图\\assets\\luding\\props\\kf-beam.glb",
+    "bytes": 576256,
+    "mesh_count": 1,
+    "triangles": 2998,
+    "material_count": 1,
+    "texture_count": 2,
+    "texture_encoding": "WEBP",
+    "texture_quality": 90,
+    "bounds_blender": [
+      [
+        -0.09534134715795517,
+        -0.5,
+        0.0
+      ],
+      [
+        0.09534134715795517,
+        0.5,
+        0.069060780107975
+      ]
+    ],
+    "dimensions_blender": [
+      0.19068269431591034,
+      1.0,
+      0.069060780107975
+    ],
+    "dimensions_gltf": [
+      0.19068269431591034,
+      0.069060780107975,
+      1.0
+    ],
+    "sha256": "61c65b5ac2b6e90d47dcded48b0919ba8141a264dab5e74bb44cff20aed57eb7"
+  },
+  "normalisation": {
+    "span_metres": 1.0,
+    "scale_from_import": 1.0210860967409563,
+    "bottom_centre_before_scale": [
+      -4.32133674621582e-06,
+      -4.0084123611450195e-06,
+      -0.0004751862434204668
+    ],
+    "yaw_degrees": 0.0
+  },
+  "textures": [
+    {
+      "name": "木梁3d模型_basecolor",
+      "before": [
+        2048,
+        2048
+      ],
+      "after": [
+        1536,
+        1536
+      ],
+      "color_space": "sRGB"
+    },
+    {
+      "name": "木梁3d模型_normal",
+      "before": [
+        2048,
+        2048
+      ],
+      "after": [
+        1536,
+        1536
+      ],
+      "color_space": "Non-Color"
+    }
+  ],
+  "preview_files": [
+    "D:\\program\\自媒体\\长征探索地图\\output\\luding-keyframe\\asset-review\\kf-beam-front.png",
+    "D:\\program\\自媒体\\长征探索地图\\output\\luding-keyframe\\asset-review\\kf-beam-back.png",
+    "D:\\program\\自媒体\\长征探索地图\\output\\luding-keyframe\\asset-review\\kf-beam-top.png"
+  ],
+  "notes": [
+    "GLB includes textures; source GLB is unchanged.",
+    "Scale is normalised, not an assertion of measured historical dimensions.",
+    "Inspect the front/back/top views for generated geometry defects before placement."
+  ],
+  "provided_source": {
+    "file": "C:\\Users\\李冠桥\\Downloads\\木梁3d模型.glb",
+    "sha256": "90d05b250571e858769bab7cf205ff4a6bee380c400f9c070ec4bb57d4a615ef"
+  },
+  "topology_preparation": {
+    "coincident_vertex_weld_tolerance": 1e-06,
+    "vertices_before_weld": 11581,
+    "vertices_after_weld": 8242,
+    "original_triangles": 16455,
+    "method": "Weld coincident positions while preserving loop UVs; reduce before GLB seam splitting."
+  },
+  "delivered_materials": [
+    {
+      "doubleSided": true,
+      "extras": {
+        "ludingFinish": true
+      },
+      "name": "tripo_node_99c3cfe3-32f4-4882-8a9c-09e1e6e8fc2f_material.001",
+      "normalTexture": {
+        "index": 0
+      },
+      "pbrMetallicRoughness": {
+        "baseColorTexture": {
+          "index": 1
+        },
+        "metallicFactor": 0,
+        "roughnessFactor": 0.8999999761581421
+      }
+    }
+  ]
+}

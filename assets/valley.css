@@ -37,9 +37,7 @@ body[data-display="model"] .scene-views [aria-pressed="true"] { background:#f0ea
 .model-foot small,.model-foot p { color:#eee7cf; }
 .model-tools { background:#172419da; border-color:#eae3c45c; }
 .model-tools #modelNear { width:auto; padding:0 10px; font:12px var(--sans); white-space:nowrap; }
-.model-tools #modelClay {width:auto; padding-inline:9px; font:12px var(--sans);white-space:nowrap}
-.model-tools #modelClay[aria-pressed="true"] {color:#392f28;background:#f1e5d1}
-@media(max-width:420px){.model-tools #modelNear,.model-tools #modelClay{padding-inline:5px;font-size:10px}}
+@media(max-width:420px){.model-tools #modelNear{padding-inline:5px;font-size:10px}}
 .model-tools button + button { border-color:#eae3c45c; }
 body[data-display="model"] .data-credit,body[data-mode="home"] .data-credit { color:#efe7d0bf; }
 body[data-mode="home"] .cover { inset:0; display:grid; grid-template-columns:1fr; grid-template-rows:1fr; padding:0 20px; place-items:center; overflow:hidden; pointer-events:none;

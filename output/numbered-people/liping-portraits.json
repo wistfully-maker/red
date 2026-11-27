@@ -1,0 +1,22 @@
+[
+  {
+    "station": "liping",
+    "sourceSHA256": "d13e14df2433618c97bdb219e9a0474676af0a795a0bb2963cab5eaea9746582",
+    "actor": "journal-writer",
+    "portraits": [
+      "D:\\program\\自媒体\\长征探索地图\\output\\numbered-people\\liping-journal-writer-front.jpg",
+      "D:\\program\\自媒体\\长征探索地图\\output\\numbered-people\\liping-journal-writer-back.jpg"
+    ],
+    "scope": "Actual exported actor; surrounding objects hidden for a clear front/back geometry and texture check."
+  },
+  {
+    "station": "liping",
+    "sourceSHA256": "d13e14df2433618c97bdb219e9a0474676af0a795a0bb2963cab5eaea9746582",
+    "actor": "seated-civilian-woman",
+    "portraits": [
+      "D:\\program\\自媒体\\长征探索地图\\output\\numbered-people\\liping-seated-civilian-woman-front.jpg",
+      "D:\\program\\自媒体\\长征探索地图\\output\\numbered-people\\liping-seated-civilian-woman-back.jpg"
+    ],
+    "scope": "Actual exported actor; surrounding objects hidden for a clear front/back geometry and texture check."
+  }
+]

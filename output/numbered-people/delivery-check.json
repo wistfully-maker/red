@@ -1,0 +1,305 @@
+{
+  "passed": true,
+  "stations": 19,
+  "historicalPeople": 182,
+  "numberedAssetsUsed": [
+    "boatman-rowing",
+    "farmer-greeting",
+    "journal-writer",
+    "kneeling-caregiver",
+    "newspaper-reader",
+    "resting-marcher",
+    "seated-civilian-woman",
+    "seated-delegate",
+    "staff-climber"
+  ],
+  "assetCoverage": {
+    "boatman-rowing": 6,
+    "farmer-greeting": 11,
+    "old-porter": 30,
+    "seated-civilian-woman": 3,
+    "journal-writer": 3,
+    "marcher-male": 79,
+    "seated-delegate": 13,
+    "soldier-female": 14,
+    "newspaper-reader": 2,
+    "resting-marcher": 2,
+    "staff-climber": 17,
+    "kneeling-caregiver": 2
+  },
+  "sourceModelsUnchanged": true,
+  "proceduralPeople": 0,
+  "daweiRemovedGreetersStillAbsent": true,
+  "posedHeightResidentCameras": 18,
+  "cameraRefreshPreservedBinaryChunks": true,
+  "scenes": [
+    {
+      "station": "anshun",
+      "people": 5,
+      "assets": {
+        "boatman-rowing": 1,
+        "farmer-greeting": 1,
+        "old-porter": 2,
+        "seated-civilian-woman": 1
+      },
+      "bytes": 15928944,
+      "sha256": "613d1f5379c77ef26d64b04c9cc7fed7c5bdf6c9f6f9995fe0d2585cf799e2f3",
+      "maximumFloorErrorMetres": 1.4779498569428284e-08,
+      "proceduralPeople": 0,
+      "previewCount": 3
+    },
+    {
+      "station": "baxi",
+      "people": 7,
+      "assets": {
+        "journal-writer": 1,
+        "marcher-male": 1,
+        "seated-delegate": 5
+      },
+      "bytes": 11952808,
+      "sha256": "d088c64f6c655d6af10bc0594d5a32e96234e43edf9518f179604e4e27bd4260",
+      "maximumFloorErrorMetres": 2.384185793236071e-08,
+      "proceduralPeople": 0,
+      "previewCount": 2
+    },
+    {
+      "station": "chishui",
+      "people": 12,
+      "assets": {
+        "boatman-rowing": 1,
+        "farmer-greeting": 2,
+        "old-porter": 9
+      },
+      "bytes": 12258476,
+      "sha256": "a492a4f275b75105988fc1b492dcc0ddaf80156c1952887df63f811b22d06ee3",
+      "maximumFloorErrorMetres": 4.2915344167226976e-08,
+      "proceduralPeople": 0,
+      "previewCount": 3
+    },
+    {
+      "station": "dawei",
+      "people": 5,
+      "assets": {
+        "farmer-greeting": 1,
+        "marcher-male": 2,
+        "old-porter": 1,
+        "soldier-female": 1
+      },
+      "bytes": 12232012,
+      "sha256": "3c4cbde07a3b99155c12133ef71127919e2d4fd215f007f4fc67b4b2b169b49d",
+      "maximumFloorErrorMetres": 1.0490417468034252e-07,
+      "proceduralPeople": 0,
+      "previewCount": 2
+    },
+    {
+      "station": "hadapu",
+      "people": 9,
+      "assets": {
+        "marcher-male": 6,
+        "newspaper-reader": 1,
+        "old-porter": 1,
+        "soldier-female": 1
+      },
+      "bytes": 12730712,
+      "sha256": "d575fd861bfc0aad76edc376906d62e60a8250a5fbebe494b28202e0dccd337e",
+      "maximumFloorErrorMetres": 4.1723251242853365e-09,
+      "proceduralPeople": 0,
+      "previewCount": 2
+    },
+    {
+      "station": "huining",
+      "people": 11,
+      "assets": {
+        "farmer-greeting": 1,
+        "marcher-male": 8,
+        "old-porter": 1,
+        "soldier-female": 1
+      },
+      "bytes": 14677260,
+      "sha256": "69732974c81437d00b57c1b9a5e8afba85d77d93e8ffbfae4b32a464725a6cde",
+      "maximumFloorErrorMetres": 2.980232227667301e-09,
+      "proceduralPeople": 0,
+      "previewCount": 2
+    },
+    {
+      "station": "jiajin",
+      "people": 18,
+      "assets": {
+        "resting-marcher": 1,
+        "staff-climber": 17
+      },
+      "bytes": 10584228,
+      "sha256": "ac1f5a509aada2406d5964ae27cac007a54efa21ed40a6f51df008c94dd5cf4e",
+      "maximumFloorErrorMetres": 4.728880949045333e-07,
+      "proceduralPeople": 0,
+      "previewCount": 6
+    },
+    {
+      "station": "jiangtai",
+      "people": 8,
+      "assets": {
+        "marcher-male": 6,
+        "seated-civilian-woman": 1,
+        "soldier-female": 1
+      },
+      "bytes": 15250200,
+      "sha256": "12c303b03cead9b544dec88ab12244b9c438125679032a66865a251dcb86a4e5",
+      "maximumFloorErrorMetres": 5.671255776107387e-08,
+      "proceduralPeople": 0,
+      "previewCount": 2
+    },
+    {
+      "station": "jiaoping",
+      "people": 6,
+      "assets": {
+        "boatman-rowing": 2,
+        "farmer-greeting": 1,
+        "old-porter": 3
+      },
+      "bytes": 12701188,
+      "sha256": "dcc0b1a40a035cf6029ea2cc80362b901bfd009a50188c6c73a76b226e314307",
+      "maximumFloorErrorMetres": 8.38140916670227e-08,
+      "proceduralPeople": 0,
+      "previewCount": 3
+    },
+    {
+      "station": "lazikou",
+      "people": 7,
+      "assets": {
+        "kneeling-caregiver": 1,
+        "marcher-male": 5,
+        "soldier-female": 1
+      },
+      "bytes": 13295916,
+      "sha256": "f7192ef76822cce048854f57929c7c8ab8cfd159fdfa4be4ff9f5625f389e135",
+      "maximumFloorErrorMetres": 2.2720127645925459e-07,
+      "proceduralPeople": 0,
+      "previewCount": 2
+    },
+    {
+      "station": "lianghekou",
+      "people": 10,
+      "assets": {
+        "journal-writer": 1,
+        "marcher-male": 3,
+        "seated-delegate": 6
+      },
+      "bytes": 12614872,
+      "sha256": "2d15158a290adaa76e948ce909b8804e18a06915f46642b4555609659d9b955c",
+      "maximumFloorErrorMetres": 1.3296531486961527e-08,
+      "proceduralPeople": 0,
+      "previewCount": 2
+    },
+    {
+      "station": "liping",
+      "people": 9,
+      "assets": {
+        "journal-writer": 1,
+        "old-porter": 7,
+        "seated-civilian-woman": 1
+      },
+      "bytes": 14648192,
+      "sha256": "50b4730a46080406e5d08d18b1f715eb7852859515711021c08f3ccd14d9f024",
+      "maximumFloorErrorMetres": 9.536743172944284e-08,
+      "proceduralPeople": 0,
+      "previewCount": 6
+    },
+    {
+      "station": "luding",
+      "people": 6,
+      "assets": {
+        "marcher-male": 4,
+        "old-porter": 2
+      },
+      "bytes": 38117224,
+      "sha256": "8df66c54883bd73325af68662e976c9f0e26db7dbc6bf2095159fa8d3a9f3820",
+      "maximumFloorErrorMetres": 4.558124899745053e-07,
+      "proceduralPeople": 0,
+      "previewCount": 2
+    },
+    {
+      "station": "ruijin",
+      "people": 3,
+      "assets": {
+        "farmer-greeting": 1,
+        "newspaper-reader": 1,
+        "old-porter": 1
+      },
+      "bytes": 10802100,
+      "sha256": "6a2667ac30b10c7eed3c6b20f003840ece1711eaef509dd6eeda5c487f2e4fbf",
+      "maximumFloorErrorMetres": 9.536743172944284e-08,
+      "proceduralPeople": 0,
+      "previewCount": 6
+    },
+    {
+      "station": "songpan",
+      "people": 15,
+      "assets": {
+        "marcher-male": 12,
+        "resting-marcher": 1,
+        "soldier-female": 2
+      },
+      "bytes": 13099400,
+      "sha256": "c067b4315ff945ce6da79ba0a3f7a6d60403d1e42aec96ca80e676936d52e3aa",
+      "maximumFloorErrorMetres": 3.5762787037318944e-09,
+      "proceduralPeople": 0,
+      "previewCount": 2
+    },
+    {
+      "station": "wuqi",
+      "people": 5,
+      "assets": {
+        "farmer-greeting": 1,
+        "marcher-male": 4
+      },
+      "bytes": 10639128,
+      "sha256": "cede186eb78eae32aaac107b1bc82ea67dcddfcfea541dedfafcd32afcde0eff",
+      "maximumFloorErrorMetres": 4.1723251242853365e-09,
+      "proceduralPeople": 0,
+      "previewCount": 2
+    },
+    {
+      "station": "xiangjiang",
+      "people": 4,
+      "assets": {
+        "boatman-rowing": 1,
+        "farmer-greeting": 1,
+        "kneeling-caregiver": 1,
+        "old-porter": 1
+      },
+      "bytes": 13960204,
+      "sha256": "c1da79d3dcd9ea2ff5be573d6de6b7b8a412fe4538230cb8d29fd8b04d527901",
+      "maximumFloorErrorMetres": 1.2661616421993926e-08,
+      "proceduralPeople": 0,
+      "previewCount": 5
+    },
+    {
+      "station": "yudu",
+      "people": 38,
+      "assets": {
+        "boatman-rowing": 1,
+        "farmer-greeting": 2,
+        "marcher-male": 28,
+        "soldier-female": 7
+      },
+      "bytes": 18472136,
+      "sha256": "883fdbafc57da7293a0bfba05a212fa38cbeabb8fd8f8a2ec164df471a2b8be3",
+      "maximumFloorErrorMetres": 2.8745852143075012e-08,
+      "proceduralPeople": 0,
+      "previewCount": 5
+    },
+    {
+      "station": "zunyi",
+      "people": 4,
+      "assets": {
+        "old-porter": 2,
+        "seated-delegate": 2
+      },
+      "bytes": 14018644,
+      "sha256": "f0e54f0f280c373acfaa1acd929d2bff2f0b9d0226536fd4c7aa9264bd49e626",
+      "maximumFloorErrorMetres": 1.1062622062851801e-07,
+      "proceduralPeople": 0,
+      "previewCount": 4
+    }
+  ]
+}

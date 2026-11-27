@@ -1,0 +1,126 @@
+{
+  "station": "xiangjiang",
+  "passed": true,
+  "sha256": "c1da79d3dcd9ea2ff5be573d6de6b7b8a412fe4538230cb8d29fd8b04d527901",
+  "bytes": 13960204,
+  "people": 4,
+  "counts": {
+    "boatman-rowing": 1,
+    "farmer-greeting": 1,
+    "old-porter": 1,
+    "kneeling-caregiver": 1
+  },
+  "proceduralPeople": [],
+  "actors": [
+    {
+      "asset": "boatman-rowing",
+      "position": [
+        3.965318441390991,
+        5.051543235778809,
+        0.40082472562789917
+      ],
+      "requestedPose": "row",
+      "sourcePose": "row",
+      "floor": 0.40082472562789917,
+      "height": 1.680000126361847,
+      "nominalAdultHeight": 1.68,
+      "frontBlender": [
+        0.7770717740058899,
+        -0.629412055015564,
+        0.0
+      ],
+      "embeddedSupport": "",
+      "sourceRole": "boatman",
+      "sourceIdentity": "boatman",
+      "historicalRole": "boatman"
+    },
+    {
+      "asset": "farmer-greeting",
+      "position": [
+        2.0999999046325684,
+        -3.0999999046325684,
+        0.44794100522994995
+      ],
+      "requestedPose": "greet",
+      "sourcePose": "greet",
+      "floor": 0.44794100522994995,
+      "height": 1.7146411538124084,
+      "nominalAdultHeight": 1.7146411116039801,
+      "frontBlender": [
+        -0.6131168603897095,
+        -0.7899922132492065,
+        0.0
+      ],
+      "embeddedSupport": "",
+      "sourceRole": "porter",
+      "sourceIdentity": "porter",
+      "historicalRole": "civilian"
+    },
+    {
+      "asset": "old-porter",
+      "position": [
+        -2.0,
+        -4.0,
+        0.46653056144714355
+      ],
+      "requestedPose": "walk",
+      "sourcePose": "standing",
+      "floor": 0.46653056144714355,
+      "height": 1.706425666809082,
+      "nominalAdultHeight": 1.706425671054323,
+      "frontBlender": [
+        0.6365372538566589,
+        -0.771246075630188,
+        0.0
+      ],
+      "embeddedSupport": "",
+      "sourceRole": "porter",
+      "sourceIdentity": "porter",
+      "historicalRole": "porter"
+    },
+    {
+      "asset": "kneeling-caregiver",
+      "position": [
+        -7.079999923706055,
+        -5.920000076293945,
+        0.4620954096317291
+      ],
+      "requestedPose": "sit",
+      "sourcePose": "kneel",
+      "floor": 0.4620954096317291,
+      "height": 1.142035573720932,
+      "nominalAdultHeight": 1.6919045966364443,
+      "frontBlender": [
+        -0.5226873159408569,
+        -0.8525243997573853,
+        0.0
+      ],
+      "embeddedSupport": "",
+      "sourceRole": "local",
+      "sourceIdentity": "civilian",
+      "historicalRole": "civilian"
+    }
+  ],
+  "checks": [
+    "bottom on authored floor",
+    "pose-specific height",
+    "front direction",
+    "native UV/PBR retained",
+    "no duplicate supplied chair",
+    "no procedural historical mesh"
+  ],
+  "residentView": [
+    3.965318441390991,
+    1.5168486833572388,
+    -5.051543235778809,
+    2.7216,
+    1.19,
+    0.14
+  ],
+  "residentCameraUsesActualPosedHeight": true,
+  "historicalRoles": {
+    "boatman": 1,
+    "civilian": 2,
+    "porter": 1
+  }
+}

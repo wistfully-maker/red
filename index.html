@@ -6,20 +6,25 @@
   <meta name="theme-color" content="#20231f">
   <meta name="description" content="沿十九处历史坐标重读长征。从瑞金出发到三大主力会师，看见地形、时局与行军抉择。">
   <title>山河之路 · 长征纪念图集</title>
+  <script>if(!location.hash)history.replaceState(null,"","#explore");</script>
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%23ae4a36'/%3E%3Cpath d='M5 23 13 12l4 6 3-10 7 15M5 26h22' stroke='%23fff4de' stroke-width='1.5' fill='none'/%3E%3C/svg%3E">
   <link rel="stylesheet" href="assets/style.css?v=first-person-atlas">
   <link rel="stylesheet" href="assets/print-atlas.css?v=print-atlas-20261119">
   <script src="assets/stations.js"></script>
   <link rel="stylesheet" href="assets/valley.css?v=cinema-20261121">
-  <link rel="stylesheet" href="assets/recorder.css?v=field-notes-3">
+  <link rel="stylesheet" href="assets/recorder.css?v=bugfix-20261127">
   <link rel="stylesheet" href="assets/exhibit-ui.css?v=field-book-2">
   <link rel="stylesheet" href="assets/cinema.css?v=cinema-20261121">
-  <script type="module" src="assets/cinema.js?v=luding-studio-1"></script>
-  <link rel="stylesheet" href="assets/luding-walk.css?v=studio-1">
-  <script type="module" src="assets/explore.js?v=luding-studio-1"></script>
-  <script type="module" src="assets/recorder.js?v=cinema-20261121"></script>
+  <script type="module" src="assets/cinema.js?v=continuous-loop-20261128"></script>
+  <link rel="stylesheet" href="assets/luding-walk.css?v=bugfix-20261127">
+  <link rel="stylesheet" href="assets/brand-stage.css?v=museum-final-20261127">
+  <link rel="stylesheet" href="assets/map-welcome.css?v=terrain-entry-20261127">
+  <link rel="stylesheet" href="assets/control-feedback.css?v=20261127">
+  <script type="module" src="assets/control-feedback.js?v=20261127"></script>
+  <script type="module" src="assets/explore.js?v=numbered-people-20261128"></script>
+
 </head>
-<body data-mode="home">
+<body data-mode="overview">
   <svg class="symbols" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
     <symbol id="i-brand" viewBox="0 0 28 28"><path d="m3 21 8-11 4 6 3-9 7 14M3 24h22"/></symbol>
     <symbol id="i-right" viewBox="0 0 24 24"><path d="M4 12h15m-6-6 6 6-6 6"/></symbol>
@@ -42,15 +47,15 @@
     <symbol id="i-notebook" viewBox="0 0 24 24"><path fill="currentColor" stroke="none" d="M4 4.4h14.8v14.9H6.2a2.2 2.2 0 0 1-2.2-2.2z"/><path d="M5 17.5h13.8v3.1H6.5A1.5 1.5 0 0 1 5 19.1z" fill="#ede3d0" stroke="none"/><path d="M7 5.9v9.6m2.6-7.8H13m-3.4 3H13" stroke="#ede3d0" stroke-width="1.1"/><path d="M15 2.8h3.1v11.3l-1.55-1.3L15 14.1z" fill="#ad4a37" stroke="none"/></symbol>
   </svg>
   <header class="site-header">
-    <a class="brand" href="#" aria-label="山河之路，回到封面">
+    <a class="brand" href="#explore" aria-label="山河之路，回到全线地图">
       <span class="brand-mark"><svg aria-hidden="true"><use href="#i-brand"/></svg></span>
       <span><strong>山河之路</strong><small>长征纪念图集</small></span>
     </a>
     <div class="cinema-tools"><a href="#explore" class="atlas-access"><svg aria-hidden="true"><use href="#i-map"/></svg>全线地图</a><button id="cinemaMenu" type="button" aria-expanded="false" aria-controls="exhibitNavigation"><span class="menu-lines" aria-hidden="true"></span><span>目录</span></button></div>
     <nav id="exhibitNavigation" class="site-nav" aria-label="站点导航" hidden>
       <a href="#explore" class="nav-route"><svg aria-hidden="true"><use href="#i-map"/></svg><span>全线地形</span></a>
-      <a href="#journey/yudu" class="nav-journey"><svg aria-hidden="true"><use href="#i-path"/></svg><span>独白导览</span></a>
-      <button type="button" data-dialog="catalog"><svg aria-hidden="true"><use href="#i-search"/></svg><span>节点档案</span></button>
+      <a href="#museum" class="nav-journey"><svg aria-hidden="true"><use href="#i-path"/></svg><span>长征主题展馆</span></a>
+      <button type="button" data-dialog="catalog"><svg aria-hidden="true"><use href="#i-search"/></svg><span>展馆索引</span></button>
       <button type="button" data-dialog="about" class="nav-about"><svg aria-hidden="true"><use href="#i-info"/></svg><span>图集说明</span></button>
     </nav>
   </header>
@@ -63,29 +68,7 @@
     </div>
     <div class="scene-shade" aria-hidden="true"></div>
 
-    <section id="cover" class="cover" aria-label="长征纪念图集序章">
-      <div class="cinema-landscape" aria-hidden="true">
-        <img class="cinema-frame is-current" data-plate="luding" src="assets/cinema/luding.webp" width="1672" height="941" alt="" fetchpriority="high">
-      </div>
-      <div class="cinema-scrim" aria-hidden="true"></div>
-      <div class="cover-inner">
-        <p class="cinema-dateline"><i></i><span id="openingDate">1935 年 5 月</span><span id="openingPlace">四川 · 泸定</span></p>
-        <h1 id="coverTitle" tabindex="-1">铁索横江</h1>
-        <p class="cover-lead" id="openingLead">走到大渡河边，看铁索如何把两岸的人连在一起。</p>
-        <div class="opening-links">
-          <a class="enter" href="#station/luding"><span>走进泸定桥</span><svg aria-hidden="true"><use href="#i-right"/></svg></a>
-          <a id="openingStory" href="#station/luding/journal"><span>行记员手记</span> <svg aria-hidden="true"><use href="#i-diagonal"/></svg></a>
-        </div>
-      </div>
-      <div class="cinema-foot">
-        <div class="cinema-audio"><button type="button" id="soundscape" aria-pressed="false" aria-label="开启环境声"><span class="sound-bars" aria-hidden="true"><i></i><i></i><i></i><i></i></span><span id="soundText">开启环境声</span></button><small id="openingCoordinate">29°54′52″ N　102°13′49″ E</small></div>
-        <nav class="scene-reel" aria-label="序章选景">
-          <button type="button" data-scene="luding" aria-pressed="true"><img src="assets/cinema/luding.webp" alt=""><span><small>01</small>大渡河谷</span></button>
-          <button type="button" data-scene="yudu" aria-pressed="false"><img src="assets/cinema/yudu.webp" alt=""><span><small>02</small>于都渡口</span></button>
-          <button type="button" data-scene="zunyi" aria-pressed="false"><img src="assets/cinema/zunyi.webp" alt=""><span><small>03</small>遵义会址</span></button>
-        </nav>
-      </div>
-    </section>
+    <section id="cover" hidden aria-hidden="true"></section>
     <section id="specimen" aria-label="历史场景模型" hidden>
       <div id="modelStage" tabindex="0" role="region" aria-label="旋转历史模型，可用方向键旋转，加减号缩放">
         <div id="modelPlate" role="img"></div>
@@ -93,7 +76,6 @@
       </div>
       <div class="model-foot"><div><small id="modelFolio"></small><h2 id="modelName"></h2><p id="modelCaption"></p></div>
         <div class="model-tools" aria-label="模型视角">
-          <button type="button" id="modelClay" aria-pressed="false" title="关闭表面颜色，查看模型起伏与轮廓">白模</button>
           <button type="button" id="modelNear" hidden></button>
           <button type="button" id="modelMinus" aria-label="缩小模型"><svg><use href="#i-minus"/></svg></button>
           <button type="button" id="modelPlus" aria-label="放大模型"><svg><use href="#i-plus"/></svg></button>
@@ -103,7 +85,7 @@
       </div>
       <button id="objectMarker" type="button" hidden><i aria-hidden="true"></i><span></span></button>
       <section id="riverWalk" aria-label="泸定桥步行观察" hidden>
-        <div class="walk-heading"><h2 id="walkTitle">桥头望全桥</h2><a href="#station/luding/journal">行记员手记 ↗</a></div>
+        <div class="walk-heading"><h2 id="walkTitle">桥头望全桥</h2><a href="#station/luding/exhibit">进入主题展馆 ↗</a></div>
         <nav aria-label="泸定观察机位">
           <button type="button" data-walk="bridgehead">桥头望全桥</button>
           <button type="button" data-walk="deck">桥上听水</button>
@@ -158,14 +140,14 @@
           <div class="journey-intro">
             <div class="journey-book">
               <img src="assets/valley/recorder-portrait.webp" width="48" height="48" alt="">
-              <div><p id="journeyPosition" class="journey-position">毛泽东视角 · 八站独白</p><h2>在山河间作决定</h2></div>
+              <div><p id="journeyPosition" class="journey-position">沿途十九站</p><h2>循着山河，走进长征</h2></div>
             </div>
-            <a id="storyContinue" class="story-continue" href="#journey/yudu"><span>从于都开始</span><svg aria-hidden="true"><use href="#i-right"/></svg></a>
+            <a id="storyContinue" class="story-continue" href="#museum"><span>进入主题展馆</span><svg aria-hidden="true"><use href="#i-right"/></svg></a>
           </div>
           <h3 class="route-label">长征四章</h3>
           <nav class="timeline" id="timeline" aria-label="长征四个历史阶段"></nav>
-          <h3 class="route-label">八站独白</h3>
-          <nav class="station-rail" id="stationRail" aria-label="八站独白导览"></nav>
+          <h3 class="route-label">十九处坐标</h3>
+          <nav class="station-rail" id="stationRail" aria-label="十九处历史坐标"></nav>
           <div class="expedition-meta">
             <span id="mapLegend"><i></i>中央红军行程示意 <b></b>1936 年会师</span>
             <span class="gesture-hint">拖动移动 · 滚轮缩放</span>
@@ -174,65 +156,13 @@
       </details>
     </section>
 
-    <aside id="reader" class="reader" aria-label="历史档案" hidden>
-      <div class="reader-head">
-        <div class="reader-label">
-          <img src="assets/valley/recorder-portrait.webp" width="44" height="44" alt="">
-          <div><b>地点档案</b><small>行记员手记</small></div>
-          <small id="archiveFolio" aria-hidden="true"></small>
-        </div>
-        <button type="button" id="toggleReader" aria-expanded="true" aria-controls="readerContents">收起 <svg aria-hidden="true"><use href="#i-minus"/></svg></button>
-        <span class="reader-progress" aria-hidden="true"></span>
-      </div>
-      <div id="readerContents">
-        <div id="readerScroll" class="reader-scroll">
-        <article id="detail" class="reader-body" hidden>
-          <div class="reader-kicker"><span id="stationChapter"></span><span id="stationNumber"></span></div>
-          <h2 id="stationTitle" tabindex="-1"></h2>
-          <div class="station-meta"><span id="stationRegion"></span><time id="stationDate"></time></div>
-          <div class="detail-tabs" role="tablist" aria-label="档案内容">
-            <button type="button" id="tab-event" role="tab" aria-selected="true" aria-controls="stationBody" data-tab="event">长征故事</button>
-            <button type="button" id="tab-people" role="tab" aria-selected="false" aria-controls="stationBody" tabindex="-1" data-tab="people">人物与现场</button>
-            <button type="button" id="tab-study" role="tab" aria-selected="false" aria-controls="stationBody" tabindex="-1" data-tab="study">研学线索</button>
-          </div>
-          <div id="stationBody" class="station-body" role="tabpanel" aria-labelledby="tab-event" tabindex="0">
-            <section id="monologue" class="monologue" hidden aria-labelledby="monologueTitle">
-              <p class="monologue-label">毛泽东视角 · 创作性独白</p>
-              <h3 id="monologueTitle"></h3>
-              <p id="monologueVoice" class="monologue-voice"></p>
-              <p id="monologueTerrain" class="monologue-terrain"></p>
-              <div class="monologue-history">
-                <h4>史实与出处</h4>
-                <p id="monologueHistory"></p>
-                <a id="monologueSource" target="_blank" rel="noopener"></a>
-              </div>
-              <a id="monologueArchive" class="monologue-archive">查看本站完整档案</a>
-            </section>
-            <div id="storyContent" class="story-content">
-              <h3 id="storyTitle" class="story-title"></h3>
-              <p id="storyLead" class="story-lead"></p>
-              <div id="storySections"></div>
-              <aside id="poemNote" class="poem-note" hidden aria-label="诗词解读">
-                <p class="poem-kicker">诗词解读</p><h4 id="poemTitle"></h4>
-                <blockquote id="poemExcerpt"></blockquote><p id="poemAnalysis"></p>
-              </aside>
-            </div>
-            <p id="stationText"></p>
-            <div id="terrainInsight" class="terrain-insight">
-              <span class="field-note-byline"><svg class="notebook-mark" aria-hidden="true"><use href="#i-notebook"/></svg>行记员 · 地形观察</span>
-              <strong id="terrainTitle"></strong><p id="terrainLook"></p>
-            </div>
-            <div id="studyPrompt" class="field-guide" hidden></div>
-          </div>
-          <details id="storyReferences" class="story-references">
-            <summary>史料与延伸阅读</summary>
-            <ul id="sourceList"></ul>
-            <a id="stationSource" class="station-source" target="_blank" rel="noopener"><span></span><svg><use href="#i-diagonal"/></svg></a>
-          </details>
-        </article>
-        </div>
-      </div>
-      <nav id="stationNav" class="station-nav" aria-label="按时间阅读节点" hidden>
+    <aside id="reader" class="museum-dock" aria-label="本站展馆" hidden>
+      <button id="toggleReader" type="button" aria-haspopup="dialog">
+        <svg aria-hidden="true"><use href="#i-brand"/></svg>
+        <span><small>长征主题展馆</small><strong id="readerName"></strong></span>
+        <span class="museum-dock-arrow" aria-hidden="true">↗</span>
+      </button>
+      <nav id="stationNav" class="station-nav" aria-label="沿线节点" hidden>
         <a id="prevStation"><svg><use href="#i-left"/></svg><span><small>上一站</small><strong></strong></span></a>
         <a id="nextStation"><span><small>下一站</small><strong></strong></span><svg><use href="#i-right"/></svg></a>
       </nav>
@@ -243,11 +173,11 @@
       <span>Mapzen · EOxCloudless · ESA WorldCover · OpenFreeMap · © OpenMapTiles · © OpenStreetMap · Overture Maps</span>
     </footer>
   </main>
-  <div id="cinemaPortal" hidden aria-hidden="true"><span></span></div>
+
   <dialog id="catalog" aria-labelledby="catalogTitle">
     <div class="dialog-head">
-      <div><p class="reader-kicker catalog-byline"><svg class="notebook-mark" aria-hidden="true"><use href="#i-notebook"/></svg>行记员手记 · 19 处历史坐标</p><h2 id="catalogTitle">节点档案</h2></div>
-      <form method="dialog"><button type="submit" class="close-button" aria-label="关闭节点档案"><svg><use href="#i-close"/></svg></button></form>
+      <div><p class="reader-kicker catalog-byline"><svg class="notebook-mark" aria-hidden="true"><use href="#i-notebook"/></svg>长征主题展馆 · 19 处历史坐标</p><h2 id="catalogTitle">展馆索引</h2></div>
+      <form method="dialog"><button type="submit" class="close-button" aria-label="关闭展馆索引"><svg><use href="#i-close"/></svg></button></form>
     </div>
     <label class="search-field"><svg><use href="#i-search"/></svg><input id="search" type="search" aria-label="搜索节点" placeholder="搜索地名、事件或纪念馆" autofocus></label>
     <div id="filters" class="filters" aria-label="筛选节点">
@@ -265,10 +195,10 @@
       <form method="dialog"><button type="submit" class="close-button" aria-label="关闭图集说明" autofocus><svg aria-hidden="true"><use href="#i-close"/></svg></button></form>
     </div>
     <div class="about-copy">
-      <p>序章的三幅场景影像为原创艺术复原，环境声为合成声景。进入现场后，可以自由环看三维地景，沿实物线索对照史料。</p>
+      <p>从全线地图进入十九处历史坐标，环看三维地景，再走进启程、抉择、山河、同行与抵达五个主题展厅。</p>
       <p>行记员是图集的虚构研学向导。她以一本系着红扣带的行记本串起各站观察、提问与史料。</p>
       <p>泸定步行路线从西桥口延伸到东岸平台。桥板完整铺设，用来观察日常通行与桥梁结构。桥亭构件、植被、街屋和天气均含艺术推演。桥身、桥台与铁链的构成可对照<a href="https://www.scldq.cn/tourism/scenic/19.html" target="_blank" rel="noopener">泸定桥景区资料</a>。木板、岩面和天空采用 <a href="https://polyhaven.com/license" target="_blank" rel="noopener">Poly Haven 的 CC0 素材</a>。</p>
-      <p>《在山河间作决定》以毛泽东和中共中央在长征中的抉择串联 1934 至 1935 年的中央红军行程，再从各路红军的视角讲述 1936 年会宁、将台堡会师。各站同时关注围堵、地形和群众支援。</p>
+      <p>本馆以1934至1936年的长征为主题，结合不同红军部队的行程与会师地点组织展线。各站同时关注围堵、地形和群众支援。</p>
       <h3>地形与地图</h3>
       <p>全线总览把现代卫星影像铺在高程地形上，山脊与河谷随镜头转动显出起伏。河流中心线来自 Natural Earth，线宽和远景地标经过放大，红线连接行程代表点。节点中的历史地景以原创俯视复原图表现地表。选择“地形实景”可对照现代的卫星影像。</p>
       <ul>

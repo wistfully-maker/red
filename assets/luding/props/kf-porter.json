@@ -1,0 +1,104 @@
+{
+  "asset": "kf-porter",
+  "source": {
+    "file": "D:\\program\\自媒体\\长征探索地图\\.workbuddy\\luding-keyframe-assets\\13396c27-d539-4dc7-b7cd-444f9c0e2a98\\source-textured.glb",
+    "sha256": "aa0d1825d730770c1a8363949cb9afebcfafb35537e8bd253ed1dc18a715b369",
+    "mesh_count": 1,
+    "triangles": 20297
+  },
+  "result": {
+    "file": "D:\\program\\自媒体\\长征探索地图\\assets\\luding\\props\\kf-porter.glb",
+    "bytes": 1691512,
+    "mesh_count": 1,
+    "triangles": 17999,
+    "material_count": 1,
+    "texture_count": 1,
+    "texture_encoding": "WEBP",
+    "texture_quality": 90,
+    "bounds_blender": [
+      [
+        -0.20418211817741394,
+        -0.5,
+        0.0
+      ],
+      [
+        0.20418211817741394,
+        0.5,
+        1.9220994710922241
+      ]
+    ],
+    "dimensions_blender": [
+      0.4083642363548279,
+      1.0,
+      1.9220994710922241
+    ],
+    "dimensions_gltf": [
+      0.4083642363548279,
+      1.9220994710922241,
+      1.0
+    ],
+    "sha256": "a9bc99bfbea8fd5345c11602dfb8f286141008a37dc70c16d76ea77d5947f640"
+  },
+  "normalisation": {
+    "span_metres": 1.0,
+    "scale_from_import": 1.9230046948356807,
+    "bottom_centre_before_scale": [
+      2.2489577531814575e-05,
+      0.0,
+      -0.49977338314056396
+    ],
+    "yaw_degrees": 0.0
+  },
+  "textures": [
+    {
+      "name": "tripo_rgb_5c2e6f0d-d489-421d-8662-365272be1f7c",
+      "before": [
+        8192,
+        8192
+      ],
+      "after": [
+        2048,
+        2048
+      ],
+      "color_space": "sRGB"
+    }
+  ],
+  "preview_files": [
+    "D:\\program\\自媒体\\长征探索地图\\output\\luding-keyframe\\asset-review\\kf-porter-front.png",
+    "D:\\program\\自媒体\\长征探索地图\\output\\luding-keyframe\\asset-review\\kf-porter-back.png",
+    "D:\\program\\自媒体\\长征探索地图\\output\\luding-keyframe\\asset-review\\kf-porter-top.png"
+  ],
+  "notes": [
+    "GLB includes textures; source GLB is unchanged.",
+    "Scale is normalised, not an assertion of measured historical dimensions.",
+    "Inspect the front/back/top views for generated geometry defects before placement."
+  ],
+  "provided_source": {
+    "file": "D:\\program\\自媒体\\长征探索地图\\.workbuddy\\luding-keyframe-assets\\13396c27-d539-4dc7-b7cd-444f9c0e2a98\\source-textured.glb",
+    "sha256": "aa0d1825d730770c1a8363949cb9afebcfafb35537e8bd253ed1dc18a715b369"
+  },
+  "user_archive": {
+    "archive": "C:\\Users\\李冠桥\\Downloads\\tripo_convert_13396c27-d539-4dc7-b7cd-444f9c0e2a98.zip",
+    "archive_sha256": "e4b9951bb3e91ea6e94020ed69e8a5eddb34bee055cdff6019d414ca1bcf2e95",
+    "extracted_to": "D:\\program\\自媒体\\长征探索地图\\.workbuddy\\luding-keyframe-assets\\13396c27-d539-4dc7-b7cd-444f9c0e2a98",
+    "maps_provided": [
+      "base_color"
+    ]
+  },
+  "delivered_materials": [
+    {
+      "doubleSided": true,
+      "extras": {
+        "ludingFinish": true
+      },
+      "name": "tripo_mat_13396c27",
+      "pbrMetallicRoughness": {
+        "baseColorTexture": {
+          "index": 0
+        },
+        "metallicFactor": 0,
+        "roughnessFactor": 0.8999999761581421
+      }
+    }
+  ]
+}

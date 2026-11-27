@@ -1,0 +1,118 @@
+{
+  "asset": "kf-rock-a",
+  "source": {
+    "file": "D:\\program\\自媒体\\长征探索地图\\.workbuddy\\luding-keyframe-assets\\connected-kf-rock-a.glb",
+    "sha256": "0f759ea2b1329b7a9e903b229b1e1aea852a0688f8715bf03ade8a0249d540d1",
+    "mesh_count": 1,
+    "triangles": 4799
+  },
+  "result": {
+    "file": "D:\\program\\自媒体\\长征探索地图\\assets\\luding\\props\\kf-rock-a.glb",
+    "bytes": 764708,
+    "mesh_count": 1,
+    "triangles": 4799,
+    "material_count": 1,
+    "texture_count": 2,
+    "texture_encoding": "WEBP",
+    "texture_quality": 90,
+    "bounds_blender": [
+      [
+        -0.32204100489616394,
+        -0.4999999701976776,
+        0.0
+      ],
+      [
+        0.32204100489616394,
+        0.4999999701976776,
+        0.32461434602737427
+      ]
+    ],
+    "dimensions_blender": [
+      0.6440820097923279,
+      0.9999999403953552,
+      0.32461434602737427
+    ],
+    "dimensions_gltf": [
+      0.6440820097923279,
+      0.32461434602737427,
+      0.9999999403953552
+    ],
+    "sha256": "15b4662bb69aedcc3449aa4a1ef9038265755b3cc19249accd119a47406a2219"
+  },
+  "normalisation": {
+    "span_metres": 1.0,
+    "scale_from_import": 1.0215413860653064,
+    "bottom_centre_before_scale": [
+      0.0007397085428237915,
+      0.0003569871187210083,
+      -0.00019103812519460917
+    ],
+    "yaw_degrees": 0.0
+  },
+  "textures": [
+    {
+      "name": "岩石3d模型_basecolor",
+      "before": [
+        2048,
+        2048
+      ],
+      "after": [
+        1024,
+        1024
+      ],
+      "color_space": "sRGB"
+    },
+    {
+      "name": "岩石3d模型_normal",
+      "before": [
+        2048,
+        2048
+      ],
+      "after": [
+        1024,
+        1024
+      ],
+      "color_space": "Non-Color"
+    }
+  ],
+  "preview_files": [
+    "D:\\program\\自媒体\\长征探索地图\\output\\luding-keyframe\\asset-review\\kf-rock-a-front.png",
+    "D:\\program\\自媒体\\长征探索地图\\output\\luding-keyframe\\asset-review\\kf-rock-a-back.png",
+    "D:\\program\\自媒体\\长征探索地图\\output\\luding-keyframe\\asset-review\\kf-rock-a-top.png"
+  ],
+  "notes": [
+    "GLB includes textures; source GLB is unchanged.",
+    "Scale is normalised, not an assertion of measured historical dimensions.",
+    "Inspect the front/back/top views for generated geometry defects before placement."
+  ],
+  "provided_source": {
+    "file": "C:\\Users\\李冠桥\\Downloads\\岩石3d模型.glb",
+    "sha256": "d8a411fb5857d328a33c5121ac926df08e9b7b4ea2f7b15046632a01bf8641b3"
+  },
+  "topology_preparation": {
+    "coincident_vertex_weld_tolerance": 1e-06,
+    "vertices_before_weld": 23379,
+    "vertices_after_weld": 9011,
+    "original_triangles": 18019,
+    "method": "Weld coincident positions while preserving loop UVs; reduce before GLB seam splitting."
+  },
+  "delivered_materials": [
+    {
+      "doubleSided": true,
+      "extras": {
+        "ludingFinish": true
+      },
+      "name": "tripo_node_f60a2337-54f7-4283-b432-8946a4f2344c_material.001",
+      "normalTexture": {
+        "index": 0
+      },
+      "pbrMetallicRoughness": {
+        "baseColorTexture": {
+          "index": 1
+        },
+        "metallicFactor": 0,
+        "roughnessFactor": 0.8999999761581421
+      }
+    }
+  ]
+}

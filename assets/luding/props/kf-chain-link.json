@@ -1,0 +1,118 @@
+{
+  "asset": "kf-chain-link",
+  "source": {
+    "file": "D:\\program\\自媒体\\长征探索地图\\.workbuddy\\luding-keyframe-assets\\connected-kf-chain-link.glb",
+    "sha256": "9817a85a1e49fdddaad3fb5c3322970414b705b3465626bd878b70321b153517",
+    "mesh_count": 1,
+    "triangles": 428
+  },
+  "result": {
+    "file": "D:\\program\\自媒体\\长征探索地图\\assets\\luding\\props\\kf-chain-link.glb",
+    "bytes": 262556,
+    "mesh_count": 1,
+    "triangles": 428,
+    "material_count": 1,
+    "texture_count": 2,
+    "texture_encoding": "WEBP",
+    "texture_quality": 90,
+    "bounds_blender": [
+      [
+        -0.22604219615459442,
+        -0.5,
+        0.0
+      ],
+      [
+        0.22604219615459442,
+        0.5,
+        0.1471206247806549
+      ]
+    ],
+    "dimensions_blender": [
+      0.45208439230918884,
+      1.0,
+      0.1471206247806549
+    ],
+    "dimensions_gltf": [
+      0.45208439230918884,
+      0.1471206247806549,
+      1.0
+    ],
+    "sha256": "42938aeba30117c7c1eebf148c4681f0c4308e24d7124e61df2738b8d264a913"
+  },
+  "normalisation": {
+    "span_metres": 1.0,
+    "scale_from_import": 1.0256913515163524,
+    "bottom_centre_before_scale": [
+      -0.0003228038549423218,
+      0.0005957484245300293,
+      0.00015443679876625538
+    ],
+    "yaw_degrees": 0.0
+  },
+  "textures": [
+    {
+      "name": "铁质环形链扣3d模型_basecolor",
+      "before": [
+        2048,
+        2048
+      ],
+      "after": [
+        1024,
+        1024
+      ],
+      "color_space": "sRGB"
+    },
+    {
+      "name": "铁质环形链扣3d模型_normal",
+      "before": [
+        2048,
+        2048
+      ],
+      "after": [
+        1024,
+        1024
+      ],
+      "color_space": "Non-Color"
+    }
+  ],
+  "preview_files": [
+    "D:\\program\\自媒体\\长征探索地图\\output\\luding-keyframe\\asset-review\\kf-chain-link-front.png",
+    "D:\\program\\自媒体\\长征探索地图\\output\\luding-keyframe\\asset-review\\kf-chain-link-back.png",
+    "D:\\program\\自媒体\\长征探索地图\\output\\luding-keyframe\\asset-review\\kf-chain-link-top.png"
+  ],
+  "notes": [
+    "GLB includes textures; source GLB is unchanged.",
+    "Scale is normalised, not an assertion of measured historical dimensions.",
+    "Inspect the front/back/top views for generated geometry defects before placement."
+  ],
+  "provided_source": {
+    "file": "C:\\Users\\李冠桥\\Downloads\\铁质环形链扣3d模型.glb",
+    "sha256": "04978b5806e4409bfb515d9cd7bfd99b7bf7365b955425d11f3601ec4f750e67"
+  },
+  "topology_preparation": {
+    "coincident_vertex_weld_tolerance": 1e-06,
+    "vertices_before_weld": 1305,
+    "vertices_after_weld": 518,
+    "original_triangles": 1036,
+    "method": "Weld coincident positions while preserving loop UVs; reduce before GLB seam splitting."
+  },
+  "delivered_materials": [
+    {
+      "doubleSided": true,
+      "extras": {
+        "ludingFinish": true
+      },
+      "name": "tripo_node_30acf13f-a544-4c36-8c8f-bd81e66b99ae_material.001",
+      "normalTexture": {
+        "index": 0
+      },
+      "pbrMetallicRoughness": {
+        "baseColorTexture": {
+          "index": 1
+        },
+        "metallicFactor": 0,
+        "roughnessFactor": 0.8999999761581421
+      }
+    }
+  ]
+}

@@ -1,0 +1,145 @@
+{
+  "station": "wuqi",
+  "passed": true,
+  "sha256": "cede186eb78eae32aaac107b1bc82ea67dcddfcfea541dedfafcd32afcde0eff",
+  "bytes": 10639128,
+  "people": 5,
+  "counts": {
+    "marcher-male": 4,
+    "farmer-greeting": 1
+  },
+  "proceduralPeople": [],
+  "actors": [
+    {
+      "asset": "marcher-male",
+      "position": [
+        -1.0,
+        -3.0,
+        0.23000000417232513
+      ],
+      "requestedPose": "greet",
+      "sourcePose": "standing march pause",
+      "floor": 0.23000000417232513,
+      "height": 1.616286888718605,
+      "nominalAdultHeight": 1.61628694008667,
+      "frontBlender": [
+        0.3894183933734894,
+        -0.9210609197616577,
+        0.0
+      ],
+      "embeddedSupport": "",
+      "sourceRole": "walker",
+      "sourceIdentity": "red_army",
+      "historicalRole": "red_army"
+    },
+    {
+      "asset": "marcher-male",
+      "position": [
+        2.0,
+        -1.0,
+        0.23000000417232513
+      ],
+      "requestedPose": "walk",
+      "sourcePose": "standing march pause",
+      "floor": 0.23000000417232513,
+      "height": 1.6108844429254532,
+      "nominalAdultHeight": 1.6108845371235105,
+      "frontBlender": [
+        0.3894183933734894,
+        -0.9210609197616577,
+        0.0
+      ],
+      "embeddedSupport": "",
+      "sourceRole": "walker",
+      "sourceIdentity": "red_army",
+      "historicalRole": "red_army"
+    },
+    {
+      "asset": "marcher-male",
+      "position": [
+        5.0,
+        2.0,
+        0.23000000417232513
+      ],
+      "requestedPose": "walk",
+      "sourcePose": "standing march pause",
+      "floor": 0.23000000417232513,
+      "height": 1.710261955857277,
+      "nominalAdultHeight": 1.7102619631974805,
+      "frontBlender": [
+        0.3894183933734894,
+        -0.9210609793663025,
+        0.0
+      ],
+      "embeddedSupport": "",
+      "sourceRole": "walker",
+      "sourceIdentity": "red_army",
+      "historicalRole": "red_army"
+    },
+    {
+      "asset": "marcher-male",
+      "position": [
+        -5.0,
+        2.0,
+        0.23000000417232513
+      ],
+      "requestedPose": "walk",
+      "sourcePose": "standing march pause",
+      "floor": 0.23000000417232513,
+      "height": 1.566310778260231,
+      "nominalAdultHeight": 1.566310801848435,
+      "frontBlender": [
+        0.3894183933734894,
+        -0.9210609197616577,
+        0.0
+      ],
+      "embeddedSupport": "",
+      "sourceRole": "walker",
+      "sourceIdentity": "red_army",
+      "historicalRole": "red_army"
+    },
+    {
+      "asset": "farmer-greeting",
+      "position": [
+        2.130000114440918,
+        1.190000057220459,
+        0.25
+      ],
+      "requestedPose": "greet",
+      "sourcePose": "greet",
+      "floor": 0.25,
+      "height": 1.7021642923355103,
+      "nominalAdultHeight": 1.7021642232753114,
+      "frontBlender": [
+        0.19866932928562164,
+        -0.9800665378570557,
+        0.0
+      ],
+      "embeddedSupport": "",
+      "sourceRole": "local",
+      "sourceIdentity": "civilian",
+      "historicalRole": "civilian"
+    }
+  ],
+  "checks": [
+    "bottom on authored floor",
+    "pose-specific height",
+    "front direction",
+    "native UV/PBR retained",
+    "no duplicate supplied chair",
+    "no procedural historical mesh"
+  ],
+  "residentView": [
+    -1.0,
+    1.3036993741989136,
+    3.0,
+    2.6183848429404053,
+    0.7,
+    0.14
+  ],
+  "residentCameraUsesActualPosedHeight": true,
+  "historicalRoles": {
+    "civilian": 1,
+    "red_army": 4
+  }
+}

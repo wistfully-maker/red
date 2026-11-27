@@ -1,0 +1,91 @@
+{
+  "asset": "walking-stick",
+  "source": {
+    "file": "D:\\program\\自媒体\\长征探索地图\\.workbuddy\\field-supplied\\connected-walking-stick.glb",
+    "sha256": "fcac13f720c5a76927d839b64202eaadd954a915e701484239787d9263b72991",
+    "mesh_count": 1,
+    "triangles": 2498
+  },
+  "result": {
+    "file": "D:\\program\\自媒体\\长征探索地图\\assets\\models\\field-supplied\\walking-stick.glb",
+    "bytes": 379880,
+    "mesh_count": 1,
+    "triangles": 2498,
+    "material_count": 1,
+    "texture_count": 2,
+    "texture_encoding": "WEBP",
+    "texture_quality": 92,
+    "bounds_blender": [
+      [
+        -0.06678693741559982,
+        -0.5,
+        0.0
+      ],
+      [
+        0.06678693741559982,
+        0.5,
+        1.0496790409088135
+      ]
+    ],
+    "dimensions_blender": [
+      0.13357387483119965,
+      1.0,
+      1.0496790409088135
+    ],
+    "dimensions_gltf": [
+      0.13357387483119965,
+      1.0496790409088135,
+      1.0
+    ]
+  },
+  "normalisation": {
+    "span_metres": 1.0,
+    "scale_from_import": 1.0513107878939334,
+    "bottom_centre_before_scale": [
+      -5.455315113067627e-05,
+      0.000271528959274292,
+      -0.0001629150938242674
+    ],
+    "yaw_degrees": 0.0
+  },
+  "textures": [
+    {
+      "name": "木制拐杖3d模型_basecolor",
+      "before": [
+        2048,
+        2048
+      ],
+      "after": [
+        1024,
+        1024
+      ],
+      "color_space": "sRGB"
+    },
+    {
+      "name": "木制拐杖3d模型_normal",
+      "before": [
+        2048,
+        2048
+      ],
+      "after": [
+        1024,
+        1024
+      ],
+      "color_space": "Non-Color"
+    }
+  ],
+  "preview_files": [
+    "D:\\program\\自媒体\\长征探索地图\\output\\field-supplied\\walking-stick-front.png",
+    "D:\\program\\自媒体\\长征探索地图\\output\\field-supplied\\walking-stick-back.png",
+    "D:\\program\\自媒体\\长征探索地图\\output\\field-supplied\\walking-stick-top.png"
+  ],
+  "notes": [
+    "GLB includes textures; source GLB is unchanged.",
+    "Scale is normalised, not an assertion of measured historical dimensions.",
+    "Inspect the front/back/top views for generated geometry defects before placement."
+  ],
+  "provided_source": {
+    "file": "C:\\Users\\李冠桥\\Downloads\\木制拐杖3d模型.glb",
+    "sha256": "ed61d5fc51ee3a5659ca7f6549716d1ec299ae7a45519b067ab0afcf0f89d197"
+  }
+}

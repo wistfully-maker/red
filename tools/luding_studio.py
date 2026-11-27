@@ -60,9 +60,13 @@ def foliage(env,geometry):
     rng=random.Random(8841)
     pts=[];faces=[];uv=[];normals=[]
     for x,y,z,h,w in env.trees:
+        # Leave the near bridgehead's diagonal approach visible in the new
+        # keyframe. A single authored tree frames its left edge separately.
+        if 47<x<73 and -32<y<3:continue
         distance=math.hypot(x,y)
-        if distance>1050 or rng.random()>(.54 if distance<175 else .21 if distance<430 else .042):continue
-        if h>10:h*=.71;w*=.69
+        if distance>1050 or rng.random()>(.29 if distance<175 else .12 if distance<430 else .032):continue
+        if h>10:
+            variation=rng.uniform(.53,.88);h*=variation;w*=variation*rng.uniform(.72,1.02)
         variant=int(rng.random()<(.46 if distance<145 else .21))
         angle=math.atan2(x,-y)+rng.uniform(-.15,.15);w=min(w,h*1.1)
         foot=env.height(x,y)-.23
@@ -84,6 +88,10 @@ def foliage(env,geometry):
     o['treeLayer']=True
 
 def dress_scene(env,ground,geometry):
+    from luding_bank import prepare_bank,place_contributions
+    from luding_art import craft_bridge,place_backbasket
+    prepare_bank(env,ground,geometry)
+    craft_bridge(env,geometry)
     foliage(env,geometry)
     ground['authoredLuding']=True
     ground['walkVersion']=1
@@ -96,6 +104,9 @@ def dress_scene(env,ground,geometry):
         'schist_seam':('rock-color.jpg','rock-normal.jpg',None,3.7),
         'pavilion_sign':('bridge-plaque.jpg',None,None,1),
         'riparian_crown':('riparian.png',None,None,1),
+        'riparian_bark':('bark-color.jpg','bark-normal.jpg','bark-rough.jpg',1),
+        'near_leaf':('leaf-spray.webp',None,None,1),
+        'path_verge':('fork-verge.webp',None,None,1),
         'jade_water':('river-color.jpg','river-normal.jpg',None,1),
         'ground_dadu__dadu-wide':('gorge-ground.jpg',None,None,1)
     }
@@ -107,7 +118,10 @@ def dress_scene(env,ground,geometry):
              'coatblue':'6b787f','coatslate':'69756d','capblue':'647178','capbrim':'444c51','hair':'35302a',
              'skin':'b49475','sole':'38352f','shoe':'504d47','recess':'262722','tarred':'4e4034','mulecoat':'6b5948',
              'muzzle':'53483c','clay':'8b6149','fieldgrass':'6c7853','hemp':'928063','leather':'66523d',
-             'wraps':'8a8676','seam':'57635f','brass':'a1875c','buttons':'48483d','tilerib':'575c59'}
+             'wraps':'8a8676','seam':'57635f','brass':'a1875c','buttons':'48483d','tilerib':'575c59',
+             'luding_clay_0':'575950','luding_clay_1':'64655b','luding_clay_2':'4b514d','luding_clay_3':'737064',
+             'luding_masonry_0':'85887b','luding_masonry_1':'969589','luding_masonry_2':'737b74',
+             'luding_anchor':'414239','luding_leaf_0':'67794c','luding_leaf_1':'78835b','luding_leaf_2':'536c43'}
     for o in list(bpy.context.scene.objects):
         if o.type!='MESH':continue
         mat=o.data.materials[0];name=mat.name
@@ -123,7 +137,7 @@ def dress_scene(env,ground,geometry):
         elif name=='jade_water':
             layer=uv_mesh(o,'water',1.);uv_mesh(o,'waves',1.)
         elif col:
-            layer=o.data.uv_layers[0].name if name in ('bridge_plank','riparian_crown','pavilion_sign','face_worker','face_guide') else uv_mesh(o,'timber' if col=='beam-grain.jpg' else 'surface',span)
+            layer=o.data.uv_layers[0].name if name in ('bridge_plank','riparian_crown','riparian_bark','near_leaf','path_verge','pavilion_sign','face_worker','face_guide') else uv_mesh(o,'timber' if col=='beam-grain.jpg' else 'surface',span)
         if mat.get('ludingFinish'):continue
         mat['ludingFinish']=True;mat.use_nodes=True;mat.use_backface_culling=False
         nodes=mat.node_tree.nodes;links=mat.node_tree.links;nodes.clear()
@@ -140,6 +154,11 @@ def dress_scene(env,ground,geometry):
         if col:
             image=tex(col,layer)
             links.new(image.outputs['Color'],bs.inputs['Base Color'])
+            if name in ('near_leaf','path_verge'):
+                # A direct image-alpha connection survives glTF. Shader math
+                # here used to export the transparent margins as black cards.
+                links.new(image.outputs['Alpha'],bs.inputs['Alpha'])
+                mat.surface_render_method='DITHERED'
             if name=='riparian_crown':
                 alpha=nodes.new('ShaderNodeMath');alpha.operation='GREATER_THAN';alpha.inputs[1].default_value=.41
                 links.new(image.outputs['Alpha'],alpha.inputs[0])
@@ -147,6 +166,7 @@ def dress_scene(env,ground,geometry):
                 # must not turn black and yellow on opposite sides of the same tree.
                 transparent=nodes.new('ShaderNodeBsdfTransparent')
                 path=nodes.new('ShaderNodeLightPath');emission=nodes.new('ShaderNodeEmission')
+                emission.inputs['Strength'].default_value=.67
                 links.new(image.outputs['Color'],emission.inputs['Color'])
                 visible=nodes.new('ShaderNodeMixShader')
                 links.new(path.outputs['Is Camera Ray'],visible.inputs[0])
@@ -161,11 +181,20 @@ def dress_scene(env,ground,geometry):
         if rough:links.new(tex(rough,layer,True).outputs[0],bs.inputs['Roughness'])
         if name.startswith('iron'):
             bs.inputs['Metallic'].default_value=.68;bs.inputs['Roughness'].default_value=.53
+        if name=='luding_anchor':
+            bs.inputs['Metallic'].default_value=.76;bs.inputs['Roughness'].default_value=.66
         if name=='jade_water':
             bs.inputs['Roughness'].default_value=.22;bs.inputs['Metallic'].default_value=.23
         if name=='wet_schist':bs.inputs['Roughness'].default_value=.37
+    place_contributions(env,ground)
+    from luding_keyframe import dress_keyframe
+    dress_keyframe(env,ground)
+    place_backbasket()
+    from luding_sedge import place_sedge
+    place_sedge(env,ground)
 
 def render_proofs():
+    from bpy_extras.object_utils import world_to_camera_view
     scene=bpy.context.scene
     scene.render.engine='CYCLES';scene.cycles.samples=12;scene.cycles.use_denoising=True
     scene.cycles.max_bounces=4;scene.cycles.transparent_max_bounces=8
@@ -176,9 +205,9 @@ def render_proofs():
     sky.image=bpy.data.images.load(str(LIB/'sky.jpg'),check_existing=True)
     tree.links.new(sky.outputs['Color'],tree.nodes['Background'].inputs[0])
     tree.nodes['Background'].inputs[1].default_value=1.15
-    bpy.ops.object.light_add(type='SUN');sun=bpy.context.object;sun.data.energy=3.4;sun.data.angle=.075
-    sun.data.color=(1.,.85,.70)
-    sun.rotation_euler=Vector((-1.34,1.96,-1.65)).to_track_quat('-Z','Y').to_euler()
+    bpy.ops.object.light_add(type='SUN');sun=bpy.context.object;sun.data.energy=3.65;sun.data.angle=.045
+    sun.data.color=(1.,.813,.62)
+    sun.rotation_euler=Vector((-.96,2.45,-1.14)).to_track_quat('-Z','Y').to_euler()
     bpy.ops.object.camera_add();cam=bpy.context.object;scene.camera=cam
     cam.data.sensor_fit='VERTICAL';cam.data.sensor_height=32;cam.data.lens=16/math.tan(math.radians(21))
     cam.data.clip_start=.035;cam.data.clip_end=13000
@@ -193,7 +222,59 @@ def render_proofs():
         p=shot['pitch'];a=shot['yaw'];cam.location=(x,-shot['z'],eye)
         direction=Vector((-math.sin(a)*math.cos(p),math.cos(a)*math.cos(p),-math.sin(p)))
         cam.rotation_euler=direction.to_track_quat('-Z','Y').to_euler()
+        cam.data.dof.use_dof=True;cam.data.dof.focus_distance=shot['focus'];cam.data.dof.aperture_fstop=1.9
+        if shot['id']=='pavilion':
+            bpy.context.view_layer.update()
+            for obj in scene.objects:
+                if obj.get('contributedProp')!='bamboo-backbasket':continue
+                frame=[world_to_camera_view(scene,cam,obj.matrix_world@Vector(p)) for p in obj.bound_box]
+                bounds=[min(p.x for p in frame),min(p.y for p in frame),max(p.x for p in frame),max(p.y for p in frame)]
+                if min(p.z for p in frame)<=0 or min(bounds[:2])<.01 or max(bounds[2:])>.99:
+                    raise ValueError('The basket is clipped by the pavilion camera: '+str(bounds))
+                print('BASKET_PAVILION_FRAME',bounds,flush=True)
         scene.render.image_settings.file_format='JPEG'
         scene.render.filepath=str(folder/('blender-'+shot['id']+'.jpg'));bpy.ops.render.render(write_still=True)
         scene.render.image_settings.file_format='WEBP';scene.render.image_settings.quality=88
         bpy.data.images['Render Result'].save_render(str(stills/(shot['id']+'.webp')),scene=scene)
+    # An additional editorial view lets the whole bridge, both stone abutments
+    # and the reshaped gorge be judged together. It never changes walk.json.
+    cam.location=(6,-138,35)
+    cam.rotation_euler=(Vector((0,0,13))-cam.location).to_track_quat('-Z','Y').to_euler()
+    cam.data.sensor_fit='HORIZONTAL';cam.data.sensor_width=36;cam.data.lens=40
+    cam.data.dof.use_dof=False
+    scene.cycles.samples=32
+    scene.render.resolution_x=1600;scene.render.resolution_y=1000
+    scene.render.image_settings.file_format='JPEG';scene.render.image_settings.quality=94
+    scene.render.filepath=str(folder/'blender-gorge.jpg')
+    bpy.ops.render.render(write_still=True)
+    # A second real model view follows the supplied mother image: the east
+    # pavilion near the right edge, a long diagonal span, and the far village.
+    cam.location=(61,-20,12.6)
+    cam.rotation_euler=(Vector((8,32.8,11.6))-cam.location).to_track_quat('-Z','Y').to_euler()
+    cam.data.lens=22.5
+    scene.render.resolution_x=1664;scene.render.resolution_y=944
+    scene.render.filepath=str(folder/'blender-keyframe.jpg')
+    bpy.ops.render.render(write_still=True)
+    for obj in scene.objects:
+        if obj.get('contributedProp')!='bamboo-backbasket':continue
+        corners=[obj.matrix_world@Vector(p) for p in obj.bound_box]
+        centre=sum(corners,Vector())/len(corners)
+        cam.location=centre+Vector((1.12,-1.10,.64))
+        cam.rotation_euler=(centre-cam.location).to_track_quat('-Z','Y').to_euler()
+        cam.data.lens=60
+        scene.render.resolution_x=scene.render.resolution_y=800
+        scene.render.filepath=str(folder/'blender-backbasket.jpg')
+        bpy.ops.render.render(write_still=True)
+    sedge=[o for o in scene.objects if o.get('contributedProp')=='kf-sedge' and abs(o.location.x-50)<.05 and abs(o.location.y+6)<.05]
+    if sedge:
+        points=[obj.matrix_world@Vector(p) for obj in sedge for p in obj.bound_box]
+        low=Vector(tuple(min(p[i] for p in points) for i in range(3)))
+        high=Vector(tuple(max(p[i] for p in points) for i in range(3)))
+        centre=(low+high)/2;span=max(high-low)
+        cam.location=centre+Vector((1,-1.6,.8)).normalized()*span*2.2
+        cam.rotation_euler=(centre-cam.location).to_track_quat('-Z','Y').to_euler()
+        cam.data.lens=50
+        scene.render.resolution_x=1000;scene.render.resolution_y=850
+        scene.render.filepath=str(folder/'blender-sedge.jpg')
+        bpy.ops.render.render(write_still=True)
+        print('SEDGE_PROOF_BOUNDS',list(low),list(high),flush=True)

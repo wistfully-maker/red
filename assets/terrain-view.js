@@ -1,25 +1,26 @@
 import * as THREE from './vendor/three.module.min.js';
 import {ExhibitFilm} from './exhibit-film.js?v=cinema-20261121';
 import { clamp, geographic, mercator, mix, smooth } from './geo.js';
-import { terrainVertex, terrainFragment, cloudVertex, cloudFragment } from './terrain-shaders.js?v=cinema-20261121';
-import { fitAtlas, imageryZoomLimit, keepGroundInView } from './atlas-camera.js?v=cinema-20261121';
-import { canopyCoverage, makeAtlasForest, makeForest, updateForest } from './forest.js';
+import { terrainVertex, terrainFragment, cloudVertex, cloudFragment } from './terrain-shaders.js?v=terrain-stream-20261127a';
+import { fitAtlas, imageryZoomLimit, keepGroundInView, nearestBearing, advanceAtlasFlight, stepAtlasCamera, ATLAS_MOTION_VERSION } from './atlas-camera.js?v=terrain-stream-20261127a';
+import { makeAtlasForest, canopyCoverageAsync, makeForestAsync, updateForest } from './forest.js?v=terrain-stream-20261127a';
+import {runTerrainWork,yieldTerrainWork,TerrainNavigation} from './terrain-work.js?v=terrain-stream-20261127a';
 import { loadGroundFeatures } from './ground-features.js?v=first-person-atlas';
 import { makeJourneyRoute } from './journey-route.js?v=print-atlas-20261118';
 import { journeyWaypoints } from './journey-waypoints.js';
-import { AtlasImagery } from './atlas-imagery.js?v=cinema-20261121';
-import { AtlasRelief } from './atlas-relief.js';
+import { AtlasImagery } from './atlas-imagery.js?v=terrain-stream-20261127a';
+import { AtlasRelief } from './atlas-relief.js?v=terrain-stream-20261127a';
 import { cropAtlasLandCover, loadAtlasLandCover } from './atlas-landcover.js?v=first-person-atlas';
 import { loadLudingBridge, loadModel, loadVegetation } from './scene-models.js';
 import { KTX2Loader } from './vendor/KTX2Loader.js';
 import { makeValleyEnvironment, shadeBridge } from './bridge-materials.js?v=cinema-20261121';
 import { loadOverviewMiniatures, updateOverviewMiniatures, overviewMiniatureScreen } from './overview-landmarks.js?v=cinema-20261121';
+import { CampaignMap } from './campaign-map.js?v=motion-sync-20261127';
 
 const root = new URL('./terrain/', import.meta.url);
 const materialsRoot = new URL('./materials/', import.meta.url);
 const noMotion = matchMedia('(prefers-reduced-motion: reduce)');
 const compact = matchMedia('(max-width: 720px)');
-const lerpKeys = ['x', 'z', 'pitch', 'bearing'];
 const mercatorWidth = mercator([0, 360])[0];
 const sunDirection = new THREE.Vector3(-.78, .49, -.39).normalize();
 const eye = new THREE.Vector3();
@@ -63,6 +64,65 @@ function contains(patch, x, z) {
   if (!patch) return false;
   const [left, top, right, bottom] = patch.bounds;
   return x >= left && x <= right && z >= top && z <= bottom;
+}
+
+function sampleSurfaceAttribute(patch, name, x, z, output=[]) {
+  const attribute=patch.mesh.geometry.getAttribute(name);
+  if(!attribute)return null;
+  const [left,top,right,bottom]=patch.bounds,{columns,rows}=patch.surface;
+  const column=clamp((x-left)/(right-left),0,1)*columns;
+  const row=clamp((z-top)/(bottom-top),0,1)*rows;
+  const i=Math.min(Math.floor(column),columns-1),j=Math.min(Math.floor(row),rows-1);
+  const u=column-i,v=row-j,a=j*(columns+1)+i,b=a+columns+1;
+  const getters=['getX','getY','getZ','getW'];
+  for(let component=0;component<attribute.itemSize;component++){
+    const get=getters[component];
+    output[component]=u+v<=1?attribute[get](a)*(1-u-v)+attribute[get](a+1)*u+attribute[get](b)*v:
+      attribute[get](b+1)*(u+v-1)+attribute[get](b)*(1-u)+attribute[get](a+1)*(1-v);
+  }
+  return output;
+}
+
+function* matchPatchEdge(geometry, parent, columns, rows) {
+  if(!parent)return;
+  const position=geometry.getAttribute('position'),uv=geometry.getAttribute('uv');
+  const relief=geometry.getAttribute('relief'),normal=geometry.getAttribute('normal');
+  const edgeWeight=new Float32Array(position.count);
+  const lightScratch=[],normalScratch=[];let minY=Infinity,maxY=-Infinity;
+  for(let i=0;i<position.count;i++){
+    const edge=Math.min(uv.getX(i),1-uv.getX(i),uv.getY(i),1-uv.getY(i));
+    const weight=smooth(clamp(edge/.085,0,1));edgeWeight[i]=weight;
+    if(weight<1){
+      const x=position.getX(i),z=position.getZ(i);
+      position.setY(i,mix(surfaceHeight(parent,x,z)+.0003,position.getY(i),weight));
+      const light=sampleSurfaceAttribute(parent,'relief',x,z,lightScratch);
+      if(light)relief.setXY(i,mix(light[0],relief.getX(i),weight),mix(light[1],relief.getY(i),weight));
+    }
+    minY=Math.min(minY,position.getY(i));maxY=Math.max(maxY,position.getY(i));
+    if(i%512===511)yield;
+  }
+  for(let i=0;i<position.count;i++){
+    const weight=edgeWeight[i];
+    if(weight<1){
+      const column=i%(columns+1),row=Math.floor(i/(columns+1));
+      const left=column?i-1:i,right=column<columns?i+1:i;
+      const top=row?i-columns-1:i,bottom=row<rows?i+columns+1:i;
+      const dx=(position.getY(right)-position.getY(left))/Math.max(1e-7,position.getX(right)-position.getX(left));
+      const dz=(position.getY(bottom)-position.getY(top))/Math.max(1e-7,position.getZ(bottom)-position.getZ(top));
+      const slopeLength=Math.hypot(dx,1,dz);
+      const targetX=mix(-dx/slopeLength,normal.getX(i),weight*weight);
+      const targetY=mix(1/slopeLength,normal.getY(i),weight*weight);
+      const targetZ=mix(-dz/slopeLength,normal.getZ(i),weight*weight);
+      const inherited=sampleSurfaceAttribute(parent,'normal',position.getX(i),position.getZ(i),normalScratch);
+      if(inherited){
+        const nx=mix(inherited[0],targetX,weight),ny=mix(inherited[1],targetY,weight),nz=mix(inherited[2],targetZ,weight);
+        const length=Math.max(.00001,Math.hypot(nx,ny,nz));normal.setXYZ(i,nx/length,ny/length,nz/length);
+      }
+    }
+    if(i%512===511)yield;
+  }
+  position.needsUpdate=true;normal.needsUpdate=true;relief.needsUpdate=true;
+  return {minY,maxY};
 }
 
 function cutInto(parent, child) {
@@ -157,6 +217,8 @@ export class TerrainView {
     this.patches = new Map();
     this.patchUse = 0;
     this.loading = new Map();
+    this.navigation=new TerrainNavigation();this.preparing=new Map();this.loadingEvents=[];
+    this.navigationVersion='terrain-stream-20261127a';
     this.beacon = this.makeBeacon();
     this.scene.add(this.beacon);
     this.clouds = [];
@@ -169,9 +231,13 @@ export class TerrainView {
     this.resize();
     new ResizeObserver(() => this.resize()).observe(container);
     this.bindInput();
+    this.motionVersion=ATLAS_MOTION_VERSION;
+    this.reviewLoading=new URL(location.href).searchParams.has('terrainReview');
+    if(new URL(location.href).searchParams.has('terrainReview'))window.__terrainReview=this;
   }
 
   async start(route) {
+    this.stationOrder=[...route];
     const [manifestResponse, textures, bridgeModel, vegetation, crownMap] = await Promise.all([
       fetch(new URL('manifest.json', root)), this.loadSurfaceMaterials(), loadLudingBridge(), loadVegetation(),
       this.textureLoader.loadAsync(new URL('canopy.png', materialsRoot).href)
@@ -261,6 +327,7 @@ export class TerrainView {
     this.sun.position.copy(this.sun.target.position).addScaledVector(sunDirection, .54);
     this.routeInk = makeJourneyRoute(route, this.points, (x, z) => this.height(x, z), waypoints);
     this.scene.add(this.routeInk);
+    this.campaign = new CampaignMap(this);
     const waterways=await loadModel('atlas-watercourses','survey-1');
     this.waterways=waterways.children[0];
     this.waterways.material=new THREE.ShaderMaterial({
@@ -389,6 +456,7 @@ export class TerrainView {
   }
 
   async buildPatch(name) {
+    const started=performance.now();
     const data = this.data.regions[name];
     if (!data) throw new Error('Unknown terrain region ' + name);
     const image = compact.matches && data.mobileTexture ? data.mobileTexture : name + '.webp';
@@ -406,6 +474,8 @@ export class TerrainView {
       name==='corridor'?this.textureLoader.loadAsync(new URL('corridor-forest-mask.png',root).href).catch(()=>null):null,
       name==='corridor'?this.textureLoader.loadAsync(new URL('corridor-relief.png',root).href).catch(()=>null):null
     ]);
+    await Promise.all([photo.image,cover,forestImage?.image].filter(Boolean).map(image=>image.decode?.().catch(()=>{})));
+    this.loadingEvent('assets-ready',{name,duration:performance.now()-started});
     photo.colorSpace = THREE.SRGBColorSpace;
     photo.anisotropy = this.renderer.capabilities.getMaxAnisotropy();
     const bounds = this.localBounds(data.bounds);
@@ -413,7 +483,7 @@ export class TerrainView {
     const patch = { name, photo, bounds, range: data.range };
     if (panoramaRelief) panoramaRelief.anisotropy = photo.anisotropy;
     const near = name.endsWith('-near');
-    const canopy = near ? canopyCoverage(forestImage?.image || photo.image, cover) : null;
+    const canopy = near ? await canopyCoverageAsync(forestImage?.image || photo.image,cover,this.workOptions(name,'canopy')) : null;
     forestImage?.dispose();
     patch.canopy = canopy?.texture;
     const rasterSpacing = Math.max((right - left) / photo.image.width, (bottom - top) / photo.image.height);
@@ -424,14 +494,19 @@ export class TerrainView {
       await this.loadPatch(name.slice(0, -5)) : this.region || this.base;
     const surface = model.children[0];
     const { columns, rows } = surface.userData;
-    const geometry = surface.geometry;
+    const geometry = surface.geometry.clone();
     const { position, uv, _relief } = geometry.attributes;
     geometry.setAttribute('relief', _relief);
     geometry.deleteAttribute('_relief');
     // The shader also uses standard Three.js textures uploaded with a flipped image.
     for (let i = 0; i < uv.count; i++) uv.setY(i, 1 - uv.getY(i));
     patch.surface = { columns, rows, vertices: position };
-    geometry.computeBoundingSphere();
+    const edge=await runTerrainWork(matchPatchEdge(geometry,parent,columns,rows),this.workOptions(name,'edge'));
+    patch.edgeMatched=Boolean(parent);
+    if(edge){
+      geometry.boundingBox=new THREE.Box3(new THREE.Vector3(left,edge.minY,top),new THREE.Vector3(right,edge.maxY,bottom));
+      geometry.boundingSphere=geometry.boundingBox.getBoundingSphere(new THREE.Sphere());
+    }
     const material = new THREE.ShaderMaterial({
       vertexShader: terrainVertex,
       fragmentShader: terrainFragment,
@@ -466,6 +541,7 @@ export class TerrainView {
         history: { value: 0 }, bridgeCenter: { value: new THREE.Vector2(this.points.luding.x, this.points.luding.z) }
       }
     });
+    if (this.atlasImagery) Object.assign(material.uniforms, this.atlasImagery.uniforms);
     patch.mesh = new THREE.Mesh(geometry, material);
     // The vertex shader raises distant relief beyond the original GLB bounds.
     patch.mesh.frustumCulled = false;
@@ -475,8 +551,8 @@ export class TerrainView {
       borderMaterial.side = THREE.DoubleSide;
       patch.mesh.add(new THREE.Mesh(skirtFor(geometry, columns, rows), borderMaterial));
     }
-    patch.forest = makeForest(patch, (x, z) => surfaceHeight(patch, x, z), compact.matches, canopy,
-      sunDirection, material.uniforms.bridgeCenter.value, this.vegetation, this.crownMap);
+    patch.forest = await makeForestAsync(patch, (x, z) => surfaceHeight(patch, x, z), compact.matches, canopy,
+      sunDirection, material.uniforms.bridgeCenter.value, this.vegetation, this.crownMap,this.workOptions(name,'forest'));
     if (patch.forest) {
       material.uniforms.forestShadows.value = patch.forest.userData.shadowMap;
       material.uniforms.hasForestShadows.value = 1;
@@ -488,7 +564,7 @@ export class TerrainView {
     if (name.endsWith('-near')) {
       const area = name.slice(0, -5);
       const landmark = area === 'zunyi' ? this.points.zunyi : null;
-      loadGroundFeatures(area, this.origin, (x, z) => surfaceHeight(patch, x, z), data.buildings, sunDirection, landmark).then(features => {
+      patch.featuresReady=loadGroundFeatures(area, this.origin, (x, z) => surfaceHeight(patch, x, z), data.buildings, sunDirection, landmark).then(features => {
         if (patch.disposed) {
           this.disposeMesh(features);
           return;
@@ -498,7 +574,120 @@ export class TerrainView {
         patch.mesh.add(features);
       }).catch(error => console.warn('近景地物未加载', error.message));
     }
+    this.loadingEvent('patch-built',{name,duration:performance.now()-started});
     return patch;
+  }
+
+  loadingEvent(kind,data={}){
+    if(!this.reviewLoading)return;
+    this.loadingEvents.push({kind,at:performance.now(),...data});
+    if(this.loadingEvents.length>2500)this.loadingEvents.splice(0,250);
+  }
+
+  workOptions(name,phase){return {budgetMs:4,onSlice:duration=>this.loadingEvent('cpu-slice',{name,phase,duration})};}
+
+  async preparePatch(patch){
+    if(!patch||patch.warmed)return;
+    if(this.preparing.has(patch.name))return this.preparing.get(patch.name);
+    const promise=(async()=>{
+      await patch.featuresReady;
+      const renderer=this.renderer,textures=new Set([patch.photo,patch.canopy,patch.forest?.userData.shadowMap]);
+      const objects=[],representatives=new Set();patch.mesh.updateMatrixWorld(true);
+      patch.mesh.traverse(object=>{
+        if(!object.isMesh)return;
+        for(const material of [].concat(object.material)){
+          for(const value of Object.values(material))if(value?.isTexture)textures.add(value);
+          for(const uniform of Object.values(material.uniforms||{}))if(uniform.value?.isTexture)textures.add(uniform.value);
+        }
+        const close=object.parent?.parent===patch.forest;
+        const key=object.geometry.uuid+'/'+[].concat(object.material).map(m=>m.uuid).join('/');
+        if(close&&representatives.has(key))return;
+        if(close)representatives.add(key);
+        objects.push({object,close});
+      });
+      this.uploadedTextures??=new WeakSet();
+      for(const texture of textures){
+        if(!texture||this.uploadedTextures.has(texture))continue;
+        await texture.image?.decode?.().catch(()=>{});await yieldTerrainWork();
+        const at=performance.now();renderer.initTexture(texture);this.uploadedTextures.add(texture);
+        this.loadingEvent('gpu-texture',{name:patch.name,duration:performance.now()-at,width:texture.image?.width});
+      }
+      this.warmTarget??=new THREE.WebGLRenderTarget(1,1,{type:this.film.target.texture.type,depthBuffer:true});
+      this.warmTarget.texture.colorSpace=THREE.LinearSRGBColorSpace;
+      const warmScene=new THREE.Scene();warmScene.environment=this.scene.environment;warmScene.fog=this.scene.fog;
+      for(const light of this.scene.children.filter(item=>item.isLight)){
+        const clone=light.clone();if(clone.shadow&&light.shadow)clone.shadow.map=light.shadow.map;
+        warmScene.add(clone);
+      }
+      for(const {object,close} of objects){
+        await yieldTerrainWork();
+        const proxy=object.isInstancedMesh?new THREE.InstancedMesh(object.geometry,object.material,0):new THREE.Mesh(object.geometry,object.material);
+        if(object.isInstancedMesh){proxy.count=close?0:object.count;proxy.instanceMatrix=object.instanceMatrix;proxy.instanceColor=object.instanceColor;}
+        proxy.frustumCulled=false;proxy.matrixAutoUpdate=false;proxy.matrix.copy(object.matrixWorld);
+        proxy.receiveShadow=object.receiveShadow;warmScene.add(proxy);
+        const target=renderer.getRenderTarget();
+        let compiled;
+        try{renderer.setRenderTarget(this.warmTarget);compiled=renderer.compileAsync?
+          renderer.compileAsync(warmScene,this.camera):Promise.resolve(renderer.compile(warmScene,this.camera));}
+        finally{renderer.setRenderTarget(target);}
+        await compiled;await yieldTerrainWork();
+        const at=performance.now(),viewport=renderer.getViewport(new THREE.Vector4()),scissor=renderer.getScissor(new THREE.Vector4());
+        const scissorTest=renderer.getScissorTest(),shadowUpdate=renderer.shadowMap.needsUpdate;
+        try{
+          renderer.shadowMap.needsUpdate=false;renderer.setRenderTarget(this.warmTarget);
+          renderer.setViewport(0,0,1,1);renderer.setScissorTest(false);renderer.render(warmScene,this.camera);
+        }finally{
+          renderer.setRenderTarget(target);renderer.setViewport(viewport);renderer.setScissor(scissor);
+          renderer.setScissorTest(scissorTest);renderer.shadowMap.needsUpdate=shadowUpdate;
+          warmScene.remove(proxy);
+        }
+        this.loadingEvent('gpu-geometry',{name:patch.name,duration:performance.now()-at,vertices:object.geometry.attributes.position?.count});
+      }
+      patch.warmed=true;this.loadingEvent('patch-warmed',{name:patch.name,objects:objects.length});
+    })();
+    this.preparing.set(patch.name,promise);
+    try{return await promise;}finally{this.preparing.delete(patch.name);}
+  }
+
+  estimatedZoom(name){
+    const data=this.data.regions[name];if(!data)return this.textureZoom(this.region);
+    const texel=name.endsWith('-near')?.010*Math.cosh((data.bounds[1]+data.bounds[3])/12756.274):
+      mercatorWidth/(256*2**(data.photoZoom||data.zoom));
+    return imageryZoomLimit(texel,this.size.height*this.displayRatio,this.camera.fov,2.45);
+  }
+
+  commitNavigation(job){
+    const assets=this.navigation.commit(job);if(!assets)return;
+    if(assets.patch||!job.name){
+      if(this.local!==assets.patch||this.near!==assets.near){
+        this.applyLocal(assets.patch,assets.near);this.setClouds(assets.patch,job.name,assets.clouds);
+      }else this.disposeClouds(assets.clouds);
+    }else this.disposeClouds(assets.clouds);
+    this.loadingEvent('navigation-commit',{name:job.name});
+    this.prefetchAdjacent(job);
+  }
+
+  prefetchAdjacent(job){
+    clearTimeout(this.prefetchTimer);
+    const order=Object.keys(this.points),index=order.indexOf(job.name);
+    if(index<0||this.mode==='home')return;
+    const names=[order[index+1],order[index-1]].filter(name=>name&&this.data.regions[name]);
+    this.prefetchNames=new Set(names);
+    const run=async()=>{
+      if(!this.navigation.current(job))return;
+      if(this.flight||this.waitingForTerrain){this.prefetchTimer=setTimeout(run,300);return;}
+      for(const name of names){
+        if(!this.navigation.current(job))break;
+        try{
+          const [patch,near]=await Promise.all([this.loadPatch(name),this.loadNear(name)]);
+          if(!this.navigation.current(job))break;
+          await this.preparePatch(patch);await this.preparePatch(near);
+          this.loadingEvent('prefetch-ready',{name});
+        }catch{/* A failed speculative request must not disturb the current scene. */}
+      }
+      if(this.navigation.current(job))this.trimSceneCache();
+    };
+    this.prefetchTimer=setTimeout(run,1200);
   }
 
   disposeMesh(group) {
@@ -516,7 +705,10 @@ export class TerrainView {
   trimSceneCache() {
     const permanent = new Set(['route', 'corridor', 'luding', 'luding-near']);
     const groups = [...this.patches.values()].filter(patch => !patch.name.endsWith('-near') && !permanent.has(patch.name));
-    const unused = groups.filter(patch => patch !== this.local && !this.loading.has(patch.name + '-near'))
+    const incoming=this.navigation.active?.name;
+    const unused = groups.filter(patch => patch !== this.local && patch.name!==incoming &&
+      !this.prefetchNames?.has(patch.name) && !this.preparing.has(patch.name) &&
+      !this.preparing.has(patch.name+'-near') && !this.loading.has(patch.name + '-near'))
       .sort((a, b) => a.used - b.used);
     let remaining = groups.length;
     for (const patch of unused) {
@@ -576,6 +768,17 @@ export class TerrainView {
     );
   }
 
+  focusCampaign(points) {
+    if (this.mode!=='overview'||!points?.length) return;
+    this.stopFlight();
+    const frame=keepGroundInView(fitAtlas(points,this.camera.aspect,this.camera.fov,this.camera.aspect<.83,this.size.height),this.base.bounds,this.camera.aspect,this.camera.fov);
+    const destination=nearestBearing(this.view,frame);
+    this.flight=null;this.hasExplored=true;this.goal={...destination};this.cameraVelocity={};
+    if(noMotion.matches)this.view={...destination};
+    else this.flight={from:{...this.view},to:destination,length:Math.hypot(this.view.x-frame.x,this.view.z-frame.z),
+      duration:1.85,start:this.clock.getElapsedTime(),onPass:()=>{},distanceTravelled:0};
+  }
+
   stationView(id, feature) {
     const point = feature.center ? this.world(feature.center) : this.points[id];
     const detail = this.data.regions[(feature.region || id) + '-near'];
@@ -589,21 +792,37 @@ export class TerrainView {
   }
 
   async goTo(mode, id, feature, immediate = false) {
-    const destination = mode === 'home' ? this.openingView() :
-      mode === 'overview' ? this.overviewView() : this.stationView(id, feature);
-    const token = this.flightToken = Symbol();
+    const destination = nearestBearing(this.view, mode === 'home' ? this.openingView() :
+      mode === 'overview' ? this.overviewView() : this.stationView(id, feature));
+    const patchName=feature?.region||(id||(mode==='home'?'luding':null));
+    const job=this.navigation.begin(patchName);const token=this.flightToken=job.token;
+    job.destination=destination;clearTimeout(this.prefetchTimer);this.prefetchNames=new Set();
+    this.loadingEvent('navigation-start',{name:patchName});
     this.queuedAtlasZoom = false;
     this.browseRegion = null;
     this.flight = null;
-    this.goal = { ...this.view };
+    this.goal = { ...destination };
     const changedMode = this.mode !== mode;
     this.mode = mode;
     if (changedMode) this.updateResolution();
     this.hasExplored = false;
     this.historical = Boolean(feature?.history);
     this.focus = id || (mode === 'home' ? 'luding' : null);
-    const patchName = feature?.region || this.focus;
     this.waitingForTerrain = Boolean(patchName);
+    const direct=noMotion.matches||immediate;
+    if(mode==='station'&&!feature?.modelZoom){
+      const key=this.data.regions[patchName+'-near']?patchName+'-near':patchName;
+      destination.distance=Math.max(destination.distance,this.estimatedZoom(key)*(feature.label||feature.context?1:1.44));
+    }
+    this.goal={...destination};
+    const finishRegion=()=>{this.navigation.pass(job);this.commitNavigation(job);};
+    if(!direct){
+      const length=Math.hypot(this.view.x-destination.x,this.view.z-destination.z);
+      this.flight={from:{...this.view},to:destination,length,
+        duration:mode==='overview'?2.25:clamp(1.35+length/1700,1.35,2.55),
+        start:this.clock.getElapsedTime(),onPass:finishRegion,distanceTravelled:0};
+      this.cameraVelocity={};
+    }
     let patch = null;
     let near = null;
     if (patchName) {
@@ -616,59 +835,64 @@ export class TerrainView {
       ]);
     }
     if (this.flightToken !== token) return null;
+    const clouds=this.local===patch&&this.near===near?[]:this.createClouds(patch,patchName,near);
+    try{
+      await this.preparePatch(patch);await this.preparePatch(near);
+      if(this.flightToken===token&&clouds.length){
+        const group=new THREE.Group();for(const cloud of clouds)group.add(cloud);
+        this.cloudPrepareSerial=(this.cloudPrepareSerial||0)+1;
+        await this.preparePatch({name:'clouds:'+patchName+':'+this.cloudPrepareSerial,mesh:group});
+      }
+    }
+    catch(error){this.loadingEvent('warm-error',{name:patchName,message:error.message});}
+    if(this.flightToken!==token){this.disposeClouds(clouds);return null;}
     this.waitingForTerrain = false;
     this.modelZoom = patch && near ? feature?.modelZoom : null;
     this.modelCenter = this.modelZoom ? { x: destination.x, z: destination.z } : null;
     if (mode === 'station' && !this.modelZoom) {
       const quality = this.textureZoom(near || patch || this.region);
       const entry = feature.label || feature.context ? 1 : 1.44;
-      destination.distance = Math.max(destination.distance, quality * entry);
+      const floor=quality*entry;
+      if(!this.flight)this.goal.distance=Math.max(this.goal.distance,floor);
+      job.distanceFloor=floor;
     }
-    const finishRegion = () => {
-      if (this.flightToken !== token) return;
-      this.applyLocal(patch, near);
-      this.setClouds(patch, patchName);
-    };
-    if (noMotion.matches || immediate) {
+    this.navigation.ready(job,{patch,near,clouds});this.loadingEvent('navigation-ready',{name:patchName});
+    if (direct) {
+      if(job.distanceFloor)destination.distance=Math.max(destination.distance,job.distanceFloor);
       this.view = { ...destination };
       this.goal = { ...destination };
+      this.cameraVelocity={};this.cameraGroundY=undefined;
       finishRegion();
       return patch;
     }
-    const distance = Math.hypot(this.view.x - destination.x, this.view.z - destination.z);
-    const duration = mode === 'overview' ? 2.25 : clamp(1.35 + distance / 1700, 1.35, 2.55);
-    this.flight = {
-      from: { ...this.view }, to: destination, length: distance, duration,
-      start: this.clock.getElapsedTime(), onPass: finishRegion, distanceTravelled: 0
-    };
+    this.commitNavigation(job);
     return patch;
   }
 
   updateFlight(time, dt) {
     if (!this.flight) {
-      const ease = noMotion.matches ? 1 : 1 - Math.exp(-dt * 11);
-      for (const key of [...lerpKeys, 'distance']) this.view[key] = mix(this.view[key], this.goal[key], ease);
+      const next=stepAtlasCamera(this.view,this.goal,this.cameraVelocity,dt,noMotion.matches);
+      this.view=next.view;this.cameraVelocity=next.velocity;
       return;
     }
-    const { from, to, duration, length, onPass } = this.flight;
-    const progress = clamp((time - this.flight.start) / duration, 0, 1);
+    if(noMotion.matches){
+      this.flight.onPass();this.view={...this.flight.to};this.goal={...this.flight.to};
+      this.flight=null;this.cameraVelocity={};return;
+    }
+    const { from, to, duration, onPass } = this.flight;
+    const step=advanceAtlasFlight(from,to,duration,this.flight.elapsed||0,dt);
+    const progress=step.progress;this.flight.elapsed=step.elapsed;
     const t = smooth(progress);
-    const lifting = to.distance > from.distance * 5;
-    const landing = from.distance > to.distance * 5;
-    const movement = lifting ? smooth(clamp((progress - .16) / .84, 0, 1)) :
-      landing ? smooth(clamp(progress / .81, 0, 1)) : t;
-    const altitude = lifting ? 1 - (1 - t) ** 1.55 : landing ? t ** 1.55 : t;
-    const arc = Math.sin(t * Math.PI);
-    const rise = Math.max(0, length * .95 - Math.max(from.distance, to.distance));
-    for (const key of lerpKeys) this.view[key] = mix(from[key], to[key], movement);
-    this.view.distance = Math.exp(mix(Math.log(from.distance), Math.log(to.distance), altitude)) + rise * arc ** 2;
-    this.view.pitch = mix(this.view.pitch, 1.29, clamp(rise / 130, 0, 1) * arc);
+    this.view=step.view;
     if (this.flight.distanceTravelled < .55 && t >= .55) onPass();
     this.flight.distanceTravelled = t;
     if (progress === 1) {
       this.view = { ...to };
       this.goal = { ...to };
+      const job=this.navigation.active;
+      if(job?.distanceFloor)this.goal.distance=Math.max(this.goal.distance,job.distanceFloor);
       this.flight = null;
+      this.cameraVelocity={};
     }
   }
 
@@ -687,14 +911,17 @@ export class TerrainView {
     return group;
   }
 
-  setClouds(patch, id) {
-    for (const cloud of this.clouds) {
-      this.scene.remove(cloud);
-      cloud.geometry.dispose();
-      cloud.material.dispose();
-    }
-    this.clouds = [];
-    if (!patch) return;
+  disposeClouds(clouds=[]){
+    for(const cloud of clouds){cloud.removeFromParent();cloud.geometry.dispose();cloud.material.dispose();}
+  }
+
+  setClouds(patch,id,prepared=null){
+    this.disposeClouds(this.clouds);this.clouds=prepared||this.createClouds(patch,id,this.near);
+    for(const cloud of this.clouds)this.scene.add(cloud);
+  }
+
+  createClouds(patch, id, near=null) {
+    const clouds=[];if (!patch) return clouds;
     const [left, top, right, bottom] = patch.bounds;
     const offsets = id === 'luding' ?
       [[-.23, -.16, 1.3, .41], [.20, -.22, 1.92, .47], [.28, .18, 1.0, .34], [-.22, .22, 1.22, .25], [.08, -.34, 2.1, .38]] :
@@ -710,11 +937,11 @@ export class TerrainView {
       }));
       cloud.rotation.x = -Math.PI / 2;
       cloud.rotation.z = i * .72;
-      cloud.position.set(x, this.height(x, z) + height, z);
+      cloud.position.set(x,surfaceHeight(contains(near,x,z)?near:patch,x,z)+height,z);
       cloud.userData.startX = x;
-      this.clouds.push(cloud);
-      this.scene.add(cloud);
+      clouds.push(cloud);
     });
+    return clouds;
   }
 
   updateResolution() {
@@ -767,10 +994,12 @@ export class TerrainView {
       this.waterways.material.uniforms.elevation.value=this.terrainScale;
     }
     this.atlasRelief.update(this.goal, this.camera.aspect,
-      this.mode === 'overview' && this.hasExplored && !this.flight && contains(this.region, x, z), compact.matches, time);
+      this.mode === 'overview' && this.hasExplored && !this.flight && contains(this.region, x, z), compact.matches, time, distance);
     this.atlasRelief.animate(dt, noMotion.matches);
     const reliefPatch = this.atlasRelief.current;
-    if(reliefPatch)reliefPatch.mesh.material.uniforms.museumRelief.value=this.mode==='overview'?1:0;
+    const targetMuseum=this.mode==='overview'?smooth(clamp((distance-16)/150,0,1)):0;
+    this.museumBlend=noMotion.matches?targetMuseum:mix(this.museumBlend??targetMuseum,targetMuseum,1-Math.exp(-dt*5));
+    if(reliefPatch)reliefPatch.mesh.material.uniforms.museumRelief.value=this.museumBlend;
     if (reliefPatch?.coverage) {
       const strength = reliefPatch.mesh.material.uniforms.forestStrength;
       strength.value = noMotion.matches ? 1 : Math.min(1, strength.value + dt * 1.8);
@@ -784,7 +1013,10 @@ export class TerrainView {
     const orbit = this.mode === 'home' && !this.flight ? .105 * Math.sin(calm * .21) :
       idleOverview ? .038 * Math.sin(calm * .14) : 0;
     const radial = Math.cos(pitch) * distance;
-    const y = this.height(x, z) * this.terrainScale;
+    const terrainY = this.height(x, z) * this.terrainScale;
+    this.cameraGroundY=noMotion.matches||!Number.isFinite(this.cameraGroundY)?terrainY:
+      mix(this.cameraGroundY,terrainY,1-Math.exp(-dt*9));
+    const y = this.cameraGroundY;
     const cx = x + Math.sin(bearing + orbit) * radial;
     const cz = z + Math.cos(bearing + orbit) * radial;
     const cy = Math.max(y + Math.sin(pitch) * distance, this.height(cx, cz) * this.terrainScale + Math.max(.09, distance * .013));
@@ -808,7 +1040,7 @@ export class TerrainView {
     const haze = clamp(.0125 / Math.max(1, distance / 24), .000023, .0125) * clarity *
       (this.mode === 'overview' ? .77 : 1);
     this.atlasImagery.update(this.view, this.goal, this.camera.aspect, compact.matches, this.size.height * this.displayRatio,
-      this.mode==='overview' && this.hasExplored && !this.flight, dt);
+      this.mode==='overview' && this.hasExplored && !this.flight, dt, noMotion.matches);
     if (this.queuedAtlasZoom && !this.refiningImagery()) {
       this.queuedAtlasZoom = false;
       if (this.zoomMinimum() < this.goal.distance * .99) this.zoom(.70);
@@ -819,7 +1051,7 @@ export class TerrainView {
       (1 - smooth(clamp((distance - 13) / 15, 0, 1))) * (this.historical ? .82 : .69) : 0;
     for (const patch of [this.base, this.region, this.local, this.near]) {
       if (!patch) continue;
-      patch.mesh.material.uniforms.museumRelief.value=(this.mode==='overview'||patch===this.base||patch===this.region)?1:0;
+      patch.mesh.material.uniforms.museumRelief.value=this.museumBlend;
       patch.mesh.material.uniforms.haze.value = haze;
       patch.mesh.material.uniforms.valleyAtmosphere.value = valleyAtmosphere;
       patch.mesh.material.uniforms.valleyFloor.value = this.valleyFloor;
@@ -843,13 +1075,14 @@ export class TerrainView {
       cloud.position.x = cloud.userData.startX + Math.sin(calm * .11) * 1.4;
       cloud.visible = distance < 110;
     }
-    this.routeInk.visible = this.mode !== 'home' && distance > 190;
+    const campaignOverview=this.mode==='overview'&&this.campaign;
+    this.routeInk.visible = this.mode !== 'home' && distance > (campaignOverview?110:190) && (!campaignOverview||this.campaign.layers.march);
     if (this.routeInk.visible) {
       const uniforms = this.routeInk.material.uniforms;
       uniforms.viewport.value.set(this.size.width, this.size.height);
       uniforms.terrainScale.value = this.terrainScale;
       uniforms.reached.value = this.routeInk.userData.orders.get(this.focus) ?? -1;
-      uniforms.opacity.value = smooth(clamp((distance - 190) / 150, 0, 1));
+      uniforms.opacity.value = campaignOverview ? (this.campaign.stage.id==='all'?1:.45)*smooth(clamp((distance-80)/90,0,1)) : smooth(clamp((distance - 190) / 150, 0, 1));
     }
     const bridgeVisible = this.local?.name === 'luding' && distance < 3.0;
     if (bridgeVisible && !this.scene.environment) {
@@ -885,6 +1118,7 @@ export class TerrainView {
       this.bridgeLight.bridgeShadowAmount.value = 0;
     }
     this.onFrame(this);
+    this.campaign?.update();
   }
 
   screen(id) {
@@ -920,6 +1154,7 @@ export class TerrainView {
     if (!this.flight) return;
     this.flight.onPass();
     this.flight = null;
+    this.cameraVelocity={};
     this.goal = { ...this.view };
   }
 

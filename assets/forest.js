@@ -1,4 +1,5 @@
 import * as THREE from './vendor/three.module.min.js';
+import {finishTerrainWork,runTerrainWork} from './terrain-work.js?v=terrain-stream-20261127a';
 
 const crownVertex = /* glsl */ `
   varying vec2 vUv;
@@ -145,16 +146,17 @@ function imagerySample(image, width, height) {
   return context.getImageData(0, 0, width, height).data;
 }
 
-export function canopyCoverage(image, cover) {
+function* coverageBuild(image, cover) {
   const width = 640;
   const height = Math.round(width * image.height / image.width);
   const rgb = imagerySample(image, width, height);
   const classified = cover ? imagerySample(cover, width, height) : null;
   const coverValues = new Uint8Array(width * height);
   for (let i = 0; i < coverValues.length; i++) {
-    const [r, g, b] = [rgb[i * 4], rgb[i * 4 + 1], rgb[i * 4 + 2]];
+    const r=rgb[i*4],g=rgb[i*4+1],b=rgb[i*4+2];
     const spectral = g > 29 && g < 156 && g - r > 5 && g - b > 10 && r >= b ? 210 : 0;
     coverValues[i] = classified ? classified[i * 4] * (spectral ? 1 : .74) : spectral;
+    if(i%4096===4095)yield;
   }
   const texture = new THREE.DataTexture(coverValues, width, height, THREE.RedFormat);
   texture.minFilter = THREE.LinearFilter;
@@ -163,7 +165,10 @@ export function canopyCoverage(image, cover) {
   return { width, height, rgb, coverValues, texture };
 }
 
-function forestShadows(trees, bounds, sun, compact) {
+export function canopyCoverage(...args){return finishTerrainWork(coverageBuild(...args));}
+export function canopyCoverageAsync(image,cover,options){return runTerrainWork(coverageBuild(image,cover),options);}
+
+function* forestShadows(trees, bounds, sun, compact) {
   const [west, north, east, south] = bounds;
   const size = compact ? 768 : 1536;
   const canvas = document.createElement('canvas');
@@ -172,6 +177,7 @@ function forestShadows(trees, bounds, sun, compact) {
   const scaleX = size / (east - west), scaleZ = size / (south - north);
   const angle = Math.atan2(-sun.z * scaleZ, -sun.x * scaleX);
   const along = Math.hypot(sun.x * scaleX, sun.z * scaleZ) / sun.y;
+  let stamped=0;
   for (const { x, z, scale, form } of trees) {
     const stature = (.0036 + scale * .0068) * (form === 2 ? .62 : 1);
     const px = (x - west) * scaleX, py = (z - north) * scaleZ;
@@ -180,10 +186,14 @@ function forestShadows(trees, bounds, sun, compact) {
     context.ellipse(px - sun.x * stature * .58 * scaleX / sun.y, py - sun.z * stature * .58 * scaleZ / sun.y,
       Math.max(.65, stature * along), Math.max(.43, stature * .70 * scaleX), angle, 0, Math.PI * 2);
     context.fill();
+    if(++stamped%512===0)yield;
   }
-  const rgba = context.getImageData(0, 0, size, size).data;
   const values = new Uint8Array(size * size);
-  for (let i = 0; i < values.length; i++) values[i] = rgba[i * 4 + 3];
+  for(let row=0;row<size;row+=96){
+    const height=Math.min(96,size-row),rgba=context.getImageData(0,row,size,height).data;
+    for(let i=0;i<rgba.length/4;i++)values[row*size+i]=rgba[i*4+3];
+    yield;
+  }
   const map = new THREE.DataTexture(values, size, size, THREE.RedFormat);
   map.minFilter = THREE.LinearMipmapLinearFilter;
   map.magFilter = THREE.LinearFilter;
@@ -192,7 +202,17 @@ function forestShadows(trees, bounds, sun, compact) {
   return map;
 }
 
-export function makeForest(patch, heightAt, compact, coverage, sun, bridgeCenter, forms, crownMap) {
+function* boundingSphereBuild(mesh){
+  if(mesh.geometry.boundingSphere===null)mesh.geometry.computeBoundingSphere();
+  mesh.boundingSphere=new THREE.Sphere().makeEmpty();
+  const matrix=new THREE.Matrix4(),sphere=new THREE.Sphere();
+  for(let i=0;i<mesh.count;i++){
+    mesh.getMatrixAt(i,matrix);sphere.copy(mesh.geometry.boundingSphere).applyMatrix4(matrix);
+    mesh.boundingSphere.union(sphere);if(i%1024===1023)yield;
+  }
+}
+
+function* forestBuild(patch, heightAt, compact, coverage, sun, bridgeCenter, forms, crownMap) {
   if (!coverage || patch.name === 'huahu-near') return null;
   const [west, north, east, south] = patch.bounds;
   const { width, height, rgb, coverValues } = coverage;
@@ -205,6 +225,7 @@ export function makeForest(patch, heightAt, compact, coverage, sun, bridgeCenter
     return state / 4294967296;
   };
 
+  let candidateRows=0;
   for (let z = north + step; z < south - step; z += step) {
     for (let x = west + step; x < east - step; x += step) {
       const px = x + (random() - .5) * step;
@@ -228,6 +249,7 @@ export function makeForest(patch, heightAt, compact, coverage, sun, bridgeCenter
       const form = y > 2.7 ? (scale < .76 ? 1 : 2) : (scale < .22 ? 1 : scale < .36 ? 2 : 0);
       trees.push({ x: px, y, z: pz, r, g, b, scale, form, angle: random() * Math.PI * 2 });
     }
+    if(++candidateRows%3===0)yield;
   }
 
   if (!trees.length) return null;
@@ -253,7 +275,8 @@ export function makeForest(patch, heightAt, compact, coverage, sun, bridgeCenter
   const transform = new THREE.Object3D();
   const color = new THREE.Color();
 
-  trees.forEach((tree, i) => {
+  for(let i=0;i<trees.length;i++){
+    const tree=trees[i];
     const { x, y, z, r, g, b, scale, form } = tree;
     const size = .0036 + scale * .0068;
     const stature = form === 2 ? size * .62 : size;
@@ -266,9 +289,10 @@ export function makeForest(patch, heightAt, compact, coverage, sun, bridgeCenter
     const key = [Math.floor(x / .85), Math.floor(z / .85), form].join('/');
     if (!clusters.has(key)) clusters.set(key, []);
     clusters.get(key).push({ ...tree, size, stature });
-  });
+    if(i%512===511)yield;
+  }
 
-  canopy.computeBoundingSphere();
+  yield* boundingSphereBuild(canopy);
   forest.add(canopy);
   const closeGroves = [];
   for (const grove of clusters.values()) {
@@ -288,16 +312,22 @@ export function makeForest(patch, heightAt, compact, coverage, sun, bridgeCenter
     });
     leaves.instanceMatrix.array.set(mesh.instanceMatrix.array);
     leaves.instanceColor = mesh.instanceColor.clone();
-    mesh.computeBoundingSphere();
-    leaves.computeBoundingSphere();
+    yield* boundingSphereBuild(mesh);
+    yield* boundingSphereBuild(leaves);
     const cluster = new THREE.Group();
     cluster.add(mesh, leaves);
     cluster.visible = false;
     closeGroves.push({ cluster, bounds: mesh.boundingSphere.clone().union(leaves.boundingSphere) });
     forest.add(cluster);
+    yield;
   }
-  forest.userData = { uniforms, closeGroves, shadowMap: forestShadows(trees, patch.bounds, sun, compact) };
+  forest.userData = { uniforms, closeGroves, shadowMap: yield* forestShadows(trees, patch.bounds, sun, compact) };
   return forest;
+}
+
+export function makeForest(...args){return finishTerrainWork(forestBuild(...args));}
+export function makeForestAsync(patch,heightAt,compact,coverage,sun,bridgeCenter,forms,crownMap,options){
+  return runTerrainWork(forestBuild(patch,heightAt,compact,coverage,sun,bridgeCenter,forms,crownMap),options);
 }
 
 export function makeAtlasForest(patch, coverage, sampleSurface, crownMap, compact, stationCut, sun) {

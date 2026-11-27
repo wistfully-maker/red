@@ -1,0 +1,22 @@
+[
+  {
+    "station": "jiajin",
+    "sourceSHA256": "49cfd2927e63db33928a16ef8450968582e8f1b38fce1499793945c998ae841f",
+    "actor": "resting-marcher",
+    "portraits": [
+      "D:\\program\\自媒体\\长征探索地图\\output\\numbered-people\\jiajin-resting-marcher-front.jpg",
+      "D:\\program\\自媒体\\长征探索地图\\output\\numbered-people\\jiajin-resting-marcher-back.jpg"
+    ],
+    "scope": "Actual exported actor; surrounding objects hidden for a clear front/back geometry and texture check."
+  },
+  {
+    "station": "jiajin",
+    "sourceSHA256": "49cfd2927e63db33928a16ef8450968582e8f1b38fce1499793945c998ae841f",
+    "actor": "staff-climber",
+    "portraits": [
+      "D:\\program\\自媒体\\长征探索地图\\output\\numbered-people\\jiajin-staff-climber-front.jpg",
+      "D:\\program\\自媒体\\长征探索地图\\output\\numbered-people\\jiajin-staff-climber-back.jpg"
+    ],
+    "scope": "Actual exported actor; surrounding objects hidden for a clear front/back geometry and texture check."
+  }
+]

@@ -249,16 +249,7 @@ body[data-display="model"] #modelStatus { top: auto; right: auto; bottom: calc(1
   body[data-mode="home"] .cover-foot { animation-delay: 90ms; }
   dialog[open] { animation: catalog-reveal .25s var(--field-out) both; }
   #historyNote:not([hidden]), .story-references[open] > :not(summary) { animation: page-reveal .24s var(--field-out) both; }
-  @supports (transition-behavior: allow-discrete) and (interactivity: inert) {
-    #readerContents {
-      display: grid;
-      grid-template-rows: 1fr;
-      opacity: 1;
-      transition: grid-template-rows .38s var(--field-out), opacity .24s ease, display .38s allow-discrete;
-    }
-    #readerContents[hidden] { grid-template-rows: 0fr; opacity: 0; interactivity: inert; }
-    @starting-style { #readerContents:not([hidden]) { grid-template-rows: 0fr; opacity: 0; } }
-  }
+  #readerContents:not([hidden]) .reader-body { animation: page-reveal .22s var(--field-out); }
 }
 @media (prefers-reduced-motion: reduce) {
   .cover .enter:is(:hover,:focus-visible) svg, .story-continue:is(:hover,:focus-visible) svg,

@@ -1,0 +1,22 @@
+[
+  {
+    "station": "ruijin",
+    "sourceSHA256": "2b39425498a881def72149b3db54e471b339c24818553a61d1fa8207e20503de",
+    "actor": "farmer-greeting",
+    "portraits": [
+      "D:\\program\\自媒体\\长征探索地图\\output\\numbered-people\\ruijin-farmer-greeting-front.jpg",
+      "D:\\program\\自媒体\\长征探索地图\\output\\numbered-people\\ruijin-farmer-greeting-back.jpg"
+    ],
+    "scope": "Actual exported actor; surrounding objects hidden for a clear front/back geometry and texture check."
+  },
+  {
+    "station": "ruijin",
+    "sourceSHA256": "2b39425498a881def72149b3db54e471b339c24818553a61d1fa8207e20503de",
+    "actor": "newspaper-reader",
+    "portraits": [
+      "D:\\program\\自媒体\\长征探索地图\\output\\numbered-people\\ruijin-newspaper-reader-front.jpg",
+      "D:\\program\\自媒体\\长征探索地图\\output\\numbered-people\\ruijin-newspaper-reader-back.jpg"
+    ],
+    "scope": "Actual exported actor; surrounding objects hidden for a clear front/back geometry and texture check."
+  }
+]

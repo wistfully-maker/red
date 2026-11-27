@@ -1,0 +1,169 @@
+{
+  "station": "jiaoping",
+  "passed": true,
+  "sha256": "dcc0b1a40a035cf6029ea2cc80362b901bfd009a50188c6c73a76b226e314307",
+  "bytes": 12701188,
+  "people": 6,
+  "counts": {
+    "boatman-rowing": 2,
+    "farmer-greeting": 1,
+    "old-porter": 3
+  },
+  "proceduralPeople": [],
+  "actors": [
+    {
+      "asset": "boatman-rowing",
+      "position": [
+        -3.827537775039673,
+        -3.9269866943359375,
+        0.419374942779541
+      ],
+      "requestedPose": "row",
+      "sourcePose": "row",
+      "floor": 0.419374942779541,
+      "height": 1.6800000667572021,
+      "nominalAdultHeight": 1.68,
+      "frontBlender": [
+        0.724287211894989,
+        -0.6894984245300293,
+        0.0
+      ],
+      "embeddedSupport": "",
+      "sourceRole": "boatman",
+      "sourceIdentity": "boatman",
+      "historicalRole": "boatman"
+    },
+    {
+      "asset": "boatman-rowing",
+      "position": [
+        3.5908634662628174,
+        -7.107272148132324,
+        0.3679827153682709
+      ],
+      "requestedPose": "row",
+      "sourcePose": "row",
+      "floor": 0.3679827153682709,
+      "height": 1.679999977350235,
+      "nominalAdultHeight": 1.68,
+      "frontBlender": [
+        0.9635582566261292,
+        -0.26749885082244873,
+        0.0
+      ],
+      "embeddedSupport": "",
+      "sourceRole": "boatman",
+      "sourceIdentity": "boatman",
+      "historicalRole": "boatman"
+    },
+    {
+      "asset": "farmer-greeting",
+      "position": [
+        2.0999999046325684,
+        3.0999999046325684,
+        1.482804536819458
+      ],
+      "requestedPose": "greet",
+      "sourcePose": "greet",
+      "floor": 1.482804536819458,
+      "height": 1.7038829326629639,
+      "nominalAdultHeight": 1.7038827716598477,
+      "frontBlender": [
+        -0.6131168603897095,
+        -0.7899922728538513,
+        0.0
+      ],
+      "embeddedSupport": "",
+      "sourceRole": "porter",
+      "sourceIdentity": "porter",
+      "historicalRole": "civilian"
+    },
+    {
+      "asset": "old-porter",
+      "position": [
+        -2.0,
+        4.0,
+        2.6649506092071533
+      ],
+      "requestedPose": "walk",
+      "sourcePose": "standing",
+      "floor": 2.6649506092071533,
+      "height": 1.5944311618804932,
+      "nominalAdultHeight": 1.5944312189315826,
+      "frontBlender": [
+        0.6365371942520142,
+        -0.7712460160255432,
+        0.0
+      ],
+      "embeddedSupport": "",
+      "sourceRole": "porter",
+      "sourceIdentity": "porter",
+      "historicalRole": "porter"
+    },
+    {
+      "asset": "old-porter",
+      "position": [
+        8.100000381469727,
+        1.8200000524520874,
+        0.48394542932510376
+      ],
+      "requestedPose": "stand",
+      "sourcePose": "standing",
+      "floor": 0.48394542932510376,
+      "height": 1.6025411486625671,
+      "nominalAdultHeight": 1.602541216788599,
+      "frontBlender": [
+        0.7457051873207092,
+        0.6662760376930237,
+        0.0
+      ],
+      "embeddedSupport": "",
+      "sourceRole": "local",
+      "sourceIdentity": "civilian",
+      "historicalRole": "porter"
+    },
+    {
+      "asset": "old-porter",
+      "position": [
+        10.229999542236328,
+        5.260000228881836,
+        4.876141548156738
+      ],
+      "requestedPose": "stand",
+      "sourcePose": "standing",
+      "floor": 4.876141548156738,
+      "height": 1.630000114440918,
+      "nominalAdultHeight": 1.63,
+      "frontBlender": [
+        -0.3050585985183716,
+        -0.9523335099220276,
+        0.0
+      ],
+      "embeddedSupport": "",
+      "sourceRole": "porter",
+      "sourceIdentity": "porter",
+      "historicalRole": "porter"
+    }
+  ],
+  "checks": [
+    "bottom on authored floor",
+    "pose-specific height",
+    "front direction",
+    "native UV/PBR retained",
+    "no duplicate supplied chair",
+    "no procedural historical mesh"
+  ],
+  "residentView": [
+    -3.827537775039673,
+    1.5353989601135254,
+    3.9269866943359375,
+    2.7216,
+    1.11,
+    0.14
+  ],
+  "residentCameraUsesActualPosedHeight": true,
+  "historicalRoles": {
+    "boatman": 2,
+    "civilian": 1,
+    "porter": 3
+  }
+}

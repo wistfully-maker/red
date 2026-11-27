@@ -195,7 +195,9 @@ def dress(env):
         focus(x,y,z+.63,8.2,-.46,.48)
     elif sid=='luding':
         x,y=-60.0,4.5;z=h(x,y)
-        top=table(x,y,z,2.3,1.0);kettle(x-.5,y,top)
+        # The user-supplied carved underframe supports these boards.
+        for j in range(4):a.box((x,y+(j-1.5)*.25,z+.82),(2.3,.241,.072),'chestnut')
+        top=z+.856;kettle(x-.5,y,top)
         for i in range(4):bowl(x+.22+.23*i,y-.17,top,.092)
         basket(x+.82,y+.85,z,.32,.42);packs(x-1.65,y+.34,z)
         folding_chair(x+.1,y+.86,z,0);person(x-.73,y+.71,z,'stand',.2)

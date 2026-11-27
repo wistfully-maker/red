@@ -1,0 +1,14 @@
+:is(button,.opening-links a,.station-nav a,.edition-map-link){position:relative}
+.control-ripple{position:absolute;pointer-events:none;border-radius:50%;background:currentColor;opacity:0;transform:translate(-50%,-50%) scale(.1);animation:control-wave .55s ease-out;clip-path:inset(0 round 40%)}
+button,.opening-links a,.station-nav a{transition:background-color .18s,color .18s,box-shadow .22s,filter .18s;overflow:hidden}
+@keyframes control-wave{0%{opacity:.17;transform:translate(-50%,-50%) scale(.02)}100%{opacity:0;transform:translate(-50%,-50%) scale(1)}}
+@media(hover:hover) and (pointer:fine){
+ button:hover,.opening-links a:hover{box-shadow:0 2px 0 #c3855860,0 5px 18px #10211620;filter:brightness(1.08)}
+ .station-nav a:hover{background:radial-gradient(circle at var(--pointer-x,50%) var(--pointer-y,50%),#a76a3c25,transparent 80%);color:#8a3c29}
+ button:not(:disabled):active,.opening-links a:active{filter:brightness(.92)}
+ button svg,.opening-links a svg,.station-nav svg{transition:transform .22s cubic-bezier(.2,.7,.2,1)}
+ .opening-links a:hover svg,#nextStation:hover svg{transform:translateX(3px)}
+ #prevStation:hover svg{transform:translateX(-3px)}
+ #modelReset:hover svg,#orbitView:hover svg{transform:rotate(40deg)}
+}
+@media(prefers-reduced-motion:reduce){.control-ripple{display:none}button,.opening-links a,.station-nav a,button svg,.opening-links a svg,.station-nav svg{transition:none!important}}

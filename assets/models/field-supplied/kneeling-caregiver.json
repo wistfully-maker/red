@@ -1,0 +1,83 @@
+{
+  "asset": "kneeling-caregiver",
+  "source": {
+    "file": "C:\\Users\\李冠桥\\Downloads\\07工人装束3d模型.glb",
+    "sha256": "bd550f32a3098e2652b0140497a8f795f0d01aaf30d26d639b66943d1410881c",
+    "mesh_count": 1,
+    "triangles": 18882
+  },
+  "result": {
+    "file": "D:\\program\\自媒体\\长征探索地图\\assets\\models\\field-supplied\\kneeling-caregiver.glb",
+    "bytes": 2324788,
+    "mesh_count": 1,
+    "triangles": 18882,
+    "material_count": 1,
+    "texture_count": 2,
+    "texture_encoding": "WEBP",
+    "texture_quality": 90,
+    "bounds_blender": [
+      [
+        -0.4999999701976776,
+        -0.4035699963569641,
+        0.0
+      ],
+      [
+        0.4999999701976776,
+        0.4035699963569641,
+        1.407719612121582
+      ]
+    ],
+    "dimensions_blender": [
+      0.9999999403953552,
+      0.8071399927139282,
+      1.407719612121582
+    ],
+    "dimensions_gltf": [
+      0.9999999403953552,
+      1.407719612121582,
+      0.8071399927139282
+    ]
+  },
+  "normalisation": {
+    "span_metres": 1.0,
+    "scale_from_import": 1.4388969393580118,
+    "bottom_centre_before_scale": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "yaw_degrees": 0.0
+  },
+  "textures": [
+    {
+      "name": "07工人装束3d模型_basecolor.jpg",
+      "before": [
+        4096,
+        4096
+      ],
+      "after": [
+        2048,
+        2048
+      ],
+      "color_space": "sRGB"
+    },
+    {
+      "name": "07工人装束3d模型_normal.jpg",
+      "before": [
+        4096,
+        4096
+      ],
+      "after": [
+        2048,
+        2048
+      ],
+      "color_space": "Non-Color"
+    }
+  ],
+  "preview_files": [],
+  "notes": [
+    "GLB includes textures; source GLB is unchanged.",
+    "Scale is normalised, not an assertion of measured historical dimensions.",
+    "Inspect the front/back/top views for generated geometry defects before placement."
+  ]
+}

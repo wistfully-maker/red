@@ -1,0 +1,379 @@
+{
+  "asset": "returned-person",
+  "source": {
+    "file": "C:\\Users\\李冠桥\\Downloads\\人物3d模型.glb",
+    "sha256": "8b7eb46f11ae3edcbb41c5b69962699a6c3357040977afc9c82c23d619d0ab55",
+    "mesh_count": 13,
+    "triangles": 19508
+  },
+  "result": {
+    "file": "D:\\program\\自媒体\\长征探索地图\\assets\\models\\field-supplied\\returned-person.glb",
+    "bytes": 3085088,
+    "mesh_count": 1,
+    "triangles": 19508,
+    "material_count": 13,
+    "texture_count": 26,
+    "texture_encoding": "WEBP",
+    "texture_quality": 92,
+    "bounds_blender": [
+      [
+        -0.4699843227863312,
+        -0.5,
+        0.0
+      ],
+      [
+        0.4699843227863312,
+        0.5,
+        3.0256552696228027
+      ]
+    ],
+    "dimensions_blender": [
+      0.9399686455726624,
+      1.0,
+      3.0256552696228027
+    ],
+    "dimensions_gltf": [
+      0.9399686455726624,
+      3.0256552696228027,
+      1.0
+    ]
+  },
+  "normalisation": {
+    "span_metres": 1.0,
+    "scale_from_import": 3.0239940937615355,
+    "bottom_centre_before_scale": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "yaw_degrees": 0.0
+  },
+  "textures": [
+    {
+      "name": "人物3d模型_tripo_part_0_basecolor.jpg",
+      "before": [
+        2048,
+        2048
+      ],
+      "after": [
+        1536,
+        1536
+      ],
+      "color_space": "sRGB"
+    },
+    {
+      "name": "人物3d模型_tripo_part_0_normal.jpg",
+      "before": [
+        2048,
+        2048
+      ],
+      "after": [
+        1536,
+        1536
+      ],
+      "color_space": "Non-Color"
+    },
+    {
+      "name": "人物3d模型_tripo_part_10_basecolor.jpg",
+      "before": [
+        512,
+        512
+      ],
+      "after": [
+        512,
+        512
+      ],
+      "color_space": "sRGB"
+    },
+    {
+      "name": "人物3d模型_tripo_part_10_normal.jpg",
+      "before": [
+        512,
+        512
+      ],
+      "after": [
+        512,
+        512
+      ],
+      "color_space": "Non-Color"
+    },
+    {
+      "name": "人物3d模型_tripo_part_11_basecolor.jpg",
+      "before": [
+        512,
+        512
+      ],
+      "after": [
+        512,
+        512
+      ],
+      "color_space": "sRGB"
+    },
+    {
+      "name": "人物3d模型_tripo_part_11_normal.jpg",
+      "before": [
+        512,
+        512
+      ],
+      "after": [
+        512,
+        512
+      ],
+      "color_space": "Non-Color"
+    },
+    {
+      "name": "人物3d模型_tripo_part_12_basecolor.jpg",
+      "before": [
+        128,
+        128
+      ],
+      "after": [
+        128,
+        128
+      ],
+      "color_space": "sRGB"
+    },
+    {
+      "name": "人物3d模型_tripo_part_12_normal.jpg",
+      "before": [
+        128,
+        128
+      ],
+      "after": [
+        128,
+        128
+      ],
+      "color_space": "Non-Color"
+    },
+    {
+      "name": "人物3d模型_tripo_part_1_basecolor.jpg",
+      "before": [
+        2048,
+        2048
+      ],
+      "after": [
+        1536,
+        1536
+      ],
+      "color_space": "sRGB"
+    },
+    {
+      "name": "人物3d模型_tripo_part_1_normal.jpg",
+      "before": [
+        2048,
+        2048
+      ],
+      "after": [
+        1536,
+        1536
+      ],
+      "color_space": "Non-Color"
+    },
+    {
+      "name": "人物3d模型_tripo_part_2_basecolor.jpg",
+      "before": [
+        2048,
+        2048
+      ],
+      "after": [
+        1536,
+        1536
+      ],
+      "color_space": "sRGB"
+    },
+    {
+      "name": "人物3d模型_tripo_part_2_normal.jpg",
+      "before": [
+        2048,
+        2048
+      ],
+      "after": [
+        1536,
+        1536
+      ],
+      "color_space": "Non-Color"
+    },
+    {
+      "name": "人物3d模型_tripo_part_3_basecolor.jpg",
+      "before": [
+        1024,
+        1024
+      ],
+      "after": [
+        1024,
+        1024
+      ],
+      "color_space": "sRGB"
+    },
+    {
+      "name": "人物3d模型_tripo_part_3_normal.jpg",
+      "before": [
+        1024,
+        1024
+      ],
+      "after": [
+        1024,
+        1024
+      ],
+      "color_space": "Non-Color"
+    },
+    {
+      "name": "人物3d模型_tripo_part_4_basecolor.jpg",
+      "before": [
+        2048,
+        2048
+      ],
+      "after": [
+        1536,
+        1536
+      ],
+      "color_space": "sRGB"
+    },
+    {
+      "name": "人物3d模型_tripo_part_4_normal.jpg",
+      "before": [
+        2048,
+        2048
+      ],
+      "after": [
+        1536,
+        1536
+      ],
+      "color_space": "Non-Color"
+    },
+    {
+      "name": "人物3d模型_tripo_part_5_basecolor.jpg",
+      "before": [
+        1024,
+        1024
+      ],
+      "after": [
+        1024,
+        1024
+      ],
+      "color_space": "sRGB"
+    },
+    {
+      "name": "人物3d模型_tripo_part_5_normal.jpg",
+      "before": [
+        1024,
+        1024
+      ],
+      "after": [
+        1024,
+        1024
+      ],
+      "color_space": "Non-Color"
+    },
+    {
+      "name": "人物3d模型_tripo_part_6_basecolor.jpg",
+      "before": [
+        1024,
+        1024
+      ],
+      "after": [
+        1024,
+        1024
+      ],
+      "color_space": "sRGB"
+    },
+    {
+      "name": "人物3d模型_tripo_part_6_normal.jpg",
+      "before": [
+        1024,
+        1024
+      ],
+      "after": [
+        1024,
+        1024
+      ],
+      "color_space": "Non-Color"
+    },
+    {
+      "name": "人物3d模型_tripo_part_7_basecolor.jpg",
+      "before": [
+        1024,
+        1024
+      ],
+      "after": [
+        1024,
+        1024
+      ],
+      "color_space": "sRGB"
+    },
+    {
+      "name": "人物3d模型_tripo_part_7_normal.jpg",
+      "before": [
+        1024,
+        1024
+      ],
+      "after": [
+        1024,
+        1024
+      ],
+      "color_space": "Non-Color"
+    },
+    {
+      "name": "人物3d模型_tripo_part_8_basecolor.jpg",
+      "before": [
+        512,
+        512
+      ],
+      "after": [
+        512,
+        512
+      ],
+      "color_space": "sRGB"
+    },
+    {
+      "name": "人物3d模型_tripo_part_8_normal.jpg",
+      "before": [
+        512,
+        512
+      ],
+      "after": [
+        512,
+        512
+      ],
+      "color_space": "Non-Color"
+    },
+    {
+      "name": "人物3d模型_tripo_part_9_basecolor.jpg",
+      "before": [
+        512,
+        512
+      ],
+      "after": [
+        512,
+        512
+      ],
+      "color_space": "sRGB"
+    },
+    {
+      "name": "人物3d模型_tripo_part_9_normal.jpg",
+      "before": [
+        512,
+        512
+      ],
+      "after": [
+        512,
+        512
+      ],
+      "color_space": "Non-Color"
+    }
+  ],
+  "preview_files": [
+    "D:\\program\\自媒体\\长征探索地图\\output\\field-supplied\\returned-person-front.png",
+    "D:\\program\\自媒体\\长征探索地图\\output\\field-supplied\\returned-person-back.png",
+    "D:\\program\\自媒体\\长征探索地图\\output\\field-supplied\\returned-person-top.png"
+  ],
+  "notes": [
+    "GLB includes textures; source GLB is unchanged.",
+    "Scale is normalised, not an assertion of measured historical dimensions.",
+    "Inspect the front/back/top views for generated geometry defects before placement."
+  ],
+  "provided_source": {
+    "file": "C:\\Users\\李冠桥\\Downloads\\人物3d模型.glb",
+    "sha256": "8b7eb46f11ae3edcbb41c5b69962699a6c3357040977afc9c82c23d619d0ab55"
+  }
+}

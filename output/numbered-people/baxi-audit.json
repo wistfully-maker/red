@@ -1,0 +1,189 @@
+{
+  "station": "baxi",
+  "passed": true,
+  "sha256": "d088c64f6c655d6af10bc0594d5a32e96234e43edf9518f179604e4e27bd4260",
+  "bytes": 11952808,
+  "people": 7,
+  "counts": {
+    "seated-delegate": 5,
+    "marcher-male": 1,
+    "journal-writer": 1
+  },
+  "proceduralPeople": [],
+  "actors": [
+    {
+      "asset": "seated-delegate",
+      "position": [
+        -4.0,
+        0.0,
+        0.25
+      ],
+      "requestedPose": "sit",
+      "sourcePose": "sit",
+      "floor": 0.25,
+      "height": 1.3008615970611572,
+      "nominalAdultHeight": 1.722995366555206,
+      "frontBlender": [
+        -4.371138828673793e-08,
+        1.0,
+        0.0
+      ],
+      "embeddedSupport": "chair",
+      "sourceRole": "local",
+      "sourceIdentity": "red_army",
+      "historicalRole": "red_army"
+    },
+    {
+      "asset": "seated-delegate",
+      "position": [
+        -2.0,
+        -1.0,
+        0.25
+      ],
+      "requestedPose": "sit",
+      "sourcePose": "sit",
+      "floor": 0.25,
+      "height": 1.2524737119674683,
+      "nominalAdultHeight": 1.6589056348618592,
+      "frontBlender": [
+        -4.371138828673793e-08,
+        1.0,
+        0.0
+      ],
+      "embeddedSupport": "chair",
+      "sourceRole": "local",
+      "sourceIdentity": "red_army",
+      "historicalRole": "red_army"
+    },
+    {
+      "asset": "seated-delegate",
+      "position": [
+        0.0,
+        -1.5,
+        0.25
+      ],
+      "requestedPose": "sit",
+      "sourcePose": "sit",
+      "floor": 0.25,
+      "height": 1.2366482019424438,
+      "nominalAdultHeight": 1.637944757077782,
+      "frontBlender": [
+        -4.371138828673793e-08,
+        1.0,
+        0.0
+      ],
+      "embeddedSupport": "chair",
+      "sourceRole": "local",
+      "sourceIdentity": "red_army",
+      "historicalRole": "red_army"
+    },
+    {
+      "asset": "seated-delegate",
+      "position": [
+        2.0,
+        -1.0,
+        0.25
+      ],
+      "requestedPose": "sit",
+      "sourcePose": "sit",
+      "floor": 0.25,
+      "height": 1.2683947086334229,
+      "nominalAdultHeight": 1.6799930245304338,
+      "frontBlender": [
+        -4.371138828673793e-08,
+        1.0,
+        0.0
+      ],
+      "embeddedSupport": "chair",
+      "sourceRole": "local",
+      "sourceIdentity": "red_army",
+      "historicalRole": "red_army"
+    },
+    {
+      "asset": "seated-delegate",
+      "position": [
+        4.0,
+        0.0,
+        0.25
+      ],
+      "requestedPose": "sit",
+      "sourcePose": "sit",
+      "floor": 0.25,
+      "height": 1.2387659549713135,
+      "nominalAdultHeight": 1.6407495732156319,
+      "frontBlender": [
+        -4.371138828673793e-08,
+        1.0,
+        0.0
+      ],
+      "embeddedSupport": "chair",
+      "sourceRole": "local",
+      "sourceIdentity": "red_army",
+      "historicalRole": "red_army"
+    },
+    {
+      "asset": "marcher-male",
+      "position": [
+        0.0,
+        1.399999976158142,
+        0.8999999761581421
+      ],
+      "requestedPose": "greet",
+      "sourcePose": "standing march pause",
+      "floor": 0.8999999761581421,
+      "height": 1.6014963388442993,
+      "nominalAdultHeight": 1.6014961721802001,
+      "frontBlender": [
+        -4.371138828673793e-08,
+        -1.0,
+        0.0
+      ],
+      "embeddedSupport": "",
+      "sourceRole": "local",
+      "sourceIdentity": "red_army",
+      "historicalRole": "red_army"
+    },
+    {
+      "asset": "journal-writer",
+      "position": [
+        4.440000057220459,
+        -3.3299999237060547,
+        0.3199999928474426
+      ],
+      "requestedPose": "write",
+      "sourcePose": "write",
+      "floor": 0.3199999928474426,
+      "height": 1.5846096873283386,
+      "nominalAdultHeight": 1.5846095936893876,
+      "frontBlender": [
+        0.11971216648817062,
+        -0.9928086400032043,
+        0.0
+      ],
+      "embeddedSupport": "",
+      "sourceRole": "local",
+      "sourceIdentity": "civilian",
+      "historicalRole": "red_army"
+    }
+  ],
+  "checks": [
+    "bottom on authored floor",
+    "pose-specific height",
+    "front direction",
+    "native UV/PBR retained",
+    "no duplicate supplied chair",
+    "no procedural historical mesh"
+  ],
+  "residentView": [
+    4.440000057220459,
+    1.3726561069488525,
+    3.3299999237060547,
+    2.567067541776808,
+    -0.62,
+    0.14
+  ],
+  "residentCameraUsesActualPosedHeight": true,
+  "historicalRoles": {
+    "red_army": 7
+  }
+}

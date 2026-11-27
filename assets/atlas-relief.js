@@ -91,12 +91,13 @@ export class AtlasRelief {
     this.tiles = new Map();
   }
 
-  update(view, aspect, active, compact, now) {
+  update(view, aspect, active, compact, now, visibleDistance = view.distance) {
     if (!active || view.distance > 135) {
       this.wanted = null;
       this.pending?.abort();
       this.pending = null;
-      if (this.current) this.replace(null);
+      // A flight pauses requests; it must not drop the visible DEM at takeoff.
+      if (this.current && visibleDistance > 165) this.replace(null);
       return;
     }
     const area = areaAt(view, this.origin, aspect);

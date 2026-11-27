@@ -1,0 +1,160 @@
+{
+  "station": "luding",
+  "passed": true,
+  "sha256": "8df66c54883bd73325af68662e976c9f0e26db7dbc6bf2095159fa8d3a9f3820",
+  "bytes": 38117224,
+  "people": 6,
+  "counts": {
+    "marcher-male": 4,
+    "old-porter": 2
+  },
+  "proceduralPeople": [],
+  "actors": [
+    {
+      "asset": "marcher-male",
+      "position": [
+        -32.0,
+        0.8500000238418579,
+        8.339949607849121
+      ],
+      "requestedPose": "walk",
+      "sourcePose": "standing march pause",
+      "floor": 8.339949607849121,
+      "height": 1.5916147232055664,
+      "nominalAdultHeight": 1.591614938231751,
+      "frontBlender": [
+        0.9949244260787964,
+        -0.10062573850154877,
+        0.0
+      ],
+      "embeddedSupport": "",
+      "sourceRole": "walker",
+      "sourceIdentity": "red_army",
+      "historicalRole": "red_army"
+    },
+    {
+      "asset": "marcher-male",
+      "position": [
+        -27.0,
+        0.7599999904632568,
+        8.048996925354004
+      ],
+      "requestedPose": "walk",
+      "sourcePose": "standing march pause",
+      "floor": 8.048996925354004,
+      "height": 1.6291484832763672,
+      "nominalAdultHeight": 1.6291485077023877,
+      "frontBlender": [
+        0.9987897872924805,
+        0.04918381944298744,
+        0.0
+      ],
+      "embeddedSupport": "",
+      "sourceRole": "walker",
+      "sourceIdentity": "red_army",
+      "historicalRole": "red_army"
+    },
+    {
+      "asset": "marcher-male",
+      "position": [
+        18.0,
+        0.8999999761581421,
+        7.649554252624512
+      ],
+      "requestedPose": "walk",
+      "sourcePose": "standing march pause",
+      "floor": 7.649554252624512,
+      "height": 1.732893943786621,
+      "nominalAdultHeight": 1.7328936633004557,
+      "frontBlender": [
+        -0.9987101554870605,
+        -0.050774574279785156,
+        0.0
+      ],
+      "embeddedSupport": "",
+      "sourceRole": "walker",
+      "sourceIdentity": "red_army",
+      "historicalRole": "red_army"
+    },
+    {
+      "asset": "marcher-male",
+      "position": [
+        30.0,
+        0.8600000143051147,
+        8.217650413513184
+      ],
+      "requestedPose": "walk",
+      "sourcePose": "standing march pause",
+      "floor": 8.217650413513184,
+      "height": 1.7374191284179688,
+      "nominalAdultHeight": 1.7374193557441655,
+      "frontBlender": [
+        -0.9976063966751099,
+        0.0691484808921814,
+        0.0
+      ],
+      "embeddedSupport": "",
+      "sourceRole": "walker",
+      "sourceIdentity": "red_army",
+      "historicalRole": "red_army"
+    },
+    {
+      "asset": "old-porter",
+      "position": [
+        -60.72999954223633,
+        5.210000038146973,
+        8.006969451904297
+      ],
+      "requestedPose": "stand",
+      "sourcePose": "standing",
+      "floor": 8.006969451904297,
+      "height": 1.597001075744629,
+      "nominalAdultHeight": 1.5970011576201615,
+      "frontBlender": [
+        0.19866932928562164,
+        -0.9800665378570557,
+        0.0
+      ],
+      "embeddedSupport": "",
+      "sourceRole": "local",
+      "sourceIdentity": "civilian",
+      "historicalRole": "porter"
+    },
+    {
+      "asset": "old-porter",
+      "position": [
+        69.2300033569336,
+        -12.739999771118164,
+        7.99616003036499
+      ],
+      "requestedPose": "stand",
+      "sourcePose": "standing",
+      "floor": 7.99616003036499,
+      "height": 1.6299996376037598,
+      "nominalAdultHeight": 1.63,
+      "frontBlender": [
+        -0.3050585985183716,
+        -0.9523335099220276,
+        0.0
+      ],
+      "embeddedSupport": "",
+      "sourceRole": "porter",
+      "sourceIdentity": "porter",
+      "historicalRole": "porter"
+    }
+  ],
+  "checks": [
+    "bottom on authored floor",
+    "pose-specific height",
+    "front direction",
+    "native UV/PBR retained",
+    "no duplicate supplied chair",
+    "no procedural historical mesh"
+  ],
+  "residentView": null,
+  "residentCameraUsesActualPosedHeight": false,
+  "historicalRoles": {
+    "red_army": 4,
+    "porter": 2
+  }
+}

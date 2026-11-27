@@ -1,0 +1,587 @@
+{
+  "asset": "seated-civilian-woman",
+  "source": {
+    "file": "C:\\Users\\李冠桥\\Downloads\\06女性编篮3d模型.glb",
+    "sha256": "9d7538c8d1e7f3a000ef2977fd8dfea29b6a34c8aa3635023f7c8b89b521f380",
+    "mesh_count": 22,
+    "triangles": 22484
+  },
+  "result": {
+    "file": "D:\\program\\自媒体\\长征探索地图\\assets\\models\\field-supplied\\seated-civilian-woman.glb",
+    "bytes": 3837412,
+    "mesh_count": 1,
+    "triangles": 22484,
+    "material_count": 22,
+    "texture_count": 44,
+    "texture_encoding": "WEBP",
+    "texture_quality": 90,
+    "bounds_blender": [
+      [
+        -0.5,
+        -0.47622981667518616,
+        0.0
+      ],
+      [
+        0.5,
+        0.47622981667518616,
+        1.8605945110321045
+      ]
+    ],
+    "dimensions_blender": [
+      1.0,
+      0.9524596333503723,
+      1.8605945110321045
+    ],
+    "dimensions_gltf": [
+      1.0,
+      1.8605945110321045,
+      0.9524596333503723
+    ]
+  },
+  "normalisation": {
+    "span_metres": 1.0,
+    "scale_from_import": 1.8986036270931108,
+    "bottom_centre_before_scale": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "yaw_degrees": 0.0
+  },
+  "textures": [
+    {
+      "name": "04女性编篮3d模型_tripo_part_0_basecolor.jpg",
+      "before": [
+        2048,
+        2048
+      ],
+      "after": [
+        2048,
+        2048
+      ],
+      "color_space": "sRGB"
+    },
+    {
+      "name": "04女性编篮3d模型_tripo_part_0_normal.jpg",
+      "before": [
+        2048,
+        2048
+      ],
+      "after": [
+        2048,
+        2048
+      ],
+      "color_space": "Non-Color"
+    },
+    {
+      "name": "04女性编篮3d模型_tripo_part_10_basecolor.jpg",
+      "before": [
+        512,
+        512
+      ],
+      "after": [
+        512,
+        512
+      ],
+      "color_space": "sRGB"
+    },
+    {
+      "name": "04女性编篮3d模型_tripo_part_10_normal.jpg",
+      "before": [
+        512,
+        512
+      ],
+      "after": [
+        512,
+        512
+      ],
+      "color_space": "Non-Color"
+    },
+    {
+      "name": "04女性编篮3d模型_tripo_part_11_basecolor.jpg",
+      "before": [
+        512,
+        512
+      ],
+      "after": [
+        512,
+        512
+      ],
+      "color_space": "sRGB"
+    },
+    {
+      "name": "04女性编篮3d模型_tripo_part_11_normal.jpg",
+      "before": [
+        512,
+        512
+      ],
+      "after": [
+        512,
+        512
+      ],
+      "color_space": "Non-Color"
+    },
+    {
+      "name": "04女性编篮3d模型_tripo_part_12_basecolor.jpg",
+      "before": [
+        512,
+        512
+      ],
+      "after": [
+        512,
+        512
+      ],
+      "color_space": "sRGB"
+    },
+    {
+      "name": "04女性编篮3d模型_tripo_part_12_normal.jpg",
+      "before": [
+        512,
+        512
+      ],
+      "after": [
+        512,
+        512
+      ],
+      "color_space": "Non-Color"
+    },
+    {
+      "name": "04女性编篮3d模型_tripo_part_13_basecolor.jpg",
+      "before": [
+        512,
+        512
+      ],
+      "after": [
+        512,
+        512
+      ],
+      "color_space": "sRGB"
+    },
+    {
+      "name": "04女性编篮3d模型_tripo_part_13_normal.jpg",
+      "before": [
+        512,
+        512
+      ],
+      "after": [
+        512,
+        512
+      ],
+      "color_space": "Non-Color"
+    },
+    {
+      "name": "04女性编篮3d模型_tripo_part_14_basecolor.jpg",
+      "before": [
+        256,
+        256
+      ],
+      "after": [
+        256,
+        256
+      ],
+      "color_space": "sRGB"
+    },
+    {
+      "name": "04女性编篮3d模型_tripo_part_14_normal.jpg",
+      "before": [
+        256,
+        256
+      ],
+      "after": [
+        256,
+        256
+      ],
+      "color_space": "Non-Color"
+    },
+    {
+      "name": "04女性编篮3d模型_tripo_part_15_basecolor.jpg",
+      "before": [
+        256,
+        256
+      ],
+      "after": [
+        256,
+        256
+      ],
+      "color_space": "sRGB"
+    },
+    {
+      "name": "04女性编篮3d模型_tripo_part_15_normal.jpg",
+      "before": [
+        256,
+        256
+      ],
+      "after": [
+        256,
+        256
+      ],
+      "color_space": "Non-Color"
+    },
+    {
+      "name": "04女性编篮3d模型_tripo_part_16_basecolor.jpg",
+      "before": [
+        256,
+        256
+      ],
+      "after": [
+        256,
+        256
+      ],
+      "color_space": "sRGB"
+    },
+    {
+      "name": "04女性编篮3d模型_tripo_part_16_normal.jpg",
+      "before": [
+        256,
+        256
+      ],
+      "after": [
+        256,
+        256
+      ],
+      "color_space": "Non-Color"
+    },
+    {
+      "name": "04女性编篮3d模型_tripo_part_17_basecolor.jpg",
+      "before": [
+        128,
+        128
+      ],
+      "after": [
+        128,
+        128
+      ],
+      "color_space": "sRGB"
+    },
+    {
+      "name": "04女性编篮3d模型_tripo_part_17_normal.jpg",
+      "before": [
+        128,
+        128
+      ],
+      "after": [
+        128,
+        128
+      ],
+      "color_space": "Non-Color"
+    },
+    {
+      "name": "04女性编篮3d模型_tripo_part_18_basecolor.jpg",
+      "before": [
+        128,
+        128
+      ],
+      "after": [
+        128,
+        128
+      ],
+      "color_space": "sRGB"
+    },
+    {
+      "name": "04女性编篮3d模型_tripo_part_18_normal.jpg",
+      "before": [
+        128,
+        128
+      ],
+      "after": [
+        128,
+        128
+      ],
+      "color_space": "Non-Color"
+    },
+    {
+      "name": "04女性编篮3d模型_tripo_part_19_basecolor.jpg",
+      "before": [
+        128,
+        128
+      ],
+      "after": [
+        128,
+        128
+      ],
+      "color_space": "sRGB"
+    },
+    {
+      "name": "04女性编篮3d模型_tripo_part_19_normal.jpg",
+      "before": [
+        128,
+        128
+      ],
+      "after": [
+        128,
+        128
+      ],
+      "color_space": "Non-Color"
+    },
+    {
+      "name": "04女性编篮3d模型_tripo_part_1_basecolor.jpg",
+      "before": [
+        2048,
+        2048
+      ],
+      "after": [
+        2048,
+        2048
+      ],
+      "color_space": "sRGB"
+    },
+    {
+      "name": "04女性编篮3d模型_tripo_part_1_normal.jpg",
+      "before": [
+        2048,
+        2048
+      ],
+      "after": [
+        2048,
+        2048
+      ],
+      "color_space": "Non-Color"
+    },
+    {
+      "name": "04女性编篮3d模型_tripo_part_20_basecolor.jpg",
+      "before": [
+        128,
+        128
+      ],
+      "after": [
+        128,
+        128
+      ],
+      "color_space": "sRGB"
+    },
+    {
+      "name": "04女性编篮3d模型_tripo_part_20_normal.jpg",
+      "before": [
+        128,
+        128
+      ],
+      "after": [
+        128,
+        128
+      ],
+      "color_space": "Non-Color"
+    },
+    {
+      "name": "04女性编篮3d模型_tripo_part_21_basecolor.jpg",
+      "before": [
+        128,
+        128
+      ],
+      "after": [
+        128,
+        128
+      ],
+      "color_space": "sRGB"
+    },
+    {
+      "name": "04女性编篮3d模型_tripo_part_21_normal.jpg",
+      "before": [
+        128,
+        128
+      ],
+      "after": [
+        128,
+        128
+      ],
+      "color_space": "Non-Color"
+    },
+    {
+      "name": "04女性编篮3d模型_tripo_part_2_basecolor.jpg",
+      "before": [
+        1024,
+        1024
+      ],
+      "after": [
+        1024,
+        1024
+      ],
+      "color_space": "sRGB"
+    },
+    {
+      "name": "04女性编篮3d模型_tripo_part_2_normal.jpg",
+      "before": [
+        1024,
+        1024
+      ],
+      "after": [
+        1024,
+        1024
+      ],
+      "color_space": "Non-Color"
+    },
+    {
+      "name": "04女性编篮3d模型_tripo_part_3_basecolor.jpg",
+      "before": [
+        2048,
+        2048
+      ],
+      "after": [
+        2048,
+        2048
+      ],
+      "color_space": "sRGB"
+    },
+    {
+      "name": "04女性编篮3d模型_tripo_part_3_normal.jpg",
+      "before": [
+        2048,
+        2048
+      ],
+      "after": [
+        2048,
+        2048
+      ],
+      "color_space": "Non-Color"
+    },
+    {
+      "name": "04女性编篮3d模型_tripo_part_4_basecolor.jpg",
+      "before": [
+        1024,
+        1024
+      ],
+      "after": [
+        1024,
+        1024
+      ],
+      "color_space": "sRGB"
+    },
+    {
+      "name": "04女性编篮3d模型_tripo_part_4_normal.jpg",
+      "before": [
+        1024,
+        1024
+      ],
+      "after": [
+        1024,
+        1024
+      ],
+      "color_space": "Non-Color"
+    },
+    {
+      "name": "04女性编篮3d模型_tripo_part_5_basecolor.jpg",
+      "before": [
+        1024,
+        1024
+      ],
+      "after": [
+        1024,
+        1024
+      ],
+      "color_space": "sRGB"
+    },
+    {
+      "name": "04女性编篮3d模型_tripo_part_5_normal.jpg",
+      "before": [
+        1024,
+        1024
+      ],
+      "after": [
+        1024,
+        1024
+      ],
+      "color_space": "Non-Color"
+    },
+    {
+      "name": "04女性编篮3d模型_tripo_part_6_basecolor.jpg",
+      "before": [
+        1024,
+        1024
+      ],
+      "after": [
+        1024,
+        1024
+      ],
+      "color_space": "sRGB"
+    },
+    {
+      "name": "04女性编篮3d模型_tripo_part_6_normal.jpg",
+      "before": [
+        1024,
+        1024
+      ],
+      "after": [
+        1024,
+        1024
+      ],
+      "color_space": "Non-Color"
+    },
+    {
+      "name": "04女性编篮3d模型_tripo_part_7_basecolor.jpg",
+      "before": [
+        512,
+        512
+      ],
+      "after": [
+        512,
+        512
+      ],
+      "color_space": "sRGB"
+    },
+    {
+      "name": "04女性编篮3d模型_tripo_part_7_normal.jpg",
+      "before": [
+        512,
+        512
+      ],
+      "after": [
+        512,
+        512
+      ],
+      "color_space": "Non-Color"
+    },
+    {
+      "name": "04女性编篮3d模型_tripo_part_8_basecolor.jpg",
+      "before": [
+        512,
+        512
+      ],
+      "after": [
+        512,
+        512
+      ],
+      "color_space": "sRGB"
+    },
+    {
+      "name": "04女性编篮3d模型_tripo_part_8_normal.jpg",
+      "before": [
+        512,
+        512
+      ],
+      "after": [
+        512,
+        512
+      ],
+      "color_space": "Non-Color"
+    },
+    {
+      "name": "04女性编篮3d模型_tripo_part_9_basecolor.jpg",
+      "before": [
+        512,
+        512
+      ],
+      "after": [
+        512,
+        512
+      ],
+      "color_space": "sRGB"
+    },
+    {
+      "name": "04女性编篮3d模型_tripo_part_9_normal.jpg",
+      "before": [
+        512,
+        512
+      ],
+      "after": [
+        512,
+        512
+      ],
+      "color_space": "Non-Color"
+    }
+  ],
+  "preview_files": [],
+  "notes": [
+    "GLB includes textures; source GLB is unchanged.",
+    "Scale is normalised, not an assertion of measured historical dimensions.",
+    "Inspect the front/back/top views for generated geometry defects before placement."
+  ]
+}

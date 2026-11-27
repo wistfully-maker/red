@@ -1,6 +1,7 @@
 import { clamp, mix } from './geo.js';
 
 const radians = Math.PI / 180;
+export const ATLAS_MOTION_VERSION='terrain-film-20261127c';
 
 function tangent(fov) {
   return Math.tan(fov * radians / 2);
@@ -85,4 +86,66 @@ export function keepGroundInView(view, bounds, aspect, fov) {
     x: clamp(view.x, west - area[0], east - area[2]),
     z: clamp(view.z, north - area[1], south - area[3])
   };
+}
+
+/** Resolve headings on the nearest equivalent turn before interpolating. */
+export function nearestBearing(from, to) {
+  const turn = Math.PI * 2;
+  const delta = ((to.bearing - from.bearing + Math.PI) % turn + turn) % turn - Math.PI;
+  return {...to, bearing: from.bearing + delta};
+}
+
+const smoother = t => t * t * t * (t * (t * 6 - 15) + 10);
+
+export function sampleAtlasFlight(from, to, progress) {
+  if (progress <= 0) return {...from};
+  if (progress >= 1) return {...to};
+  const t = smoother(clamp(progress, 0, 1));
+  const length = Math.hypot(to.x - from.x, to.z - from.z);
+  const arc = Math.sin(t * Math.PI) ** 2;
+  const rise = Math.max(0, length * .36 - Math.max(from.distance, to.distance) * .55);
+  const pitch = mix(from.pitch, to.pitch, t);
+  return {
+    x: mix(from.x, to.x, t), z: mix(from.z, to.z, t),
+    bearing: mix(from.bearing, to.bearing, t),
+    distance: Math.exp(mix(Math.log(Math.max(.001, from.distance)), Math.log(Math.max(.001, to.distance)), t)) + rise * arc,
+    pitch: mix(pitch, Math.max(pitch, Math.min(1.18, pitch + .26)), clamp(rise / 250, 0, 1) * arc)
+  };
+}
+
+/** Stretch time during rendering stalls instead of skipping a large camera step. */
+export function advanceAtlasFlight(from,to,duration,elapsed,dt){
+  const previous=sampleAtlasFlight(from,to,elapsed/duration);
+  let next=Math.min(duration,elapsed+Math.max(0,Math.min(dt,.04)));
+  const allowed=view=>Math.abs(Math.log(view.distance/previous.distance))<=.075 &&
+    Math.abs(view.bearing-previous.bearing)<=.045 && Math.abs(view.pitch-previous.pitch)<=.035;
+  if(!allowed(sampleAtlasFlight(from,to,next/duration))){
+    let low=elapsed,high=next;
+    for(let n=0;n<12;n++){
+      const middle=(low+high)/2;
+      if(allowed(sampleAtlasFlight(from,to,middle/duration)))low=middle;else high=middle;
+    }
+    next=low;
+  }
+  return {view:sampleAtlasFlight(from,to,next/duration),elapsed:next,progress:next/duration};
+}
+
+/** Analytic critically damped following keeps velocity continuous across inputs. */
+export function stepAtlasCamera(view, goal, velocity = {}, dt = .016, reducedMotion = false) {
+  const target = nearestBearing(view, goal);
+  const keys = ['x', 'z', 'pitch', 'bearing', 'distance'];
+  if (reducedMotion) return {view: {...target}, velocity: Object.fromEntries(keys.map(key => [key, 0]))};
+  const next = {...view}, speed = {...velocity};
+  const time = clamp(dt, 0, .1), omega = 12, decay = Math.exp(-omega * time);
+  for (const key of keys) {
+    const logarithmic = key === 'distance';
+    const current = logarithmic ? Math.log(Math.max(.001, view[key])) : view[key];
+    const destination = logarithmic ? Math.log(Math.max(.001, target[key])) : target[key];
+    const error = current - destination;
+    const temporary = ((speed[key] || 0) + omega * error) * time;
+    const value = destination + (error + temporary) * decay;
+    speed[key] = ((speed[key] || 0) - omega * temporary) * decay;
+    next[key] = logarithmic ? Math.exp(value) : value;
+  }
+  return {view: next, velocity: speed};
 }

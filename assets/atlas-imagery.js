@@ -54,7 +54,7 @@ export class AtlasImagery {
     };
   }
 
-  update(view, goal, aspect, compact, displayHeight, active, dt) {
+  update(view, goal, aspect, compact, displayHeight, active, dt, reducedMotion = false) {
     if (!active || goal.distance > maximumDistance) {
       this.wanted = null;
       clearTimeout(this.timer);
@@ -69,8 +69,11 @@ export class AtlasImagery {
         this.load(area);
       }
     }
-    const strength = active ? 1 - THREE.MathUtils.smoothstep(view.distance, maximumDistance, maximumDistance * 1.45) : 0;
-    this.blend = Math.min(1, (this.blend ?? 1) + dt * 3.5);
+    const targetStrength = active && this.current ? 1 - THREE.MathUtils.smoothstep(view.distance, maximumDistance, maximumDistance * 1.45) : 0;
+    this.visibility = reducedMotion ? targetStrength : (this.visibility || 0) +
+      (targetStrength - (this.visibility || 0)) * (1 - Math.exp(-dt * 7));
+    const strength = this.visibility;
+    this.blend = reducedMotion ? 1 : Math.min(1, (this.blend ?? 1) + dt * 3.5);
     const fade = smooth(this.blend);
     this.uniforms.atlasPhotoOpacity.value = strength * fade;
     this.uniforms.previousAtlasOpacity.value = this.previous ? strength * (1 - fade) : 0;

@@ -1,0 +1,103 @@
+{
+  "station": "ruijin",
+  "passed": true,
+  "sha256": "6a2667ac30b10c7eed3c6b20f003840ece1711eaef509dd6eeda5c487f2e4fbf",
+  "bytes": 10802100,
+  "people": 3,
+  "counts": {
+    "farmer-greeting": 1,
+    "old-porter": 1,
+    "newspaper-reader": 1
+  },
+  "proceduralPeople": [],
+  "actors": [
+    {
+      "asset": "farmer-greeting",
+      "position": [
+        -1.399999976158142,
+        -1.100000023841858,
+        3.6500000953674316
+      ],
+      "requestedPose": "walk",
+      "sourcePose": "greet",
+      "floor": 3.6500000953674316,
+      "height": 1.6169919967651367,
+      "nominalAdultHeight": 1.6169921358356514,
+      "frontBlender": [
+        -0.4359879791736603,
+        -0.8999524116516113,
+        0.0
+      ],
+      "embeddedSupport": "",
+      "sourceRole": "farmer",
+      "sourceIdentity": "civilian",
+      "historicalRole": "civilian"
+    },
+    {
+      "asset": "old-porter",
+      "position": [
+        2.0,
+        -4.900000095367432,
+        1.5
+      ],
+      "requestedPose": "stand",
+      "sourcePose": "standing",
+      "floor": 1.5,
+      "height": 1.751779556274414,
+      "nominalAdultHeight": 1.7517794102328155,
+      "frontBlender": [
+        -0.5681196451187134,
+        -0.8229458928108215,
+        0.0
+      ],
+      "embeddedSupport": "",
+      "sourceRole": "local",
+      "sourceIdentity": "civilian",
+      "historicalRole": "porter"
+    },
+    {
+      "asset": "newspaper-reader",
+      "position": [
+        -1.850000023841858,
+        -0.019999999552965164,
+        3.6600000858306885
+      ],
+      "requestedPose": "write",
+      "sourcePose": "read",
+      "floor": 3.6600000858306885,
+      "height": 1.580472707748413,
+      "nominalAdultHeight": 1.5804727464088464,
+      "frontBlender": [
+        0.29552027583122253,
+        -0.9553365111351013,
+        0.0
+      ],
+      "embeddedSupport": "",
+      "sourceRole": "local",
+      "sourceIdentity": "civilian",
+      "historicalRole": "red_army"
+    }
+  ],
+  "checks": [
+    "bottom on authored floor",
+    "pose-specific height",
+    "front direction",
+    "native UV/PBR retained",
+    "no duplicate supplied chair",
+    "no procedural historical mesh"
+  ],
+  "residentView": [
+    -1.850000023841858,
+    4.7099080085754395,
+    0.019999999552965164,
+    2.560365849182331,
+    0.6,
+    0.3
+  ],
+  "residentCameraUsesActualPosedHeight": true,
+  "historicalRoles": {
+    "civilian": 1,
+    "red_army": 1,
+    "porter": 1
+  }
+}

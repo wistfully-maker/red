@@ -1,0 +1,12 @@
+[
+  {
+    "station": "xiangjiang",
+    "sourceSHA256": "c69f3ed3ddc50f963c299e088de7e36557fcf595044961a825d65c576cfd6ff3",
+    "actor": "kneeling-caregiver",
+    "portraits": [
+      "D:\\program\\自媒体\\长征探索地图\\output\\numbered-people\\xiangjiang-kneeling-caregiver-front.jpg",
+      "D:\\program\\自媒体\\长征探索地图\\output\\numbered-people\\xiangjiang-kneeling-caregiver-back.jpg"
+    ],
+    "scope": "Actual exported actor; surrounding objects hidden for a clear front/back geometry and texture check."
+  }
+]

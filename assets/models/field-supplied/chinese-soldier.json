@@ -1,0 +1,403 @@
+{
+  "asset": "chinese-soldier",
+  "source": {
+    "file": "C:\\Users\\李冠桥\\Downloads\\中国军装士兵3d模型.glb",
+    "sha256": "086c3c0ffd1f44abd91778c5e71f52b4112f83a0f89ea9dd7e8ca2f81b2642c5",
+    "mesh_count": 14,
+    "triangles": 20223
+  },
+  "result": {
+    "file": "D:\\program\\自媒体\\长征探索地图\\assets\\models\\field-supplied\\chinese-soldier.glb",
+    "bytes": 3448652,
+    "mesh_count": 1,
+    "triangles": 20223,
+    "material_count": 14,
+    "texture_count": 28,
+    "texture_encoding": "WEBP",
+    "texture_quality": 92,
+    "bounds_blender": [
+      [
+        -0.42021504044532776,
+        -0.5,
+        0.0
+      ],
+      [
+        0.42021504044532776,
+        0.5,
+        2.562502384185791
+      ]
+    ],
+    "dimensions_blender": [
+      0.8404300808906555,
+      1.0,
+      2.562502384185791
+    ],
+    "dimensions_gltf": [
+      0.8404300808906555,
+      2.562502384185791,
+      1.0
+    ]
+  },
+  "normalisation": {
+    "span_metres": 1.0,
+    "scale_from_import": 2.5625024437927664,
+    "bottom_centre_before_scale": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "yaw_degrees": 0.0
+  },
+  "textures": [
+    {
+      "name": "中国军装士兵3d模型_tripo_part_0_basecolor.jpg",
+      "before": [
+        2048,
+        2048
+      ],
+      "after": [
+        1536,
+        1536
+      ],
+      "color_space": "sRGB"
+    },
+    {
+      "name": "中国军装士兵3d模型_tripo_part_0_normal.jpg",
+      "before": [
+        2048,
+        2048
+      ],
+      "after": [
+        1536,
+        1536
+      ],
+      "color_space": "Non-Color"
+    },
+    {
+      "name": "中国军装士兵3d模型_tripo_part_10_basecolor.jpg",
+      "before": [
+        512,
+        512
+      ],
+      "after": [
+        512,
+        512
+      ],
+      "color_space": "sRGB"
+    },
+    {
+      "name": "中国军装士兵3d模型_tripo_part_10_normal.jpg",
+      "before": [
+        512,
+        512
+      ],
+      "after": [
+        512,
+        512
+      ],
+      "color_space": "Non-Color"
+    },
+    {
+      "name": "中国军装士兵3d模型_tripo_part_11_basecolor.jpg",
+      "before": [
+        512,
+        512
+      ],
+      "after": [
+        512,
+        512
+      ],
+      "color_space": "sRGB"
+    },
+    {
+      "name": "中国军装士兵3d模型_tripo_part_11_normal.jpg",
+      "before": [
+        512,
+        512
+      ],
+      "after": [
+        512,
+        512
+      ],
+      "color_space": "Non-Color"
+    },
+    {
+      "name": "中国军装士兵3d模型_tripo_part_12_basecolor.jpg",
+      "before": [
+        512,
+        512
+      ],
+      "after": [
+        512,
+        512
+      ],
+      "color_space": "sRGB"
+    },
+    {
+      "name": "中国军装士兵3d模型_tripo_part_12_normal.jpg",
+      "before": [
+        512,
+        512
+      ],
+      "after": [
+        512,
+        512
+      ],
+      "color_space": "Non-Color"
+    },
+    {
+      "name": "中国军装士兵3d模型_tripo_part_13_basecolor.jpg",
+      "before": [
+        512,
+        512
+      ],
+      "after": [
+        512,
+        512
+      ],
+      "color_space": "sRGB"
+    },
+    {
+      "name": "中国军装士兵3d模型_tripo_part_13_normal.jpg",
+      "before": [
+        512,
+        512
+      ],
+      "after": [
+        512,
+        512
+      ],
+      "color_space": "Non-Color"
+    },
+    {
+      "name": "中国军装士兵3d模型_tripo_part_1_basecolor.jpg",
+      "before": [
+        2048,
+        2048
+      ],
+      "after": [
+        1536,
+        1536
+      ],
+      "color_space": "sRGB"
+    },
+    {
+      "name": "中国军装士兵3d模型_tripo_part_1_normal.jpg",
+      "before": [
+        2048,
+        2048
+      ],
+      "after": [
+        1536,
+        1536
+      ],
+      "color_space": "Non-Color"
+    },
+    {
+      "name": "中国军装士兵3d模型_tripo_part_2_basecolor.jpg",
+      "before": [
+        2048,
+        2048
+      ],
+      "after": [
+        1536,
+        1536
+      ],
+      "color_space": "sRGB"
+    },
+    {
+      "name": "中国军装士兵3d模型_tripo_part_2_normal.jpg",
+      "before": [
+        2048,
+        2048
+      ],
+      "after": [
+        1536,
+        1536
+      ],
+      "color_space": "Non-Color"
+    },
+    {
+      "name": "中国军装士兵3d模型_tripo_part_3_basecolor.jpg",
+      "before": [
+        1024,
+        1024
+      ],
+      "after": [
+        1024,
+        1024
+      ],
+      "color_space": "sRGB"
+    },
+    {
+      "name": "中国军装士兵3d模型_tripo_part_3_normal.jpg",
+      "before": [
+        1024,
+        1024
+      ],
+      "after": [
+        1024,
+        1024
+      ],
+      "color_space": "Non-Color"
+    },
+    {
+      "name": "中国军装士兵3d模型_tripo_part_4_basecolor.jpg",
+      "before": [
+        1024,
+        1024
+      ],
+      "after": [
+        1024,
+        1024
+      ],
+      "color_space": "sRGB"
+    },
+    {
+      "name": "中国军装士兵3d模型_tripo_part_4_normal.jpg",
+      "before": [
+        1024,
+        1024
+      ],
+      "after": [
+        1024,
+        1024
+      ],
+      "color_space": "Non-Color"
+    },
+    {
+      "name": "中国军装士兵3d模型_tripo_part_5_basecolor.jpg",
+      "before": [
+        1024,
+        1024
+      ],
+      "after": [
+        1024,
+        1024
+      ],
+      "color_space": "sRGB"
+    },
+    {
+      "name": "中国军装士兵3d模型_tripo_part_5_normal.jpg",
+      "before": [
+        1024,
+        1024
+      ],
+      "after": [
+        1024,
+        1024
+      ],
+      "color_space": "Non-Color"
+    },
+    {
+      "name": "中国军装士兵3d模型_tripo_part_6_basecolor.jpg",
+      "before": [
+        1024,
+        1024
+      ],
+      "after": [
+        1024,
+        1024
+      ],
+      "color_space": "sRGB"
+    },
+    {
+      "name": "中国军装士兵3d模型_tripo_part_6_normal.jpg",
+      "before": [
+        1024,
+        1024
+      ],
+      "after": [
+        1024,
+        1024
+      ],
+      "color_space": "Non-Color"
+    },
+    {
+      "name": "中国军装士兵3d模型_tripo_part_7_basecolor.jpg",
+      "before": [
+        1024,
+        1024
+      ],
+      "after": [
+        1024,
+        1024
+      ],
+      "color_space": "sRGB"
+    },
+    {
+      "name": "中国军装士兵3d模型_tripo_part_7_normal.jpg",
+      "before": [
+        1024,
+        1024
+      ],
+      "after": [
+        1024,
+        1024
+      ],
+      "color_space": "Non-Color"
+    },
+    {
+      "name": "中国军装士兵3d模型_tripo_part_8_basecolor.jpg",
+      "before": [
+        512,
+        512
+      ],
+      "after": [
+        512,
+        512
+      ],
+      "color_space": "sRGB"
+    },
+    {
+      "name": "中国军装士兵3d模型_tripo_part_8_normal.jpg",
+      "before": [
+        512,
+        512
+      ],
+      "after": [
+        512,
+        512
+      ],
+      "color_space": "Non-Color"
+    },
+    {
+      "name": "中国军装士兵3d模型_tripo_part_9_basecolor.jpg",
+      "before": [
+        512,
+        512
+      ],
+      "after": [
+        512,
+        512
+      ],
+      "color_space": "sRGB"
+    },
+    {
+      "name": "中国军装士兵3d模型_tripo_part_9_normal.jpg",
+      "before": [
+        512,
+        512
+      ],
+      "after": [
+        512,
+        512
+      ],
+      "color_space": "Non-Color"
+    }
+  ],
+  "preview_files": [
+    "D:\\program\\自媒体\\长征探索地图\\output\\field-supplied\\chinese-soldier-front.png",
+    "D:\\program\\自媒体\\长征探索地图\\output\\field-supplied\\chinese-soldier-back.png",
+    "D:\\program\\自媒体\\长征探索地图\\output\\field-supplied\\chinese-soldier-top.png"
+  ],
+  "notes": [
+    "GLB includes textures; source GLB is unchanged.",
+    "Scale is normalised, not an assertion of measured historical dimensions.",
+    "Inspect the front/back/top views for generated geometry defects before placement."
+  ],
+  "provided_source": {
+    "file": "C:\\Users\\李冠桥\\Downloads\\中国军装士兵3d模型.glb",
+    "sha256": "086c3c0ffd1f44abd91778c5e71f52b4112f83a0f89ea9dd7e8ca2f81b2642c5"
+  }
+}

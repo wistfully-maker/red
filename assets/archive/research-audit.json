@@ -1,0 +1,63 @@
+{
+  "reviewedOn": "2026-11-25",
+  "referenceConversation": "6b06d0b6-b7a8-83ea-a073-eabca99006a5",
+  "referenceReading": "Read up to 10 turns with maxOutputCharsPerItem=20000; complete 18574-character research response recovered.",
+  "editorialScope": "19 station-specific original articles and contemporary research journals; selected verified source groups from the reference conversation, rather than an assertion that every original link or image has been exhaustively authenticated.",
+  "findings": [
+    {
+      "topic": "BFI film geography",
+      "source": "https://replay.bfi.org.uk/video/349/e5a444e6-7199-5a72-bf4f-368f9d860579",
+      "finding": "Catalogue identifies Dr Reginald Clay's rural scenes and notes pointing to T'sang Chow south of Beijing. This is not footage of a southwestern Long March crossing."
+    },
+    {
+      "topic": "Oberlin sample date",
+      "source": "https://www2.oberlin.edu/library/digital/shansi/films.html",
+      "finding": "The embedded sample is identified as Herbert Van Meter's 1948 Chengdu colour 16mm film; separate early-1930s materials also exist. The homepage sample must not be labelled 1935 Chengdu."
+    },
+    {
+      "topic": "Snow collection provenance",
+      "source": "https://archives.lib.byu.edu/repositories/14/resources/1540",
+      "finding": "Collection-level description says taken or collected by Helen Foster Snow. Collector, photographer and donor must be distinguished. Direct page retrieval returned 403 in this session; collection information was checked against the institution's indexed catalogue text. Unread item-level records were not presented as independently authenticated."
+    },
+    {
+      "topic": "Recent archival photograph report",
+      "source": "https://www1.xinhuanet.com/politics/20261021/c74860d5ca5c43f99d84ae1d4ef84f83/c.html",
+      "finding": "Full 2026-10-21 Xinhua report verified. The page contains photographs from different dates and units; the Red 25th Army Wei River crossing and Kang Keqing's donated photograph have distinct provenance. The group cannot all be assigned to the Central Red Army's 1935 route."
+    },
+    {
+      "topic": "Wilson's Songpan photograph",
+      "source": "https://arboretum.harvard.edu/stories/two-friends-in-songpen/",
+      "finding": "Institution dates the photograph to August 1910, approximately 25 years before the 1935 Long March passage. Linked as contextual archival material only; not locally reused without item-specific permission."
+    },
+    {
+      "topic": "Bristol catalogue research limits",
+      "source": "https://hpcbristol.net/",
+      "finding": "Institution notes that the project supplied received information and search tags but did not generally undertake extensive research on every photograph. Catalogue access is neither final authentication nor blanket image-reuse permission."
+    },
+    {
+      "topic": "National Museum single-item record",
+      "source": "https://www.chnmuseum.cn/zp/zpml/gmww/202112/t20211207_252709.shtml",
+      "finding": "Replaced a broad catalogue pointer with the actual item record for Lin Boqu's Long March lantern. Record confirms donation by Zhu Ming in February 1961. No unsupported download or public-domain claim is made."
+    },
+    {
+      "topic": "National Museum 2026 exhibition",
+      "source": "https://www.chnmuseum.cn/zl/lszl/zdzt/202610/t20261028_283240.shtml",
+      "finding": "Official page confirms opening on 2026-10-31, over 400 exhibits, and digital/AI activities. Modern digital reconstructions are distinguished from original historical recordings; downloadable 3D models were not confirmed."
+    },
+    {
+      "topic": "Central Archives access conditions",
+      "source": "https://www.saac.gov.cn/daj/yaow/202610/9fdc4fb071754219951d9860ad4886df.shtml",
+      "finding": "Official 2026-10-19 notice confirms over 5000 documents, mainly from October 1934 to October 1936, and explains physical reading-room access. It is not a declaration that every document is directly downloadable online."
+    },
+    {
+      "topic": "Local photograph visual checks",
+      "finding": "Downloaded and visually checked Yudu 2014, Zunyi 2018 and Hongyuan 2012 photographs. A file named Zunyi Conference Site.jpg from 2024 actually shows a later commemorative relief and was rejected as a building reference. Hongyuan's description and EXIF month/day conflict; only 2012 is displayed."
+    },
+    {
+      "topic": "Historical route boundaries",
+      "finding": "Text distinguishes Ruijin departure preparation from Yudu crossings; the larger Xiangjiang battlefield from a single POI; multiple Baxi-area meetings; Wuqi in 1935 from Huining and Jiangtaibao in 1936; and restored or modern memorial settings from event-time photographs."
+    }
+  ],
+  "localRightsManifest": "assets/archive/attribution.json",
+  "unlicensedArchivalMediaPolicy": "Catalogue pages and videos are linked only. No unlicensed original photograph, film frame or museum object photograph was copied into the project."
+}

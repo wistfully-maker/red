@@ -15,6 +15,9 @@ def replace_head(body,root):
     cloth=pigment('棉布软帽 · 石蓝',(.094,.112,.134))
     seam=pigment('压线 · 靛灰',(.060,.070,.079))
     skin_tint=pigment('耳廓 · 肤色',(.54,.309,.212))
+    face_shader=skin.node_tree.nodes.get('Principled BSDF')
+    face_shader.inputs['Roughness'].default_value=.67
+    face_shader.inputs['Specular IOR Level'].default_value=.27
     src=bpy.data.images.load(str(root/'assets/valley/guide-face.webp'));src.pack()
     tex=skin.node_tree.nodes.new('ShaderNodeTexImage');tex.image=src
     skin.node_tree.links.new(tex.outputs['Color'],skin.node_tree.nodes.get('Principled BSDF').inputs['Base Color'])
@@ -82,6 +85,13 @@ def replace_head(body,root):
                 if j and k:
                     i=j*23+k;faces.append((i-24,i-23,i,i-1))
         textured('眼睑与眼球前缘 '+str(sign),pts,faces)
+        lash=pigment('睫缘 · 柔墨褐',(.050,.033,.023),.82)
+        upper=[]
+        for k in range(21):
+            u=.07+.86*k/20;x=eye_x+(u-.5)*.032
+            z=eye_z+.0048*math.sin(math.pi*u)+sign*(u-.5)*.0015
+            upper.append((x,front(x,z)-.0028,z))
+        sweep('自然上睫缘 '+str(sign),upper,[.00052]*len(upper),lash,7)
         cx=sign*.084;ear=[]
         for j in range(25):
             a=math.tau*j/24
@@ -92,7 +102,19 @@ def replace_head(body,root):
     hair_rows=[]
     for j in range(8):
         u=j/7;hair_rows.append((1.504+.097*u,.088*(1-.53*u**2),.099*(1-.45*u**2),.011))
-    shell('鬓角与发冠',hair_rows,hair,lambda x,y,z,a,j:(x,y,z-(1-j/7)*(.015+.075*(1-math.cos(a))*.5+.019*abs(math.sin(a))**4)),52)
+    shell('鬓角与发冠',hair_rows,hair,
+          lambda x,y,z,a,j:(x,y,z-(1-j/7)*(.008+.080*((1-math.cos(a))*.5)**2)),64)
+    fine_hair=pigment('散发 · 暖墨褐',(.043,.029,.019),.58)
+    for side in [-1,1]:
+        for strand in range(14):
+            points=[];r=[]
+            for k in range(13):
+                t=k/12
+                x=side*(.056+.0016*strand+.015*math.sin(t*2.5)+.0018*math.sin(t*7+strand*.83))
+                z=1.547-.080*t-.0011*strand
+                y=front(min(.080,max(-.080,x)),z)-.0017-.0008*math.sin(t*4+strand)
+                points.append((x,y,z));r.append(.00044*(1-.76*t))
+            sweep('鬓边细发 %s-%02d'%(side,strand),points,r,fine_hair,5)
     for strand in range(3):
         pts=[];r=[]
         for k in range(29):
@@ -100,6 +122,9 @@ def replace_head(body,root):
             pts.append((-.058+math.cos(a)*rad-.018*t,.079+math.sin(a)*rad-.03*t,1.465-.172*t))
             r.append(.0145*(1-.45*t))
         sweep('三股发辫 '+str(strand+1),pts,r,hair,9)
+        for accent in [-1,1]:
+            edge=[(p[0]+accent*.004,p[1]-.008,p[2]+.0015*math.sin(k*.8)) for k,p in enumerate(pts)]
+            sweep('辫股细纹 %s-%s'%(strand,accent),edge,[.00072*(1-.45*k/28) for k in range(29)],fine_hair,5)
     # The crown leans to the back. Six subtly gathered panels and a separate
     # curved visor give the cap a recognisable silhouette even without imagery.
     caprows=[(1.529,.087,.101,.009),(1.538,.094,.109,.010),(1.560,.104,.114,.012),

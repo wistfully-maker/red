@@ -1,0 +1,12 @@
+[
+  {
+    "station": "yudu",
+    "sourceSHA256": "113fd6f5eff85ad2764411bd67861dc475606e748ad73ef82d05351c7a619227",
+    "actor": "boatman-rowing",
+    "portraits": [
+      "D:\\program\\自媒体\\长征探索地图\\output\\numbered-people\\yudu-boatman-rowing-front.jpg",
+      "D:\\program\\自媒体\\长征探索地图\\output\\numbered-people\\yudu-boatman-rowing-back.jpg"
+    ],
+    "scope": "Actual exported actor; surrounding objects hidden for a clear front/back geometry and texture check."
+  }
+]

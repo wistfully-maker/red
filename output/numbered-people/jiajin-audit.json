@@ -1,0 +1,430 @@
+{
+  "station": "jiajin",
+  "passed": true,
+  "sha256": "ac1f5a509aada2406d5964ae27cac007a54efa21ed40a6f51df008c94dd5cf4e",
+  "bytes": 10584228,
+  "people": 18,
+  "counts": {
+    "staff-climber": 17,
+    "resting-marcher": 1
+  },
+  "proceduralPeople": [],
+  "actors": [
+    {
+      "asset": "staff-climber",
+      "position": [
+        -1.7821881771087646,
+        -13.0,
+        5.900134086608887
+      ],
+      "requestedPose": "walk",
+      "sourcePose": "climb",
+      "floor": 5.900134086608887,
+      "height": 1.6774544715881348,
+      "nominalAdultHeight": 1.6774545167175188,
+      "frontBlender": [
+        -4.371138828673793e-08,
+        1.0,
+        0.0
+      ],
+      "embeddedSupport": "foot-rock",
+      "sourceRole": "walker",
+      "sourceIdentity": "red_army",
+      "historicalRole": "red_army"
+    },
+    {
+      "asset": "staff-climber",
+      "position": [
+        -1.7104289531707764,
+        -11.399999618530273,
+        5.947133541107178
+      ],
+      "requestedPose": "walk",
+      "sourcePose": "climb",
+      "floor": 5.947133541107178,
+      "height": 1.6257071495056152,
+      "nominalAdultHeight": 1.6257070114347556,
+      "frontBlender": [
+        -4.371138473402425e-08,
+        0.9999999403953552,
+        0.0
+      ],
+      "embeddedSupport": "foot-rock",
+      "sourceRole": "walker",
+      "sourceIdentity": "red_army",
+      "historicalRole": "red_army"
+    },
+    {
+      "asset": "staff-climber",
+      "position": [
+        -1.5858241319656372,
+        -9.800000190734863,
+        6.076927661895752
+      ],
+      "requestedPose": "walk",
+      "sourcePose": "climb",
+      "floor": 6.076927661895752,
+      "height": 1.597093105316162,
+      "nominalAdultHeight": 1.5970933285532438,
+      "frontBlender": [
+        -4.371138473402425e-08,
+        0.9999999403953552,
+        0.0
+      ],
+      "embeddedSupport": "foot-rock",
+      "sourceRole": "walker",
+      "sourceIdentity": "red_army",
+      "historicalRole": "red_army"
+    },
+    {
+      "asset": "staff-climber",
+      "position": [
+        -1.4122234582901,
+        -8.199999809265137,
+        6.2847466468811035
+      ],
+      "requestedPose": "walk",
+      "sourcePose": "climb",
+      "floor": 6.2847466468811035,
+      "height": 1.5967698097229004,
+      "nominalAdultHeight": 1.5967695741384886,
+      "frontBlender": [
+        -4.371138828673793e-08,
+        1.0,
+        0.0
+      ],
+      "embeddedSupport": "foot-rock",
+      "sourceRole": "walker",
+      "sourceIdentity": "red_army",
+      "historicalRole": "red_army"
+    },
+    {
+      "asset": "staff-climber",
+      "position": [
+        -1.1949905157089233,
+        -6.599999904632568,
+        6.562952995300293
+      ],
+      "requestedPose": "walk",
+      "sourcePose": "climb",
+      "floor": 6.562952995300293,
+      "height": 1.5911588668823242,
+      "nominalAdultHeight": 1.5911588191203605,
+      "frontBlender": [
+        -4.371138473402425e-08,
+        0.9999999403953552,
+        0.0
+      ],
+      "embeddedSupport": "foot-rock",
+      "sourceRole": "walker",
+      "sourceIdentity": "red_army",
+      "historicalRole": "red_army"
+    },
+    {
+      "asset": "staff-climber",
+      "position": [
+        -0.940837025642395,
+        -5.0,
+        6.901322364807129
+      ],
+      "requestedPose": "walk",
+      "sourcePose": "climb",
+      "floor": 6.901322364807129,
+      "height": 1.7570457458496094,
+      "nominalAdultHeight": 1.7570456577187221,
+      "frontBlender": [
+        -4.371139183945161e-08,
+        1.0,
+        0.0
+      ],
+      "embeddedSupport": "foot-rock",
+      "sourceRole": "walker",
+      "sourceIdentity": "red_army",
+      "historicalRole": "red_army"
+    },
+    {
+      "asset": "staff-climber",
+      "position": [
+        -0.6576153039932251,
+        -3.4000000953674316,
+        7.287419319152832
+      ],
+      "requestedPose": "walk",
+      "sourcePose": "climb",
+      "floor": 7.287419319152832,
+      "height": 1.6667871475219727,
+      "nominalAdultHeight": 1.6667876716744892,
+      "frontBlender": [
+        -4.371139183945161e-08,
+        1.0,
+        0.0
+      ],
+      "embeddedSupport": "foot-rock",
+      "sourceRole": "walker",
+      "sourceIdentity": "red_army",
+      "historicalRole": "red_army"
+    },
+    {
+      "asset": "staff-climber",
+      "position": [
+        -0.3540758490562439,
+        -1.7999999523162842,
+        7.707054138183594
+      ],
+      "requestedPose": "walk",
+      "sourcePose": "climb",
+      "floor": 7.707054138183594,
+      "height": 1.6101131439208984,
+      "nominalAdultHeight": 1.6101125830894143,
+      "frontBlender": [
+        -4.371139183945161e-08,
+        1.0,
+        0.0
+      ],
+      "embeddedSupport": "foot-rock",
+      "sourceRole": "walker",
+      "sourceIdentity": "red_army",
+      "historicalRole": "red_army"
+    },
+    {
+      "asset": "staff-climber",
+      "position": [
+        -0.0395968072116375,
+        -0.20000000298023224,
+        8.144804954528809
+      ],
+      "requestedPose": "walk",
+      "sourcePose": "climb",
+      "floor": 8.144804954528809,
+      "height": 1.667022705078125,
+      "nominalAdultHeight": 1.6670223008753697,
+      "frontBlender": [
+        -4.371139183945161e-08,
+        1.0,
+        0.0
+      ],
+      "embeddedSupport": "foot-rock",
+      "sourceRole": "walker",
+      "sourceIdentity": "red_army",
+      "historicalRole": "red_army"
+    },
+    {
+      "asset": "staff-climber",
+      "position": [
+        0.2761056125164032,
+        1.399999976158142,
+        8.584585189819336
+      ],
+      "requestedPose": "walk",
+      "sourcePose": "climb",
+      "floor": 8.584585189819336,
+      "height": 1.6945915222167969,
+      "nominalAdultHeight": 1.69459135200524,
+      "frontBlender": [
+        -4.371138828673793e-08,
+        1.0,
+        0.0
+      ],
+      "embeddedSupport": "foot-rock",
+      "sourceRole": "walker",
+      "sourceIdentity": "red_army",
+      "historicalRole": "red_army"
+    },
+    {
+      "asset": "staff-climber",
+      "position": [
+        0.5832774639129639,
+        3.0,
+        9.010231018066406
+      ],
+      "requestedPose": "walk",
+      "sourcePose": "climb",
+      "floor": 9.010231018066406,
+      "height": 1.5879926681518555,
+      "nominalAdultHeight": 1.587992444530785,
+      "frontBlender": [
+        -4.371138828673793e-08,
+        1.0,
+        0.0
+      ],
+      "embeddedSupport": "foot-rock",
+      "sourceRole": "walker",
+      "sourceIdentity": "red_army",
+      "historicalRole": "red_army"
+    },
+    {
+      "asset": "staff-climber",
+      "position": [
+        0.872428297996521,
+        4.599999904632568,
+        9.406100273132324
+      ],
+      "requestedPose": "walk",
+      "sourcePose": "climb",
+      "floor": 9.406100273132324,
+      "height": 1.7271394729614258,
+      "nominalAdultHeight": 1.7271392344929546,
+      "frontBlender": [
+        -4.371138828673793e-08,
+        1.0,
+        0.0
+      ],
+      "embeddedSupport": "foot-rock",
+      "sourceRole": "walker",
+      "sourceIdentity": "red_army",
+      "historicalRole": "red_army"
+    },
+    {
+      "asset": "staff-climber",
+      "position": [
+        1.1346244812011719,
+        6.199999809265137,
+        9.757643699645996
+      ],
+      "requestedPose": "walk",
+      "sourcePose": "climb",
+      "floor": 9.757643699645996,
+      "height": 1.6376914978027344,
+      "nominalAdultHeight": 1.6376917452879443,
+      "frontBlender": [
+        -4.371138828673793e-08,
+        1.0,
+        0.0
+      ],
+      "embeddedSupport": "foot-rock",
+      "sourceRole": "walker",
+      "sourceIdentity": "red_army",
+      "historicalRole": "red_army"
+    },
+    {
+      "asset": "staff-climber",
+      "position": [
+        1.3617651462554932,
+        7.800000190734863,
+        10.051942825317383
+      ],
+      "requestedPose": "walk",
+      "sourcePose": "climb",
+      "floor": 10.051942825317383,
+      "height": 1.6829309463500977,
+      "nominalAdultHeight": 1.6829307571181202,
+      "frontBlender": [
+        -4.371138828673793e-08,
+        1.0,
+        0.0
+      ],
+      "embeddedSupport": "foot-rock",
+      "sourceRole": "walker",
+      "sourceIdentity": "red_army",
+      "historicalRole": "red_army"
+    },
+    {
+      "asset": "staff-climber",
+      "position": [
+        1.54683256149292,
+        9.399999618530273,
+        10.278181076049805
+      ],
+      "requestedPose": "walk",
+      "sourcePose": "climb",
+      "floor": 10.278181076049805,
+      "height": 1.6719818115234375,
+      "nominalAdultHeight": 1.671981751539013,
+      "frontBlender": [
+        -4.371138828673793e-08,
+        0.9999999403953552,
+        0.0
+      ],
+      "embeddedSupport": "foot-rock",
+      "sourceRole": "walker",
+      "sourceIdentity": "red_army",
+      "historicalRole": "red_army"
+    },
+    {
+      "asset": "staff-climber",
+      "position": [
+        1.684108853340149,
+        11.0,
+        10.428044319152832
+      ],
+      "requestedPose": "walk",
+      "sourcePose": "climb",
+      "floor": 10.428044319152832,
+      "height": 1.7015190124511719,
+      "nominalAdultHeight": 1.70151879527695,
+      "frontBlender": [
+        -4.371138828673793e-08,
+        1.0,
+        0.0
+      ],
+      "embeddedSupport": "foot-rock",
+      "sourceRole": "walker",
+      "sourceIdentity": "red_army",
+      "historicalRole": "red_army"
+    },
+    {
+      "asset": "staff-climber",
+      "position": [
+        1.769352674484253,
+        12.600000381469727,
+        10.496026039123535
+      ],
+      "requestedPose": "walk",
+      "sourcePose": "climb",
+      "floor": 10.496026039123535,
+      "height": 1.7475805282592773,
+      "nominalAdultHeight": 1.7475805886475315,
+      "frontBlender": [
+        -4.371138828673793e-08,
+        1.0,
+        0.0
+      ],
+      "embeddedSupport": "foot-rock",
+      "sourceRole": "walker",
+      "sourceIdentity": "red_army",
+      "historicalRole": "red_army"
+    },
+    {
+      "asset": "resting-marcher",
+      "position": [
+        2.8399999141693115,
+        3.619999885559082,
+        8.426069259643555
+      ],
+      "requestedPose": "sit",
+      "sourcePose": "sit",
+      "floor": 8.426069259643555,
+      "height": 1.1373414993286133,
+      "nominalAdultHeight": 1.7232446011806626,
+      "frontBlender": [
+        -0.5311862826347351,
+        -0.8472550511360168,
+        0.0
+      ],
+      "embeddedSupport": "blanket-roll",
+      "sourceRole": "local",
+      "sourceIdentity": "civilian",
+      "historicalRole": "red_army"
+    }
+  ],
+  "checks": [
+    "bottom on authored floor",
+    "pose-specific height",
+    "front direction",
+    "native UV/PBR retained",
+    "no duplicate supplied chair",
+    "no procedural historical mesh"
+  ],
+  "residentView": [
+    2.8399999141693115,
+    9.181605339050293,
+    -3.619999885559082,
+    2.15,
+    -0.26000000000000006,
+    0.14
+  ],
+  "residentCameraUsesActualPosedHeight": true,
+  "historicalRoles": {
+    "red_army": 18
+  }
+}

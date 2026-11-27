@@ -13,19 +13,36 @@ export class ExhibitFilm {
   this.size=new THREE.Vector2();this.scene=new THREE.Scene();this.camera=new THREE.Camera();
   this.uniforms={frame:{value:this.target.texture},depthMap:{value:this.target.depthTexture},pixel:{value:new THREE.Vector2(1,1)},
    clip:{value:new THREE.Vector2()},unproject:{value:new THREE.Matrix4()},world:{value:new THREE.Matrix4()},
-   span:{value:1},scale:{value:1},floorY:{value:0},clay:{value:0},strength:{value:1},sceneSky:{value:0}};
+   span:{value:1},scale:{value:1},floorY:{value:0},clay:{value:0},strength:{value:1},sceneSky:{value:0},
+   focusMetres:{value:0},focusPoint:{value:new THREE.Vector2(-1,-1)}};
   const geometry=new THREE.BufferGeometry();
   geometry.setAttribute('position',new THREE.Float32BufferAttribute([-1,-1,0,3,-1,0,-1,3,0],3));
   const mat=new THREE.ShaderMaterial({uniforms:this.uniforms,depthTest:false,depthWrite:false,toneMapped:false,
    vertexShader:'varying vec2 screenUv;void main(){screenUv=position.xy*.5+.5;gl_Position=vec4(position,1.);}',
    fragmentShader:`uniform sampler2D frame,depthMap;uniform vec2 pixel,clip;uniform mat4 unproject,world;
-   uniform float span,scale,floorY,clay,strength,sceneSky;varying vec2 screenUv;
+   uniform float span,scale,floorY,clay,strength,sceneSky,focusMetres;uniform vec2 focusPoint;varying vec2 screenUv;
    float luma(vec3 c){return dot(c,vec3(.2126,.7152,.0722));}
    float eyeDepth(float z){return clip.x*clip.y/(clip.y-z*(clip.y-clip.x));}
    float contact(vec2 v,float depth){float d=(depth-eyeDepth(texture2D(depthMap,clamp(screenUv+v,0.,1.)).x))/max(.001,depth);
      return smoothstep(.0008,.011,d)*(1.-smoothstep(.028,.095,d));}
    void main(){vec2 uv=screenUv;vec3 color=texture2D(frame,uv).rgb;
     float z=texture2D(depthMap,uv).x;
+    if(focusMetres>0.){
+      float focus=focusPoint.x<0.?focusMetres:clamp(eyeDepth(texture2D(depthMap,focusPoint).r),.7,300.);
+      float depth=eyeDepth(z);
+      float radius=min(5.4,abs(1./max(depth,.45)-1./focus)*17.)*clamp(1./(900.*pixel.y),.66,1.55);
+      if(radius>.42){
+        vec3 gathered=color;float weights=1.;
+        for(int i=0;i<12;i++){
+          float fi=float(i)+.5,angle=fi*2.399963;
+          vec2 sampleUv=clamp(uv+pixel*radius*sqrt(fi/12.)*vec2(cos(angle),sin(angle)),0.,1.);
+          float neighbour=eyeDepth(texture2D(depthMap,sampleUv).x);
+          float w=smoothstep(.53,.96,neighbour/depth);
+          gathered+=texture2D(frame,sampleUv).rgb*w;weights+=w;
+        }
+        color=mix(color,gathered/weights,smoothstep(.42,1.2,radius));
+      }
+    }
     vec4 ray=unproject*vec4(uv*2.-1.,z*2.-1.,1.);vec3 local=ray.xyz/ray.w;
     vec3 point=(world*vec4(local,1.)).xyz, eye=world[3].xyz, direction=normalize(point-eye);
     float towards=pow(max(dot(direction,normalize(vec3(-.67,.42,-.40))),0.),5.);
@@ -54,7 +71,7 @@ export class ExhibitFilm {
    }`});
   const screen=new THREE.Mesh(geometry,mat);screen.frustumCulled=false;this.scene.add(screen);
  }
- draw(scene,camera,{span,floor=0,verticalScale=1,strength=1,clay=false}){
+ draw(scene,camera,{span,floor=0,verticalScale=1,strength=1,clay=false,focus=0,focusPoint}){
   const r=this.renderer,u=this.uniforms;
   r.getDrawingBufferSize(this.size);
   if(this.target.width!==this.size.x||this.target.height!==this.size.y){
@@ -63,6 +80,7 @@ export class ExhibitFilm {
   u.clip.value.set(camera.near,camera.far);u.unproject.value.copy(camera.projectionMatrixInverse);
   u.world.value.copy(camera.matrixWorld);u.span.value=Math.max(.01,span);u.scale.value=verticalScale;u.floorY.value=floor;
   u.strength.value=strength;u.clay.value=clay?1:0;u.sceneSky.value=scene.background?.isTexture?1:0;
+  u.focusMetres.value=focus;if(focusPoint)u.focusPoint.value.copy(focusPoint);else u.focusPoint.value.set(-1,-1);
   r.setRenderTarget(this.target);r.render(scene,camera);
   r.setRenderTarget(null);r.render(this.scene,this.camera);
  }

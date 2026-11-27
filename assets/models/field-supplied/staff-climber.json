@@ -1,0 +1,83 @@
+{
+  "asset": "staff-climber",
+  "source": {
+    "file": "C:\\Users\\李冠桥\\Downloads\\09 人物模型.glb",
+    "sha256": "b4035ecdfb9ec62c43808f637afcb38209dbb02ed1a90fb15036e496236ae3b7",
+    "mesh_count": 1,
+    "triangles": 19412
+  },
+  "result": {
+    "file": "D:\\program\\自媒体\\长征探索地图\\assets\\models\\field-supplied\\staff-climber.glb",
+    "bytes": 2750272,
+    "mesh_count": 1,
+    "triangles": 19412,
+    "material_count": 1,
+    "texture_count": 2,
+    "texture_encoding": "WEBP",
+    "texture_quality": 90,
+    "bounds_blender": [
+      [
+        -0.4121137261390686,
+        -0.4999999701976776,
+        0.0
+      ],
+      [
+        0.4121137261390686,
+        0.4999999701976776,
+        2.138071298599243
+      ]
+    ],
+    "dimensions_blender": [
+      0.8242274522781372,
+      0.9999999403953552,
+      2.138071298599243
+    ],
+    "dimensions_gltf": [
+      0.8242274522781372,
+      2.138071298599243,
+      0.9999999403953552
+    ]
+  },
+  "normalisation": {
+    "span_metres": 1.0,
+    "scale_from_import": 2.1846061535384513,
+    "bottom_centre_before_scale": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "yaw_degrees": 0.0
+  },
+  "textures": [
+    {
+      "name": "09_人物模型_basecolor.jpg",
+      "before": [
+        4096,
+        4096
+      ],
+      "after": [
+        2048,
+        2048
+      ],
+      "color_space": "sRGB"
+    },
+    {
+      "name": "09_人物模型_normal.jpg",
+      "before": [
+        4096,
+        4096
+      ],
+      "after": [
+        2048,
+        2048
+      ],
+      "color_space": "Non-Color"
+    }
+  ],
+  "preview_files": [],
+  "notes": [
+    "GLB includes textures; source GLB is unchanged.",
+    "Scale is normalised, not an assertion of measured historical dimensions.",
+    "Inspect the front/back/top views for generated geometry defects before placement."
+  ]
+}

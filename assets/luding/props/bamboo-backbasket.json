@@ -1,0 +1,102 @@
+{
+  "asset": "bamboo-backbasket",
+  "source": {
+    "file": "D:\\program\\自媒体\\长征探索地图\\.workbuddy\\luding-tripo\\3b94bdae-0b61-4a65-804a-e54d53b51edc\\source-textured.glb",
+    "sha256": "7e4cac7cab07a0457d389211d7fe31225f056ceb5c345f9bde36ec5ba1202e0d",
+    "mesh_count": 1,
+    "triangles": 9267
+  },
+  "result": {
+    "file": "D:\\program\\自媒体\\长征探索地图\\assets\\luding\\props\\bamboo-backbasket.glb",
+    "bytes": 1211504,
+    "mesh_count": 1,
+    "triangles": 9267,
+    "material_count": 1,
+    "texture_count": 1,
+    "texture_encoding": "WEBP",
+    "texture_quality": 90,
+    "bounds_blender": [
+      [
+        -0.43488138914108276,
+        -0.5,
+        0.0
+      ],
+      [
+        0.43488138914108276,
+        0.5,
+        1.0333164930343628
+      ]
+    ],
+    "dimensions_blender": [
+      0.8697627782821655,
+      1.0,
+      1.0333164930343628
+    ],
+    "dimensions_gltf": [
+      0.8697627782821655,
+      1.0333164930343628,
+      1.0
+    ]
+  },
+  "normalisation": {
+    "span_metres": 1.0,
+    "scale_from_import": 1.033821302372539,
+    "bottom_centre_before_scale": [
+      0.0,
+      0.0,
+      -0.499755859375
+    ],
+    "yaw_degrees": 0.0
+  },
+  "textures": [
+    {
+      "name": "tripo_rgb_def96c66-d159-41db-83ad-e7a5336178fd",
+      "before": [
+        8192,
+        8192
+      ],
+      "after": [
+        2048,
+        2048
+      ],
+      "color_space": "sRGB"
+    }
+  ],
+  "preview_files": [
+    "D:\\program\\自媒体\\长征探索地图\\output\\luding-tripo\\imported-bamboo-backbasket-front.png",
+    "D:\\program\\自媒体\\长征探索地图\\output\\luding-tripo\\imported-bamboo-backbasket-back.png",
+    "D:\\program\\自媒体\\长征探索地图\\output\\luding-tripo\\imported-bamboo-backbasket-top.png"
+  ],
+  "notes": [
+    "GLB includes textures; source GLB is unchanged.",
+    "Scale is normalised, not an assertion of measured historical dimensions.",
+    "Inspect the front/back/top views for generated geometry defects before placement."
+  ],
+  "user_archive": {
+    "archive": "C:\\Users\\李冠桥\\Downloads\\tripo_convert_3b94bdae-0b61-4a65-804a-e54d53b51edc.zip",
+    "archive_sha256": "63b6d29e16521bec16c505a098698f412e975f736ebedf901cc57a5d606760bc",
+    "extracted_to": "D:\\program\\自媒体\\长征探索地图\\.workbuddy\\luding-tripo\\3b94bdae-0b61-4a65-804a-e54d53b51edc",
+    "fbx_sha256": "09ce71419ec7f4974a1b58555ffea5f97ec4bc242e417449de31ea2ababbc5f1",
+    "texture_sha256": "3f9f99efadf4b5381f37185d751702e1c0af88772bd7ade53b225982d4a3e999",
+    "maps_provided": [
+      "base_color"
+    ]
+  },
+  "identification": "Open-topped woven bamboo back basket with rope shoulder straps; artist-created prop.",
+  "delivery_verification": {
+    "sha256": "99a82fdb0a0f2e933d1d5020c8e71483d991f7a01076c44687b59d521cd362f3",
+    "triangles_after_reimport": 9267,
+    "boundary_edges": 1337,
+    "nonmanifold_edges": 1359,
+    "base_color_embedded": true,
+    "normal_map_provided": false,
+    "roughness_map_provided": false,
+    "roughness_factor": 0.9,
+    "metallic_factor": 0,
+    "bottom_centre_verified": true,
+    "horizontal_span_metres": 1.0,
+    "uv_split_boundary_edges_before_weld": 9917,
+    "degenerate_faces": 0,
+    "topology_measurement": "Coincident vertices welded at 1e-6 m for inspection only; delivery GLB unchanged."
+  }
+}

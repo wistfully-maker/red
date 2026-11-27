@@ -1,0 +1,118 @@
+{
+  "asset": "kf-house",
+  "source": {
+    "file": "D:\\program\\自媒体\\长征探索地图\\.workbuddy\\luding-keyframe-assets\\connected-kf-house.glb",
+    "sha256": "32ad47e603030313354581f63a5598439ed24746299d0235fb3192794b67bed9",
+    "mesh_count": 1,
+    "triangles": 17999
+  },
+  "result": {
+    "file": "D:\\program\\自媒体\\长征探索地图\\assets\\luding\\props\\kf-house.glb",
+    "bytes": 1973576,
+    "mesh_count": 1,
+    "triangles": 17999,
+    "material_count": 1,
+    "texture_count": 2,
+    "texture_encoding": "WEBP",
+    "texture_quality": 90,
+    "bounds_blender": [
+      [
+        -0.3101639449596405,
+        -0.5,
+        0.0
+      ],
+      [
+        0.3101639449596405,
+        0.5,
+        0.39334896206855774
+      ]
+    ],
+    "dimensions_blender": [
+      0.620327889919281,
+      1.0,
+      0.39334896206855774
+    ],
+    "dimensions_gltf": [
+      0.620327889919281,
+      0.39334896206855774,
+      1.0
+    ],
+    "sha256": "90518426c91423e73403059848fb5fba6d51a1e0bec6a4163052df22505d2a3c"
+  },
+  "normalisation": {
+    "span_metres": 1.0,
+    "scale_from_import": 1.0232006245121,
+    "bottom_centre_before_scale": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "yaw_degrees": 0.0
+  },
+  "textures": [
+    {
+      "name": "旧房3d模型_basecolor",
+      "before": [
+        2048,
+        2048
+      ],
+      "after": [
+        2048,
+        2048
+      ],
+      "color_space": "sRGB"
+    },
+    {
+      "name": "旧房3d模型_normal",
+      "before": [
+        2048,
+        2048
+      ],
+      "after": [
+        2048,
+        2048
+      ],
+      "color_space": "Non-Color"
+    }
+  ],
+  "preview_files": [
+    "D:\\program\\自媒体\\长征探索地图\\output\\luding-keyframe\\asset-review\\kf-house-front.png",
+    "D:\\program\\自媒体\\长征探索地图\\output\\luding-keyframe\\asset-review\\kf-house-back.png",
+    "D:\\program\\自媒体\\长征探索地图\\output\\luding-keyframe\\asset-review\\kf-house-top.png"
+  ],
+  "notes": [
+    "GLB includes textures; source GLB is unchanged.",
+    "Scale is normalised, not an assertion of measured historical dimensions.",
+    "Inspect the front/back/top views for generated geometry defects before placement."
+  ],
+  "provided_source": {
+    "file": "C:\\Users\\李冠桥\\Downloads\\旧房3d模型.glb",
+    "sha256": "daf5cf8b812b27f4b89bc8002e850b5ac74d0477a84cf3d4186e046c62195708"
+  },
+  "topology_preparation": {
+    "coincident_vertex_weld_tolerance": 1e-06,
+    "vertices_before_weld": 21974,
+    "vertices_after_weld": 10240,
+    "original_triangles": 20393,
+    "method": "Weld coincident positions while preserving loop UVs; reduce before GLB seam splitting."
+  },
+  "delivered_materials": [
+    {
+      "doubleSided": true,
+      "extras": {
+        "ludingFinish": true
+      },
+      "name": "tripo_node_55203ba4-9f2b-4a0f-88a8-655cc53db5bc_material.001",
+      "normalTexture": {
+        "index": 0
+      },
+      "pbrMetallicRoughness": {
+        "baseColorTexture": {
+          "index": 1
+        },
+        "metallicFactor": 0,
+        "roughnessFactor": 0.8999999761581421
+      }
+    }
+  ]
+}

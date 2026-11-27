@@ -1,0 +1,20 @@
+{
+  "work": "Franz Schubert · Ständchen, D 957/4",
+  "displayTitle": "舒伯特 · 小夜曲",
+  "performer": "吕思清",
+  "album": "梦幻曲",
+  "sourceType": "user-provided-local-file",
+  "originalFileName": "M800001tTa9u4Pyp7D.mp3",
+  "id3Title": "舒伯特:小夜曲",
+  "id3Artist": "吕思清",
+  "id3Album": "梦幻曲",
+  "durationSeconds": 259.893311,
+  "codec": "mp3",
+  "sampleRate": 44100,
+  "channels": 2,
+  "bitrate": 320101,
+  "file": "schubert-standchen-lv-siqing.mp3",
+  "bytes": 10399026,
+  "sha256": "58556148ffbd867089b92307b6846fb84e6e4f1d3e953be1b31194bfe45bf04e",
+  "recordingCredit": "使用用户提供的演奏录音；不将该录音标注为公版或CC。"
+}

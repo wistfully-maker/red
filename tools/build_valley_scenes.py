@@ -8,6 +8,8 @@ import struct
 import json
 import random
 import sys
+import time
+from uuid import uuid4
 from collections import defaultdict
 from pathlib import Path
 
@@ -198,6 +200,14 @@ class Landscape:
             outer=smooth(100,320,radius)
             ridge=.23+lift*(.19+.10*hills)+(1-math.exp(-lift/135))*(32+35*n2(x*.0026,y*.002))
             height=height*(1-outer)+ridge*outer
+            # Steep, overlapping shoulders belong to a mountain river, while
+            # the walking landings and the existing town shelf stay level.
+            mountain=smooth(62,350,lift)*smooth(118,265,radius)
+            folds=.76+.24*math.sin(y*.0047+x*.0016)+.12*n2(x*.004,y*.003)
+            height+=mountain*(105*folds+48*smooth(320,1000,lift))
+            # Taller, receding valley walls behind the occupied bridge reach.
+            # The bank mask keeps the actual river and its bend open.
+            height+=smooth(16,140,lift)*smooth(140,280,radius)*(70+32*math.sin(y*.013+x*.0027))
             street=68+8*math.sin(y*.018)+.045*y
             shelf=(1-smooth(7,17,abs(abs(x)-street)))*(1-smooth(47,85,abs(y)))
             height=height*(1-shelf)+(8.18+.016*y)*shelf
@@ -450,11 +460,13 @@ class Landscape:
         return base64.b64encode(packed).decode('ascii')
 
 def native_luding(env):
+    from luding_keyframe import available
     # The long, thin 103.67 m span reads from the air like an actual footbridge.
     length=103.67;half=length/2; deck=lambda x:9.9-2.65*(1-(x/half)**2)
     for side in (-1,1):
         x=side*(half+2.2)
         south.masonry(x,0,.05,5.3,7.2,9.85,1.1)
+        if available('kf-pavilion'):continue
         for dx in [-1.8,0,1.8]:
             for y in [-2.6,2.6]:
                 south.beam((x+dx,y,9.8),(x+dx,y,10.20),.34,'dressed_stone',12)
@@ -483,9 +495,12 @@ def native_luding(env):
         place_local(x+side*5.35,0,side*math.pi/2,'cut_stone_approach',
                     lambda:south.stairs(0,0,8,3.3,9,.32,.21))
     # A modelled landing beyond the east abutment allows the visitor to turn back.
-    south.masonry(60.9,-2.55,7.6,10.6,12.7,2.33,1.15)
+    if not available('kf-stone-platform'):
+        south.masonry(60.9,-2.55,7.6,10.6,12.7,2.33,1.15)
     for j in range(8):
         for k in range(6):
+            if available('kf-stone-platform'):continue
+            if j==4 and k==3:continue
             south.box((56.29+j*1.32,-7.78+k*2.09,9.955),(1.30,2.07,.085),'dressed_stone')
     # Individual hewn planks have a dressed top lip, a narrow gap and irregular end grain.
     boards=[];board_faces=[];board_uv=[]
@@ -507,7 +522,8 @@ def native_luding(env):
                 board_faces.append(tuple(start+i+row for i in (k,n,n+4,k+4)))
         board_faces.append(tuple(start+8+i for i in range(4)))
         board_faces.append(tuple(start+i for i in (3,2,1,0)))
-    geometry('Hewn transversal deck boards',boards,board_faces,'bridge_plank',board_uv)
+    if not available('kf-beam'):
+        geometry('Hewn transversal deck boards',boards,board_faces,'bridge_plank',board_uv)
     for y,offset in [(i*.31-1.24,-.14) for i in range(9)]:
         south.line([(x,y,deck(x)+offset) for x in np.linspace(-half,half,100)],.066,'iron',6)
     # Preserve four fine rail silhouettes in the aerial LOD. The near LOD
@@ -515,7 +531,7 @@ def native_luding(env):
     for y in [-1.55,1.55]:
         for h in [.64,1.25]:
             south.line([(x,y,deck(x)+h) for x in np.linspace(-half,half,100)],.050,'iron_far',6)
-    bridge_links(length,deck)
+    if not available('kf-chain-link'):bridge_links(length,deck)
     for x in np.linspace(-half,half,65):
         for y in [-1.51,1.51]:south.beam((x,y,deck(x)),(x,y,deck(x)+1.24),.031,'iron',5)
     for x,side,yaw in [(-32,.85,1.47),(-27,.76,1.62),(18,.9,-1.52),(30,.86,-1.64)]:
@@ -528,7 +544,16 @@ def native_luding(env):
             street.append((x,y))
             bx=x+side*(5.2+env.rng.uniform(-1.3,1.7))*(1 if i%4 else -1)
             if abs(bx+60)<8.0 and abs(y-4.5)<7:continue
-            add_cottage(env,bx,y,env.rng.uniform(5.0,8.3),env.rng.uniform(4.1,7.4),env.rng.uniform(2.6,4.2))
+            w,d,h=env.rng.uniform(5.0,8.3),env.rng.uniform(4.1,7.4),env.rng.uniform(2.6,4.2)
+            if side==1 and abs(y)<9:
+                # The inner street bay used to intersect the stone landing
+                # and put a clipped porch through the pavilion camera.
+                bx=max(bx,78.0)
+            if (side,i) in {(-1,4),(-1,10),(1,3),(1,6)}:
+                scale=w*1.45
+                env.contributed_houses=getattr(env,'contributed_houses',[])+[(bx,y,scale)]
+                env.houses.append((bx,y,.75*scale,scale))
+            else:add_cottage(env,bx,y,w,d,h)
         trail(env,street,2.1)
     for side in [-1,1]:
         for y in [-16,-9,8,17]:env.plant(side*64,y,env.height(side*64,y),4.8,4.4)
@@ -734,6 +759,14 @@ def create_landmark(env):
     south.B={};south.R.seed(env.seed);south.part('site')
     original_tree=south.tree;south.tree=env.plant
     south_person,north_person=south.person,north.person
+    north_bench=north.bench
+    def bench(x,y,z,w=2,yaw=0):
+        # The supplied seated delegates include individual chairs. These three
+        # old shared benches occupied the same footprints in Lianghekou.
+        if sid=='lianghekou' and abs(y-.25)<1e-5 and abs(z-.2)<1e-5 and any(abs(x-v)<1e-5 for v in (-2.5,0,2.5)):
+            return
+        return north_bench(x,y,z,w,yaw)
+    north.bench=bench
     def civilian(x,y,z,h=1.67,pose=0):
         env.figures.build(x,y,z,env.rng.uniform(1.56,1.77),env.rng.uniform(-.68,.68),
                           'walk' if pose or env.figures.count%3==0 else 'stand','local')
@@ -777,7 +810,7 @@ def create_landmark(env):
             if name=='water':continue
             geometry('Historic '+name,verts,faces,name)
     south.tree=original_tree
-    south.person=south_person;north.person=north_person
+    south.person=south_person;north.person=north_person;north.bench=north_bench
     # The journal guide is a contemporary interpretive layer, only displayed
     # in the guide view. Historical crowd meshes stay visible independently.
     anchors={'luding':(51,0,9.96),'zunyi':(2.7,-5.1,.37),'jiajin':(2.1,-2,None),
@@ -787,6 +820,9 @@ def create_landmark(env):
     env.figures.build(gx,gy,env.height(gx,gy)+.03 if gz is None else gz,1.64,.23,'write','guide',True)
     historical_sets.dress(env)
     market(env)
+    if sid!='luding':
+        from station_story_details import add as add_story_details
+        add_story_details(env)
     env.figures.flush(geometry)
     env.town_blocks()
     terrain_sets(env)
@@ -804,6 +840,9 @@ def create_landmark(env):
         if label in ['cut_paper_base','water_and_ripples','earthen_banks','jinsha_canyon_left','jinsha_canyon_right','yunshishan_cliff']:continue
         if mat in ['foliage','leaflight']:continue
         if label in ['xiangjiang_gravel_bars','anshun_pebble_beach','historic_cave_bank'] and mat=='sand':continue
+        if label.startswith('Story details '):
+            geometry(label+' / '+mat,v,f,mat)
+            continue
         if sid=='zunyi' and label in ['conference_main_building','upper_cut_gallery','return_wing']:
             mat={'plaster':'greybrick','lightstone':'dressed_stone','timber':'chestnut'}.get(mat,mat)
         cut=sid=='zunyi' and label in ('upper_cut_wall','upper_cut_gallery','tiled_hip_roof_and_dormer','glass_lights')
@@ -854,6 +893,8 @@ def build(sid):
     ground['plateWidth']=env.span
     ground['surveyPlate']=env.plate
     ground['figureCount']=env.figures.count
+    if sid!='luding' and getattr(env,'story_details',None):
+        ground['storyDetailTargetsJSON']=json.dumps(env.story_details,ensure_ascii=False)
     if sid in RIVER_STUDIES:
         spec=RIVER_STUDIES[sid]
         bx,by,bz=env.boat_focus
@@ -869,20 +910,76 @@ def build(sid):
     if sid=='luding':
         from luding_studio import dress_scene
         dress_scene(env,ground,geometry)
-    else:ground['groveInstances']=placements
+    else:
+        ground['groveInstances']=placements
+        from landscape_surfaces import dress_landscape
+        dress_landscape(env,ground)
     clear_guide_mark(env)
+    if sid != 'luding':
+        portrait = frame_resident(env)
+        if portrait:
+            ground['residentView'] = portrait
     x,y,z,dist,turn,tilt=frame_tableau(env)
     ground['tableauView']=[x,z,-y,dist,turn,tilt]
     ground['recorderAnchor']=env.figures.anchor
     OUT.mkdir(exist_ok=True,parents=True)
     image_options={'export_image_format':'WEBP','export_image_quality':88} if sid=='luding' else {}
-    bpy.ops.export_scene.gltf(filepath=str(OUT/(sid+'.glb')),export_format='GLB',**image_options,
-        export_extras=True,export_yup=True,export_meshopt_compression_enable=True,
-        export_meshopt_extension='EXT_meshopt_compression',export_animations=False)
+    target=OUT/(sid+'.glb')
+    temporary=OUT/(sid+'.'+uuid4().hex+'.glb')
+    try:
+        bpy.ops.export_scene.gltf(filepath=str(temporary),export_format='GLB',**image_options,
+            export_extras=True,export_yup=True,export_gpu_instances=(sid=='luding'),export_meshopt_compression_enable=True,
+            export_meshopt_extension='EXT_meshopt_compression',export_animations=False)
+        if sid=='luding':
+            from luding_sedge import promote_shore_alpha
+            promote_shore_alpha(temporary)
+        # The local preview server/Windows scanner can briefly hold the old GLB
+        # open. Keep the completed temporary export and retry its atomic swap.
+        for attempt in range(40):
+            try:
+                temporary.replace(target)
+                break
+            except PermissionError:
+                if attempt==39:raise
+                time.sleep(.25)
+    finally:
+        temporary.unlink(missing_ok=True)
     print('LANDSCAPE',sid,len(env.trees),'crowns',flush=True)
     if sid=='luding' and '--proof' in sys.argv:
         from luding_studio import render_proofs
         render_proofs()
+
+def frame_resident(env):
+    """Frame a person at eye level without putting a wall or neighbour in front."""
+    scene = bpy.context.scene
+    graph = bpy.context.evaluated_depsgraph_get()
+    candidates = sorted(env.figures.portrait_candidates, key=lambda person: not person[-1])
+    for x, y, z, height, yaw, pose, _ in candidates:
+        # Supplied actors record their actual posed mesh height. Seated people
+        # have already been scaled to seated stature by field_supplied.
+        head = height * .91
+        aim = Vector((x, y, z + head * .73))
+        distance = max(2.15, height * 1.62)
+        for offset in (.30, -.35, .69, -.74, 1.08, -1.08):
+            angle = yaw + offset
+            for pitch in (.14, .30):
+                eye = aim + distance * Vector((math.sin(angle) * math.cos(pitch),
+                                               -math.cos(angle) * math.cos(pitch), math.sin(pitch)))
+                if eye.z < env.height(eye.x, eye.y) + .3:
+                    continue
+                # A seated meeting participant can have legs below the table.
+                # Check face/shoulders rather than rejecting the portrait when
+                # the desk naturally hides the lower body.
+                levels=((head,0),(head*.80,.13),(head*.80,-.13),(head*.72,0)) if pose=='sit' else ((head,0),(head*.65,.15),(head*.65,-.15),(.28,0))
+                for level, side in levels:
+                    point = Vector((x + side * math.cos(yaw), y + side * math.sin(yaw), z + level))
+                    ray = point - eye
+                    if scene.ray_cast(graph, eye, ray.normalized(), distance=ray.length - .32)[0]:
+                        break
+                else:
+                    return [x, aim.z, -y, distance, angle, pitch]
+    return None
+
 
 def frame_tableau(env):
     """Pick an actual line of sight to the evidence, including the portrait lens."""
