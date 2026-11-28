@@ -47,10 +47,12 @@ def main():
         tracked[name.decode('utf-8')]=blob.decode()
     OUT.mkdir(parents=True,exist_ok=True)
     target=OUT/('山河之路-完整项目-'+datetime.now().strftime('%Y%m%d')+'-'+commit[:7]+'.zip')
+    temporary=target.with_suffix('.partial.zip')
     prefix='山河之路/'
-    subprocess.run(['git','archive','--format=zip','--prefix='+prefix,'--output='+str(target),commit],cwd=ROOT,check=True)
+    subprocess.run(['git','-c','core.autocrlf=false','archive','--format=zip',
+                    '--prefix='+prefix,'--output='+str(temporary),commit],cwd=ROOT,check=True)
     additional=0
-    with zipfile.ZipFile(target,'a',compression=zipfile.ZIP_DEFLATED,compresslevel=3,allowZip64=True) as archive:
+    with zipfile.ZipFile(temporary,'a',compression=zipfile.ZIP_DEFLATED,compresslevel=3,allowZip64=True) as archive:
         seen=set(archive.namelist())
         for path in extras(tracked):
             name=prefix+path.relative_to(ROOT).as_posix()
@@ -62,7 +64,7 @@ def main():
                         'render caches','old binary versions','duplicate ECS upload archives']}
         archive.writestr(prefix+'交付版本.json',json.dumps(metadata,ensure_ascii=False,indent=2))
     checked=0
-    with zipfile.ZipFile(target) as archive:
+    with zipfile.ZipFile(temporary) as archive:
         names=archive.namelist();assert len(names)==len(set(names))
         for info in archive.infolist():
             assert info.filename.startswith(prefix)
@@ -81,8 +83,9 @@ def main():
             checked+=1
         for name in tracked:assert prefix+name in names,name
     digest=hashlib.sha256()
-    with target.open('rb') as stream:
+    with temporary.open('rb') as stream:
         for block in iter(lambda:stream.read(1024*1024),b''):digest.update(block)
+    temporary.replace(target)
     report={'archive':str(target.resolve()),'commit':commit,'bytes':target.stat().st_size,
             'filesVerified':checked,'trackedFilesMatched':len(tracked),'sha256':digest.hexdigest()}
     (OUT/'latest-package.json').write_text(json.dumps(report,ensure_ascii=False,indent=2)+'\n',encoding='utf-8')
