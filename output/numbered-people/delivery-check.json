@@ -1,7 +1,7 @@
 {
   "passed": true,
   "stations": 19,
-  "historicalPeople": 182,
+  "historicalPeople": 170,
   "numberedAssetsUsed": [
     "boatman-rowing",
     "farmer-greeting",
@@ -16,10 +16,10 @@
   "assetCoverage": {
     "boatman-rowing": 6,
     "farmer-greeting": 11,
-    "old-porter": 30,
+    "old-porter": 15,
     "seated-civilian-woman": 3,
     "journal-writer": 3,
-    "marcher-male": 79,
+    "marcher-male": 82,
     "seated-delegate": 13,
     "soldier-female": 14,
     "newspaper-reader": 2,
@@ -64,15 +64,16 @@
     },
     {
       "station": "chishui",
-      "people": 12,
+      "people": 4,
       "assets": {
         "boatman-rowing": 1,
-        "farmer-greeting": 2,
-        "old-porter": 9
+        "farmer-greeting": 1,
+        "marcher-male": 1,
+        "old-porter": 1
       },
-      "bytes": 12258476,
-      "sha256": "a492a4f275b75105988fc1b492dcc0ddaf80156c1952887df63f811b22d06ee3",
-      "maximumFloorErrorMetres": 4.2915344167226976e-08,
+      "bytes": 15293900,
+      "sha256": "c45e453c7bf78254a28a2959cb535f9ab722ac5cf9c7f1ededdd3f5d03651307",
+      "maximumFloorErrorMetres": 9.536743172944284e-09,
       "proceduralPeople": 0,
       "previewCount": 3
     },
@@ -184,22 +185,24 @@
         "marcher-male": 3,
         "seated-delegate": 6
       },
-      "bytes": 12614872,
-      "sha256": "2d15158a290adaa76e948ce909b8804e18a06915f46642b4555609659d9b955c",
-      "maximumFloorErrorMetres": 1.3296531486961527e-08,
+      "bytes": 12615136,
+      "sha256": "1a4ade493564fc9c148fa484009f8022b43927191b87a6f9421950c2fb55f59b",
+      "maximumFloorErrorMetres": 6.5565109175214076e-09,
       "proceduralPeople": 0,
       "previewCount": 2
     },
     {
       "station": "liping",
-      "people": 9,
+      "people": 5,
       "assets": {
+        "farmer-greeting": 1,
         "journal-writer": 1,
-        "old-porter": 7,
+        "marcher-male": 1,
+        "old-porter": 1,
         "seated-civilian-woman": 1
       },
-      "bytes": 14648192,
-      "sha256": "50b4730a46080406e5d08d18b1f715eb7852859515711021c08f3ccd14d9f024",
+      "bytes": 19658604,
+      "sha256": "afed34fc8f9c8874f7885ad5b950a3dc9d84342f031f91cb3693aced750c6f34",
       "maximumFloorErrorMetres": 9.536743172944284e-08,
       "proceduralPeople": 0,
       "previewCount": 6
@@ -211,9 +214,9 @@
         "marcher-male": 4,
         "old-porter": 2
       },
-      "bytes": 38117224,
-      "sha256": "8df66c54883bd73325af68662e976c9f0e26db7dbc6bf2095159fa8d3a9f3820",
-      "maximumFloorErrorMetres": 4.558124899745053e-07,
+      "bytes": 38134296,
+      "sha256": "38a72c1dccb91fc9289ccb2d859d46dc8b4e79d986dde1ceb4d589c3b2b257d9",
+      "maximumFloorErrorMetres": 4.4537881116468725e-07,
       "proceduralPeople": 0,
       "previewCount": 2
     },
@@ -292,11 +295,12 @@
       "station": "zunyi",
       "people": 4,
       "assets": {
-        "old-porter": 2,
+        "marcher-male": 1,
+        "old-porter": 1,
         "seated-delegate": 2
       },
-      "bytes": 14018644,
-      "sha256": "f0e54f0f280c373acfaa1acd929d2bff2f0b9d0226536fd4c7aa9264bd49e626",
+      "bytes": 17062648,
+      "sha256": "2c8ef167c2ce0f1986962ecfdab3c9d36630009ca0a96709383b73d382ddef30",
       "maximumFloorErrorMetres": 1.1062622062851801e-07,
       "proceduralPeople": 0,
       "previewCount": 4

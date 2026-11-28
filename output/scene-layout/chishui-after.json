@@ -1,0 +1,50 @@
+{
+  "station": "chishui",
+  "phase": "after",
+  "sha256": "c45e453c7bf78254a28a2959cb535f9ab722ac5cf9c7f1ededdd3f5d03651307",
+  "actors": [
+    {
+      "asset": "boatman-rowing",
+      "position": [
+        -3.993006467819214,
+        -3.174960136413574,
+        0.4697914719581604
+      ],
+      "yaw": 1.1,
+      "intersectionsAboveAnkles": {}
+    },
+    {
+      "asset": "farmer-greeting",
+      "position": [
+        -4.599999904632568,
+        1.5700000524520874,
+        1.8700000047683716
+      ],
+      "yaw": 2.9,
+      "intersectionsAboveAnkles": {}
+    },
+    {
+      "asset": "marcher-male",
+      "position": [
+        2.0999999046325684,
+        3.0999999046325684,
+        1.8849999904632568
+      ],
+      "yaw": -0.66,
+      "intersectionsAboveAnkles": {}
+    },
+    {
+      "asset": "old-porter",
+      "position": [
+        -2.0,
+        4.0,
+        1.8849999904632568
+      ],
+      "yaw": 0.69,
+      "intersectionsAboveAnkles": {}
+    }
+  ],
+  "actorIntersections": [],
+  "collisionScope": "All actor triangles against other actors; actor triangles above ankles against scene geometry, excluding intentional sole/floor contact.",
+  "passed": true
+}

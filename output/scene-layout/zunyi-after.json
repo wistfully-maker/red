@@ -1,0 +1,50 @@
+{
+  "station": "zunyi",
+  "phase": "after",
+  "sha256": "2c8ef167c2ce0f1986962ecfdab3c9d36630009ca0a96709383b73d382ddef30",
+  "actors": [
+    {
+      "asset": "marcher-male",
+      "position": [
+        1.149999976158142,
+        -5.349999904632568,
+        0.3319999873638153
+      ],
+      "yaw": 0.08,
+      "intersectionsAboveAnkles": {}
+    },
+    {
+      "asset": "old-porter",
+      "position": [
+        -0.5,
+        -5.349999904632568,
+        0.3319999873638153
+      ],
+      "yaw": -0.12,
+      "intersectionsAboveAnkles": {}
+    },
+    {
+      "asset": "seated-delegate",
+      "position": [
+        -0.5379999876022339,
+        -0.10000000149011612,
+        3.4159998893737793
+      ],
+      "yaw": 3.141592653589793,
+      "intersectionsAboveAnkles": {}
+    },
+    {
+      "asset": "seated-delegate",
+      "position": [
+        0.7300000190734863,
+        -0.10000000149011612,
+        3.4159998893737793
+      ],
+      "yaw": 3.141592653589793,
+      "intersectionsAboveAnkles": {}
+    }
+  ],
+  "actorIntersections": [],
+  "collisionScope": "All actor triangles against other actors; actor triangles above ankles against scene geometry, excluding intentional sole/floor contact.",
+  "passed": true
+}

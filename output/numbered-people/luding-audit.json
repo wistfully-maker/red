@@ -1,8 +1,8 @@
 {
   "station": "luding",
   "passed": true,
-  "sha256": "8df66c54883bd73325af68662e976c9f0e26db7dbc6bf2095159fa8d3a9f3820",
-  "bytes": 38117224,
+  "sha256": "38a72c1dccb91fc9289ccb2d859d46dc8b4e79d986dde1ceb4d589c3b2b257d9",
+  "bytes": 38134296,
   "people": 6,
   "counts": {
     "marcher-male": 4,
@@ -27,10 +27,7 @@
         -0.10062573850154877,
         0.0
       ],
-      "embeddedSupport": "",
-      "sourceRole": "walker",
-      "sourceIdentity": "red_army",
-      "historicalRole": "red_army"
+      "embeddedSupport": ""
     },
     {
       "asset": "marcher-male",
@@ -49,10 +46,7 @@
         0.04918381944298744,
         0.0
       ],
-      "embeddedSupport": "",
-      "sourceRole": "walker",
-      "sourceIdentity": "red_army",
-      "historicalRole": "red_army"
+      "embeddedSupport": ""
     },
     {
       "asset": "marcher-male",
@@ -71,10 +65,7 @@
         -0.050774574279785156,
         0.0
       ],
-      "embeddedSupport": "",
-      "sourceRole": "walker",
-      "sourceIdentity": "red_army",
-      "historicalRole": "red_army"
+      "embeddedSupport": ""
     },
     {
       "asset": "marcher-male",
@@ -93,32 +84,26 @@
         0.0691484808921814,
         0.0
       ],
-      "embeddedSupport": "",
-      "sourceRole": "walker",
-      "sourceIdentity": "red_army",
-      "historicalRole": "red_army"
+      "embeddedSupport": ""
     },
     {
       "asset": "old-porter",
       "position": [
-        -60.72999954223633,
-        5.210000038146973,
-        8.006969451904297
+        -58.45000076293945,
+        5.199999809265137,
+        7.839624881744385
       ],
       "requestedPose": "stand",
       "sourcePose": "standing",
-      "floor": 8.006969451904297,
-      "height": 1.597001075744629,
+      "floor": 7.839624881744385,
+      "height": 1.597001552581787,
       "nominalAdultHeight": 1.5970011576201615,
       "frontBlender": [
-        0.19866932928562164,
-        -0.9800665378570557,
+        -0.43496549129486084,
+        -0.9004470705986023,
         0.0
       ],
-      "embeddedSupport": "",
-      "sourceRole": "local",
-      "sourceIdentity": "civilian",
-      "historicalRole": "porter"
+      "embeddedSupport": ""
     },
     {
       "asset": "old-porter",
@@ -137,10 +122,7 @@
         -0.9523335099220276,
         0.0
       ],
-      "embeddedSupport": "",
-      "sourceRole": "porter",
-      "sourceIdentity": "porter",
-      "historicalRole": "porter"
+      "embeddedSupport": ""
     }
   ],
   "checks": [
@@ -150,11 +132,5 @@
     "native UV/PBR retained",
     "no duplicate supplied chair",
     "no procedural historical mesh"
-  ],
-  "residentView": null,
-  "residentCameraUsesActualPosedHeight": false,
-  "historicalRoles": {
-    "red_army": 4,
-    "porter": 2
-  }
+  ]
 }

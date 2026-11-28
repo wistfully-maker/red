@@ -1,0 +1,70 @@
+Archive SHA256 verified: 7aafd5cfa038b43b1287dc76b74d32d12e9f85d509de20116406929e63ecf6fb
+Release verified: 20261128T065633Z-21585b5a6e19
+Verified public files: 705
+/lib/systemd/system/snapd.service:23: Unknown key name 'RestartMode' in section 'Service', ignoring.
+active
+active
+Created symlink /etc/systemd/system/multi-user.target.wants/shanhe-atlas-web.service → /etc/systemd/system/shanhe-atlas-web.service.
+curl: (7) Failed to connect to 127.0.0.1 port 18081 after 0 ms: Connection refused
+curl: (7) Failed to connect to 127.0.0.1 port 18081 after 0 ms: Connection refused
+HTTP 200 verified: /index.html
+HTTP 200 verified: /assets/explore.js
+HTTP 200 verified: /assets/scene-navigation.js
+HTTP 200 verified: /assets/scene-navigation.css
+HTTP 200 verified: /assets/ground-features.js
+HTTP 206 verified: /assets/models/landscapes/liping.glb
+HTTP 206 verified: /assets/audio/schubert-standchen-lv-siqing.mp3
+Gzip JavaScript verified: HTTP 200
+NEW_APPLICATION_HTTP_CHECKS_PASSED
+$ systemctl is-active shanhe-atlas-web.service
+active
+$ systemctl show shanhe-atlas-web.service -p MemoryCurrent -p MemoryMax -p NRestarts -p User -p MainPID
+MainPID=39244
+NRestarts=0
+MemoryCurrent=14372864
+MemoryMax=419430400
+User=shanhe-atlas
+$ systemctl status shanhe-atlas-web.service --no-pager --full
+● shanhe-atlas-web.service - Shanhe Atlas static website
+     Loaded: loaded (/etc/systemd/system/shanhe-atlas-web.service; enabled; vendor preset: enabled)
+     Active: active (running) since Sat 2026-11-28 15:05:32 CST; 1s ago
+   Main PID: 39244 (python)
+      Tasks: 1 (limit: 64)
+     Memory: 13.7M (high: 300.0M max: 400.0M swap max: 64.0M available: 286.2M)
+        CPU: 222ms
+     CGroup: /system.slice/shanhe-atlas-web.service
+             └─39244 /opt/shanhe-atlas/venv/bin/python /opt/shanhe-atlas/server.py --host 0.0.0.0 --port 18081 --directory /opt/shanhe-atlas/current --log-dir /opt/shanhe-atlas/logs
+
+Nov 28 15:05:32 iZbp1ddhzec6nqwelpplf3Z systemd[1]: Started Shanhe Atlas static website.
+$ curl -sS -o /dev/null -w HTTP_CODE_TIME http://127.0.0.1:18081/
+200 0.001920s
+$ ss -tlnp | grep -E 18080_OR_18081
+LISTEN 0      2048         0.0.0.0:18080      0.0.0.0:*    users:(("python",pid=2826,fd=6))
+LISTEN 0      64           0.0.0.0:18081      0.0.0.0:*    users:(("python",pid=39244,fd=4))
+$ systemctl is-active longtou-web longtou-monitor
+active
+active
+$ systemctl show longtou-web.service longtou-monitor.service -p Id -p MainPID -p ActiveEnterTimestamp -p NRestarts
+MainPID=2826
+NRestarts=0
+Id=longtou-web.service
+ActiveEnterTimestamp=Wed 2026-11-18 23:54:40 CST
+
+MainPID=2827
+NRestarts=0
+Id=longtou-monitor.service
+ActiveEnterTimestamp=Wed 2026-11-18 23:54:40 CST
+$ free -h
+               total        used        free      shared  buff/cache   available
+Mem:           1.7Gi       405Mi        97Mi       2.0Mi       1.2Gi       1.1Gi
+Swap:          2.0Gi          0B       2.0Gi
+$ systemctl is-enabled shanhe-atlas-web.service
+enabled
+$ du -sh /opt/shanhe-atlas
+1.1G	/opt/shanhe-atlas
+$ /opt/shanhe-atlas/venv/bin/python --version
+Python 3.10.12
+$ logs rotation limit: 2 MiB per file, 3 backups
+total 4.0K
+-rw-r----- 1 shanhe-atlas shanhe-atlas 56 Nov 28 15:05 app.log
+MemAvailableKiB=1175432

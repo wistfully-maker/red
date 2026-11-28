@@ -1,0 +1,37 @@
+[Unit]
+Description=Shanhe Atlas static website
+After=network-online.target
+
+[Service]
+Type=simple
+User=shanhe-atlas
+Group=shanhe-atlas
+WorkingDirectory=/opt/shanhe-atlas
+Environment=PYTHONPATH=/opt/shanhe-atlas
+Environment=PYTHONUNBUFFERED=1
+Environment=PYTHONDONTWRITEBYTECODE=1
+ExecStart=/opt/shanhe-atlas/venv/bin/python /opt/shanhe-atlas/server.py --host 0.0.0.0 --port 18081 --directory /opt/shanhe-atlas/current --log-dir /opt/shanhe-atlas/logs
+Restart=always
+RestartSec=3
+MemoryMax=400M
+MemoryHigh=300M
+MemorySwapMax=64M
+CPUQuota=50%
+CPUWeight=10
+IOWeight=10
+Nice=10
+TasksMax=64
+LimitNOFILE=256
+UMask=0027
+NoNewPrivileges=yes
+PrivateTmp=yes
+ProtectSystem=strict
+ProtectHome=yes
+ReadWritePaths=/opt/shanhe-atlas/logs
+CapabilityBoundingSet=
+RestrictAddressFamilies=AF_INET AF_INET6 AF_UNIX
+StandardOutput=journal
+StandardError=journal
+
+[Install]
+WantedBy=multi-user.target

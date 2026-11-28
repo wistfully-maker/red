@@ -365,7 +365,9 @@ def lianghekou():
     house(12,2,.2,5,9,3)
     house(-10,-9,.2,5,4,3)
     stonewall(9,-10,.2,9,.9)
-    table(0,1.8,.25,4,1.8)
+    # The temple's entry steps reach y=1.345. Place the complete meeting on the
+    # level courtyard paving (top z=.1625), with both rows clear of the steps.
+    table(0,-1.2,.165,5.6,1.8)
     for x in [-2.5,0,2.5]:
         bench(x,.25,.2,1.7)
         person(x,.3,.25,.9,pose='sit',pack=False)

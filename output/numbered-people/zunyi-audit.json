@@ -1,11 +1,12 @@
 {
   "station": "zunyi",
   "passed": true,
-  "sha256": "f0e54f0f280c373acfaa1acd929d2bff2f0b9d0226536fd4c7aa9264bd49e626",
-  "bytes": 14018644,
+  "sha256": "2c8ef167c2ce0f1986962ecfdab3c9d36630009ca0a96709383b73d382ddef30",
+  "bytes": 17062648,
   "people": 4,
   "counts": {
-    "old-porter": 2,
+    "old-porter": 1,
+    "marcher-male": 1,
     "seated-delegate": 2
   },
   "proceduralPeople": [],
@@ -13,46 +14,40 @@
     {
       "asset": "old-porter",
       "position": [
-        0.550000011920929,
-        -4.400000095367432,
-        0.3199999928474426
+        -0.5,
+        -5.349999904632568,
+        0.3319999873638153
       ],
       "requestedPose": "walk",
       "sourcePose": "standing",
-      "floor": 0.3199999928474426,
-      "height": 1.5795688033103943,
+      "floor": 0.3319999873638153,
+      "height": 1.5795688927173615,
       "nominalAdultHeight": 1.579568820204111,
       "frontBlender": [
-        0.13151825964450836,
-        -0.9913137555122375,
+        -0.11971226334571838,
+        -0.9928086996078491,
         0.0
       ],
-      "embeddedSupport": "",
-      "sourceRole": "local",
-      "sourceIdentity": "civilian",
-      "historicalRole": "porter"
+      "embeddedSupport": ""
     },
     {
-      "asset": "old-porter",
+      "asset": "marcher-male",
       "position": [
-        1.2000000476837158,
-        -4.099999904632568,
-        0.3199999928474426
+        1.149999976158142,
+        -5.349999904632568,
+        0.3319999873638153
       ],
       "requestedPose": "stand",
-      "sourcePose": "standing",
-      "floor": 0.3199999928474426,
-      "height": 1.6853720545768738,
+      "sourcePose": "standing march pause",
+      "floor": 0.3319999873638153,
+      "height": 1.6853719055652618,
       "nominalAdultHeight": 1.6853719859479286,
       "frontBlender": [
-        -0.5431675314903259,
-        -0.8396244049072266,
+        0.07991469651460648,
+        -0.9968017339706421,
         0.0
       ],
-      "embeddedSupport": "",
-      "sourceRole": "local",
-      "sourceIdentity": "civilian",
-      "historicalRole": "porter"
+      "embeddedSupport": ""
     },
     {
       "asset": "seated-delegate",
@@ -71,10 +66,7 @@
         1.0,
         0.0
       ],
-      "embeddedSupport": "chair",
-      "sourceRole": "delegate",
-      "sourceIdentity": "red_army",
-      "historicalRole": "red_army"
+      "embeddedSupport": "chair"
     },
     {
       "asset": "seated-delegate",
@@ -93,10 +85,7 @@
         1.0,
         0.0
       ],
-      "embeddedSupport": "chair",
-      "sourceRole": "delegate",
-      "sourceIdentity": "red_army",
-      "historicalRole": "red_army"
+      "embeddedSupport": "chair"
     }
   ],
   "checks": [
@@ -108,16 +97,12 @@
     "no procedural historical mesh"
   ],
   "residentView": [
-    -0.5379999876022339,
-    4.243551731109619,
-    0.10000000149011612,
-    2.15,
-    3.441592653589793,
+    1.15,
+    1.4515925645828247,
+    5.35,
+    2.7303026172356444,
+    0.38,
     0.14
   ],
-  "residentCameraUsesActualPosedHeight": true,
-  "historicalRoles": {
-    "porter": 2,
-    "red_army": 2
-  }
+  "residentCameraUsesActualPosedHeight": true
 }

@@ -85,7 +85,14 @@ def place_contributions(env,ground):
             masters[key]=obj
         else:
             obj=masters[key].copy();bpy.context.collection.objects.link(obj)
+        # glTF imports use QUATERNION mode. Only the reviewed carving needs an
+        # X rotation; assigning Euler angles alone previously did nothing.
+        if key=='carving':obj.rotation_mode='XYZ'
         obj.location=loc;obj.rotation_euler=(math.pi if flip else 0,0,yaw);obj.scale=scale
+        if key=='carving':
+            rotation=obj.rotation_euler.to_matrix()
+            bottom=min((rotation@Vector(tuple(p[i]*scale[i] for i in range(3)))).z for p in obj.bound_box)
+            obj.location.z-=bottom
         return obj
     for x,y,s in env.contributed_houses:
         if available('kf-house'):continue
@@ -93,7 +100,9 @@ def place_contributions(env,ground):
         place('house',(x,y,floor-.09),(s,s,s),.13*math.sin(y)+(math.pi if x<0 else 0))
     if not available('kf-pavilion'):
         place('gate',(67,-17,env.height(67,-17)-.09),(4.95,4.95,4.95),1.43)
-    place('carving',(-60,4.5,env.height(-60,4.5)+.80),(2.18,.96,.98),0,True)
+    # Its source is tabletop-down. Turn the frame over, then bottom-align its
+    # four leg ends to the terrain, beneath the separately authored tabletop.
+    place('carving',(-60,4.5,env.height(-60,4.5)),(2.18,.96,.98),0,True)
     if available('kf-rock-a') and available('kf-rock-b'):return
     eddies=[]
     for j,y in enumerate([-85,-67,-45,-29,-16,17,29,43,55,72,84]):

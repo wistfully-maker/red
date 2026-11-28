@@ -20,8 +20,9 @@
   <link rel="stylesheet" href="assets/brand-stage.css?v=museum-final-20261127">
   <link rel="stylesheet" href="assets/map-welcome.css?v=terrain-entry-20261127">
   <link rel="stylesheet" href="assets/control-feedback.css?v=20261127">
+  <link rel="stylesheet" href="assets/scene-navigation.css?v=scene-fixes-20261128">
   <script type="module" src="assets/control-feedback.js?v=20261127"></script>
-  <script type="module" src="assets/explore.js?v=numbered-people-20261128"></script>
+  <script type="module" src="assets/explore.js?v=scene-fixes-20261128-v2"></script>
 
 </head>
 <body data-mode="overview">
@@ -67,6 +68,11 @@
       <div id="pins" class="pins"></div>
     </div>
     <div class="scene-shade" aria-hidden="true"></div>
+    <div id="terrainGesture" class="terrain-gesture" role="note" aria-label="地形操作提示" hidden>
+      <span class="gesture-orbit" aria-hidden="true">↻</span>
+      <span class="gesture-desktop"><kbd>Shift</kbd><span>＋ 鼠标拖动</span><strong>旋转视角</strong></span>
+      <span class="gesture-touch">单指移动 · 双指缩放</span>
+    </div>
 
     <section id="cover" hidden aria-hidden="true"></section>
     <section id="specimen" aria-label="历史场景模型" hidden>
@@ -157,6 +163,11 @@
     </section>
 
     <aside id="reader" class="museum-dock" aria-label="本站展馆" hidden>
+      <button id="modelMuseum" class="model-museum" type="button" aria-haspopup="dialog" hidden>
+        <svg aria-hidden="true"><use href="#i-brand"/></svg>
+        <span class="model-museum-copy"><small>从现场走进展馆</small><strong id="modelMuseumName"></strong></span>
+        <span class="model-museum-action">进入展馆 <span aria-hidden="true">↗</span></span>
+      </button>
       <button id="toggleReader" type="button" aria-haspopup="dialog">
         <svg aria-hidden="true"><use href="#i-brand"/></svg>
         <span><small>长征主题展馆</small><strong id="readerName"></strong></span>

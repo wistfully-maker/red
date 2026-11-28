@@ -1,8 +1,8 @@
 {
   "station": "lianghekou",
   "passed": true,
-  "sha256": "2d15158a290adaa76e948ce909b8804e18a06915f46642b4555609659d9b955c",
-  "bytes": 12614872,
+  "sha256": "1a4ade493564fc9c148fa484009f8022b43927191b87a6f9421950c2fb55f59b",
+  "bytes": 12615136,
   "people": 10,
   "counts": {
     "seated-delegate": 6,
@@ -15,133 +15,115 @@
       "asset": "seated-delegate",
       "position": [
         -2.5,
-        0.30000001192092896,
-        0.25
+        -2.9000000953674316,
+        0.16500000655651093
       ],
       "requestedPose": "sit",
       "sourcePose": "sit",
-      "floor": 0.25,
-      "height": 1.200532078742981,
+      "floor": 0.16500000655651093,
+      "height": 1.2005320340394974,
       "nominalAdultHeight": 1.5901086135676943,
       "frontBlender": [
         -4.371138828673793e-08,
         1.0,
         0.0
       ],
-      "embeddedSupport": "chair",
-      "sourceRole": "local",
-      "sourceIdentity": "red_army",
-      "historicalRole": "red_army"
+      "embeddedSupport": "chair"
     },
     {
       "asset": "seated-delegate",
       "position": [
         0.0,
-        0.30000001192092896,
-        0.25
+        -2.9000000953674316,
+        0.16500000655651093
       ],
       "requestedPose": "sit",
       "sourcePose": "sit",
-      "floor": 0.25,
-      "height": 1.2326018810272217,
+      "floor": 0.16500000655651093,
+      "height": 1.232601836323738,
       "nominalAdultHeight": 1.632585154639499,
       "frontBlender": [
         -4.371138473402425e-08,
         1.0,
         0.0
       ],
-      "embeddedSupport": "chair",
-      "sourceRole": "local",
-      "sourceIdentity": "red_army",
-      "historicalRole": "red_army"
+      "embeddedSupport": "chair"
     },
     {
       "asset": "seated-delegate",
       "position": [
         2.5,
-        0.30000001192092896,
-        0.25
+        -2.9000000953674316,
+        0.16500000655651093
       ],
       "requestedPose": "sit",
       "sourcePose": "sit",
-      "floor": 0.25,
-      "height": 1.3185813426971436,
+      "floor": 0.16500000655651093,
+      "height": 1.31858129799366,
       "nominalAdultHeight": 1.7464653217784232,
       "frontBlender": [
         -4.371138828673793e-08,
         0.9999999403953552,
         0.0
       ],
-      "embeddedSupport": "chair",
-      "sourceRole": "local",
-      "sourceIdentity": "red_army",
-      "historicalRole": "red_army"
+      "embeddedSupport": "chair"
     },
     {
       "asset": "seated-delegate",
       "position": [
         -2.4000000953674316,
-        2.9000000953674316,
-        0.25
+        0.5,
+        0.16500000655651093
       ],
       "requestedPose": "sit",
       "sourcePose": "sit",
-      "floor": 0.25,
-      "height": 1.2682851552963257,
+      "floor": 0.16500000655651093,
+      "height": 1.268285110592842,
       "nominalAdultHeight": 1.6798479632304726,
       "frontBlender": [
         -4.371138828673793e-08,
         -1.0,
         0.0
       ],
-      "embeddedSupport": "chair",
-      "sourceRole": "local",
-      "sourceIdentity": "red_army",
-      "historicalRole": "red_army"
+      "embeddedSupport": "chair"
     },
     {
       "asset": "seated-delegate",
       "position": [
-        0.6499999761581421,
-        2.9000000953674316,
-        0.25
+        0.0,
+        0.5,
+        0.16500000655651093
       ],
       "requestedPose": "sit",
       "sourcePose": "sit",
-      "floor": 0.25,
-      "height": 1.2375664710998535,
+      "floor": 0.16500000655651093,
+      "height": 1.23756642639637,
       "nominalAdultHeight": 1.6391608057013562,
       "frontBlender": [
         -4.371138828673793e-08,
         -1.0,
         0.0
       ],
-      "embeddedSupport": "chair",
-      "sourceRole": "local",
-      "sourceIdentity": "red_army",
-      "historicalRole": "red_army"
+      "embeddedSupport": "chair"
     },
     {
       "asset": "seated-delegate",
       "position": [
         2.4000000953674316,
-        2.9000000953674316,
-        0.25
+        0.5,
+        0.16500000655651093
       ],
       "requestedPose": "sit",
       "sourcePose": "sit",
-      "floor": 0.25,
-      "height": 1.3141727447509766,
+      "floor": 0.16500000655651093,
+      "height": 1.314172700047493,
       "nominalAdultHeight": 1.7406261680394763,
       "frontBlender": [
         -4.371138473402425e-08,
         -1.0,
         0.0
       ],
-      "embeddedSupport": "chair",
-      "sourceRole": "local",
-      "sourceIdentity": "red_army",
-      "historicalRole": "red_army"
+      "embeddedSupport": "chair"
     },
     {
       "asset": "marcher-male",
@@ -160,10 +142,7 @@
         -0.9800665974617004,
         0.0
       ],
-      "embeddedSupport": "",
-      "sourceRole": "walker",
-      "sourceIdentity": "red_army",
-      "historicalRole": "red_army"
+      "embeddedSupport": ""
     },
     {
       "asset": "marcher-male",
@@ -182,10 +161,7 @@
         -0.9800665974617004,
         0.0
       ],
-      "embeddedSupport": "",
-      "sourceRole": "walker",
-      "sourceIdentity": "red_army",
-      "historicalRole": "red_army"
+      "embeddedSupport": ""
     },
     {
       "asset": "marcher-male",
@@ -204,32 +180,26 @@
         -0.9800665974617004,
         0.0
       ],
-      "embeddedSupport": "",
-      "sourceRole": "walker",
-      "sourceIdentity": "red_army",
-      "historicalRole": "red_army"
+      "embeddedSupport": ""
     },
     {
       "asset": "journal-writer",
       "position": [
-        -1.8600000143051147,
+        -6.960000038146973,
         -3.0299999713897705,
-        0.27000004053115845
+        0.16500000655651093
       ],
       "requestedPose": "write",
       "sourcePose": "write",
-      "floor": 0.27000004053115845,
-      "height": 1.625163972377777,
+      "floor": 0.16500000655651093,
+      "height": 1.6251639872789383,
       "nominalAdultHeight": 1.6251640166385901,
       "frontBlender": [
         0.11971217393875122,
         -0.9928086400032043,
         0.0
       ],
-      "embeddedSupport": "",
-      "sourceRole": "local",
-      "sourceIdentity": "civilian",
-      "historicalRole": "red_army"
+      "embeddedSupport": ""
     }
   ],
   "checks": [
@@ -241,15 +211,12 @@
     "no procedural historical mesh"
   ],
   "residentView": [
-    -1.8600000143051147,
-    1.3495965003967285,
-    3.0299999713897705,
-    2.6327657069545163,
-    -0.62,
+    -2.5,
+    0.9625133872032166,
+    2.9,
+    2.15,
+    3.441592653589793,
     0.14
   ],
-  "residentCameraUsesActualPosedHeight": true,
-  "historicalRoles": {
-    "red_army": 10
-  }
+  "residentCameraUsesActualPosedHeight": true
 }

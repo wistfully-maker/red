@@ -1,11 +1,11 @@
 import * as THREE from './vendor/three.module.min.js';
 import {ExhibitFilm} from './exhibit-film.js?v=cinema-20261121';
 import { clamp, geographic, mercator, mix, smooth } from './geo.js';
-import { terrainVertex, terrainFragment, cloudVertex, cloudFragment } from './terrain-shaders.js?v=terrain-stream-20261127a';
+import { terrainVertex, terrainFragment, cloudVertex, cloudFragment } from './terrain-shaders.js?v=terrain-stable-20261128a';
 import { fitAtlas, imageryZoomLimit, keepGroundInView, nearestBearing, advanceAtlasFlight, stepAtlasCamera, ATLAS_MOTION_VERSION } from './atlas-camera.js?v=terrain-stream-20261127a';
 import { makeAtlasForest, canopyCoverageAsync, makeForestAsync, updateForest } from './forest.js?v=terrain-stream-20261127a';
 import {runTerrainWork,yieldTerrainWork,TerrainNavigation} from './terrain-work.js?v=terrain-stream-20261127a';
-import { loadGroundFeatures } from './ground-features.js?v=first-person-atlas';
+import { loadGroundFeatures } from './ground-features.js?v=terrain-stable-20261128a';
 import { makeJourneyRoute } from './journey-route.js?v=print-atlas-20261118';
 import { journeyWaypoints } from './journey-waypoints.js';
 import { AtlasImagery } from './atlas-imagery.js?v=terrain-stream-20261127a';
@@ -341,11 +341,6 @@ export class TerrainView {
     loadOverviewMiniatures(this.scene).then(models => {
       this.overviewLandmarks = models;
     }).catch(error => console.warn('全线地标模型未加载', error.message));
-    loadModel('zunyi-hall').then(model => {
-      model.visible = false;
-      this.scene.add(model);
-      this.zunyiHall = model;
-    }).catch(error => console.warn('遵义会址模型未加载', error.message));
     this.view = this.openingView();
     this.goal = { ...this.view };
     this.setClouds(luding, 'luding');
@@ -1020,21 +1015,15 @@ export class TerrainView {
     const cx = x + Math.sin(bearing + orbit) * radial;
     const cz = z + Math.cos(bearing + orbit) * radial;
     const cy = Math.max(y + Math.sin(pitch) * distance, this.height(cx, cz) * this.terrainScale + Math.max(.09, distance * .013));
-    this.camera.near = Math.max(.012, distance / 950);
+    // Keep metre-scale roofs and draped water distinct in the 24-bit depth
+    // buffer. A fixed 12 m near plane at kilometre views made the terrain's
+    // polygon bias comparable to the separation between those surfaces.
+    this.camera.near = Math.max(.012, distance / 100);
     this.camera.updateProjectionMatrix();
     this.camera.position.set(cx, cy, cz);
     this.camera.lookAt(x, y + .014, z);
     this.camera.updateMatrixWorld();
     this.updateOverviewLandmarks(distance);
-    if (this.zunyiHall) {
-      const point = this.points.zunyi;
-      this.zunyiHall.visible = this.local?.name === 'zunyi' && distance < .48;
-      if (this.zunyiHall.visible) {
-        this.zunyiHall.position.set(point.x, this.height(point.x, point.z) - .0005, point.z);
-        this.zunyiHall.scale.set(.032, .026, .032);
-        this.zunyiHall.rotation.y = -.34;
-      }
-    }
     const clarity = 1 - .34 * smooth(clamp((distance - 50) / 200, 0, 1)) *
       (1 - smooth(clamp((distance - 540) / 1050, 0, 1)));
     const haze = clamp(.0125 / Math.max(1, distance / 24), .000023, .0125) * clarity *
@@ -1102,7 +1091,7 @@ export class TerrainView {
       this.historicalBanks.visible = bridgeVisible && historicalBridge && distance < .9;
     }
     this.beacon.visible = this.mode === 'station' && Boolean(this.focus) && distance < 105 &&
-      !this.bridge.visible && !this.zunyiHall?.visible;
+      !this.bridge.visible;
     if (this.beacon.visible) {
       const point = this.points[this.focus];
       const radius = Math.max(.006, distance * .009) * (1 + Math.sin(calm * 1.7) * .10);
@@ -1232,9 +1221,6 @@ export class TerrainView {
     const limit = this.zoomMinimum();
     const nextDistance = clamp(previousDistance * factor, limit, this.overviewView().distance * 1.16);
     if (Math.abs(nextDistance - previousDistance) < previousDistance * .0001) {
-      if(factor<1&&this.canEnterLuding()&&this.atZoomLimit()){
-        this.container.dispatchEvent(new Event('luding-arrival'));return;
-      }
       if (factor < 1 && this.refiningImagery()) this.queuedAtlasZoom = true;
       this.browseLocalTerrain();
       return;

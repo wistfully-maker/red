@@ -1,0 +1,58 @@
+{
+  "station": "liping",
+  "phase": "candidates",
+  "actors": [
+    {
+      "asset": "farmer-greeting",
+      "position": [
+        -4.900000095367432,
+        -8.0,
+        0.23999999463558197
+      ],
+      "yaw": 0.55,
+      "intersectionsAboveAnkles": {
+        "Historic plankwall": 527
+      }
+    },
+    {
+      "asset": "journal-writer",
+      "position": [
+        0.5199999809265137,
+        -8.149999618530273,
+        0.23999999463558197
+      ],
+      "yaw": 0.11,
+      "intersectionsAboveAnkles": {}
+    },
+    {
+      "asset": "marcher-male",
+      "position": [
+        2.700000047683716,
+        2.4000000953674316,
+        2.5999999046325684
+      ],
+      "yaw": -0.08619691271785734,
+      "intersectionsAboveAnkles": {}
+    },
+    {
+      "asset": "old-porter",
+      "position": [
+        2.799999952316284,
+        -4.5,
+        0.949999988079071
+      ],
+      "yaw": 0.10002846557885203,
+      "intersectionsAboveAnkles": {}
+    },
+    {
+      "asset": "seated-civilian-woman",
+      "position": [
+        1.590000033378601,
+        -10.270560264587402,
+        0.2800000011920929
+      ],
+      "yaw": 0,
+      "intersectionsAboveAnkles": {}
+    }
+  ]
+}

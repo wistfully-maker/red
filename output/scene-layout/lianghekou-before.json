@@ -1,0 +1,112 @@
+{
+  "station": "lianghekou",
+  "phase": "before",
+  "actors": [
+    {
+      "asset": "journal-writer",
+      "position": [
+        -1.8600000143051147,
+        -3.0299999713897705,
+        0.27000004053115845
+      ],
+      "yaw": 0.12,
+      "intersectionsAboveAnkles": {}
+    },
+    {
+      "asset": "marcher-male",
+      "position": [
+        -5.0,
+        -5.0,
+        0.2199999988079071
+      ],
+      "yaw": 0.2,
+      "intersectionsAboveAnkles": {}
+    },
+    {
+      "asset": "marcher-male",
+      "position": [
+        4.0,
+        -5.0,
+        0.2199999988079071
+      ],
+      "yaw": 0.2,
+      "intersectionsAboveAnkles": {}
+    },
+    {
+      "asset": "marcher-male",
+      "position": [
+        7.0,
+        -5.0,
+        0.2199999988079071
+      ],
+      "yaw": 0.2,
+      "intersectionsAboveAnkles": {}
+    },
+    {
+      "asset": "seated-delegate",
+      "position": [
+        -2.5,
+        0.30000001192092896,
+        0.25
+      ],
+      "yaw": 3.141592653589793,
+      "intersectionsAboveAnkles": {}
+    },
+    {
+      "asset": "seated-delegate",
+      "position": [
+        0.0,
+        0.30000001192092896,
+        0.25
+      ],
+      "yaw": 3.141592653589793,
+      "intersectionsAboveAnkles": {}
+    },
+    {
+      "asset": "seated-delegate",
+      "position": [
+        2.5,
+        0.30000001192092896,
+        0.25
+      ],
+      "yaw": 3.141592653589793,
+      "intersectionsAboveAnkles": {}
+    },
+    {
+      "asset": "seated-delegate",
+      "position": [
+        -2.4000000953674316,
+        2.9000000953674316,
+        0.25
+      ],
+      "yaw": 0,
+      "intersectionsAboveAnkles": {
+        "Historic plaster": 349
+      }
+    },
+    {
+      "asset": "seated-delegate",
+      "position": [
+        0.6499999761581421,
+        2.9000000953674316,
+        0.25
+      ],
+      "yaw": 0,
+      "intersectionsAboveAnkles": {
+        "Historic plaster": 330
+      }
+    },
+    {
+      "asset": "seated-delegate",
+      "position": [
+        2.4000000953674316,
+        2.9000000953674316,
+        0.25
+      ],
+      "yaw": 0,
+      "intersectionsAboveAnkles": {
+        "Historic plaster": 370
+      }
+    }
+  ]
+}

@@ -8,3 +8,12 @@ __pycache__/
 *.py[cod]
 .DS_Store
 Thumbs.db
+
+# Local transfer state, build logs and delivered archives.
+/output/ecs-deploy/known_hosts
+/output/ecs-deploy/*.tar
+/output/ecs-deploy/*.tar.gz
+/output/releases/
+/output/**/*.log
+/output/*.log
+/output/terrain-fixes-20261128/*-result.txt

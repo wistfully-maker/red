@@ -1,0 +1,50 @@
+{
+  "station": "chishui",
+  "phase": "candidates",
+  "actors": [
+    {
+      "asset": "boatman-rowing",
+      "position": [
+        -3.993006467819214,
+        -3.174960136413574,
+        0.41979146003723145
+      ],
+      "yaw": 1.1,
+      "intersectionsAboveAnkles": {
+        "Historic boat_oak": 20,
+        "Historic deckplank": 78
+      }
+    },
+    {
+      "asset": "farmer-greeting",
+      "position": [
+        -4.599999904632568,
+        1.5700000524520874,
+        1.8700000047683716
+      ],
+      "yaw": 2.9,
+      "intersectionsAboveAnkles": {}
+    },
+    {
+      "asset": "marcher-male",
+      "position": [
+        2.0999999046325684,
+        3.0999999046325684,
+        1.8849999904632568
+      ],
+      "yaw": -0.66,
+      "intersectionsAboveAnkles": {}
+    },
+    {
+      "asset": "old-porter",
+      "position": [
+        -2.0,
+        4.0,
+        1.8849999904632568
+      ],
+      "yaw": 0.69,
+      "intersectionsAboveAnkles": {}
+    }
+  ],
+  "actorIntersectionsAboveAnkles": []
+}

@@ -29,9 +29,7 @@ export const places = {
   zunyi: {
     tag: '黔北谷地', title: '群山围绕的遵义城区',
     look: '顺着城镇与山坡的边缘辨认河谷。遵义会议会址在城中，向西北进入赤水河沿线，山地和河谷更加逼仄。',
-    distance: 11.6, pitch: .76, bearing: -.34,
-    close: { label: '下潜至遵义会址', context: '遵义会议会址 · 外观示意', distance: .093, pitch: .51,
-      bearing: .19, modelZoom: .065, mobileScale: 1.42 }
+    distance: 11.6, pitch: .76, bearing: -.34
   },
   chishui: {
     tag: '川黔峡谷 · 精细地形', title: '赤水河绕过土城',
@@ -53,9 +51,7 @@ export const places = {
   luding: {
     tag: '大渡河峡谷 · 精细地形', title: '一道铁索横过大渡河',
     look: '跟随峡谷辨认河道、谷底城镇和两侧山脊。地标锚定在泸定桥位置，河谷与坡面来自实测高程和卫星影像。',
-    distance: 6.2, pitch: .62, bearing: .12,
-    close: { label: '进入历史桥头', context: '大渡河 · 泸定桥', distance: 6.2, pitch: .62, bearing: .12 },
-    historic: { history: true, context: '泸定桥 · 历史地景', distance: 6.2, pitch: .62, bearing: .12 }
+    distance: 6.2, pitch: .62, bearing: .12
   },
   jiajin: {
     tag: '川西高山 · 精细地形', title: '从山脚望向夹金山',

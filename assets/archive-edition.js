@@ -15,7 +15,7 @@ function sourceLink(label,url) {
 
 function documentFigure(media,className='edition-inline-image'){
   const figure=el('figure',className),image=el('img');
-  image.src=media.src.startsWith('assets/valley/stills/')?media.src+'?v=numbered-people-20261128':media.src;
+  image.src=media.src.startsWith('assets/valley/stills/')?media.src+'?v=scene-layout-20261128':media.src;
   image.alt=media.caption;image.loading='lazy';image.decoding='async';
   const caption=el('figcaption','',media.caption);
   if(media.credit)caption.append(document.createTextNode('　'+media.credit));

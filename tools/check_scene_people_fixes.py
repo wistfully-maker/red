@@ -38,9 +38,28 @@ class FigureFixes(unittest.TestCase):
         back=scene_actor_edit('lianghekou',0,3.3,.25,'sit','local')
         self.assertEqual(front['yaw'],math.pi)
         self.assertEqual(back['yaw'],0)
-        self.assertEqual(back['position'],[.65,2.9,.25])
-        self.assertLess(back['position'][1]+.28,3.2)
-        self.assertGreater(abs(back['position'][0]),.40)
+        self.assertEqual(front['position'],[0,-2.9,.165])
+        self.assertEqual(back['position'],[0,.5,.165])
+        self.assertLess(back['position'][1]+.40,1.345)
+        self.assertEqual(back['role'],'delegate')
+
+    def test_liping_removes_every_repeated_market_porter(self):
+        for x,y in [(-1.2,-10.2),(-.27,-10.620735),(.66,-10.654649),(2.52,-9.821599)]:
+            self.assertTrue(scene_actor_edit('liping',x,y,.28,'walk','local')['remove'])
+        self.assertEqual(scene_actor_edit('liping',1.59,-10.27056,.28,'walk','local')['asset'],'seated-civilian-woman')
+        self.assertEqual(scene_actor_edit('liping',-5.4,-6.8,.28,'stand','local')['position'],[-2,-7.5,.24])
+
+    def test_chishui_removes_crowded_house_extras(self):
+        for x in [-16.9,-12,-7.1,-2.2,2.7,7.6,12.5]:
+            self.assertTrue(scene_actor_edit('chishui',x,5.1,1.92,'walk','porter')['remove'])
+        self.assertEqual(scene_actor_edit('chishui',2.1,3.1,1.885,'greet','porter')['asset'],'marcher-male')
+
+    def test_zunyi_different_actor_on_flat_forecourt(self):
+        a=scene_actor_edit('zunyi',.55,-4.4,.32,'stand','local')
+        b=scene_actor_edit('zunyi',1.2,-4.1,.32,'stand','local')
+        self.assertNotEqual(a['asset'],b['asset'])
+        self.assertLess(a['position'][1]+.5,-4.8)
+        self.assertLess(b['position'][1]+.5,-4.8)
 
     def test_baxi_audience_and_speaker_face_each_other(self):
         self.assertEqual(scene_actor_edit('baxi',-2,-1,.25,'sit','local')['yaw'],math.pi)

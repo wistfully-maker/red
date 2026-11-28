@@ -1,9 +1,10 @@
-import {openMuseum} from './longmarch-museum.js?v=numbered-people-20261128';
+import {openMuseum} from './longmarch-museum.js?v=scene-fixes-20261128';
+import {stationViewHref,sceneModeFromHash} from './scene-navigation.js';
 import {brandStage} from './brand-stage.js?v=museum-final-20261127';
 import './map-welcome.js?v=terrain-entry-20261127';
-import { TerrainView } from './terrain-view.js?v=terrain-stream-final-20261127';
-import { chapters, places } from './places.js?v=luding-studio-1';
-import { HistoryView, historyScenes, detailViews } from './history-view.js?v=numbered-people-20261128';
+import { TerrainView } from './terrain-view.js?v=terrain-depth-20261128-v2';
+import { chapters, places } from './places.js?v=scene-fixes-20261128';
+import { HistoryView, historyScenes, detailViews } from './history-view.js?v=scene-layout-20261128';
 import { tableaux } from './scene-studies.js?v=luding-studio-1';
 
 
@@ -108,15 +109,14 @@ function drawOverlay(view) {
   const bounds = view.near?.bounds;
   const limited = view.atZoomLimit();
   const refining = limited && view.refiningImagery();
-  const bridgeEntry=view.canEnterLuding();
-  $('zoomIn').disabled = (limited&&!bridgeEntry) || view.waitingForTerrain;
+  $('zoomIn').disabled = limited || view.waitingForTerrain;
   const detailView = bounds && !view.historical && view.view.distance <= 13 &&
     view.view.x >= bounds[0] && view.view.x <= bounds[2] && view.view.z >= bounds[1] && view.view.z <= bounds[3];
   scale.hidden = !limited && !detailView;
   if (!scale.hidden) {
     const vectorVisible = view.near?.features?.visible && view.near.features.userData.count > 0;
     const detailLabel = mode === 'overview' ? '高程浮雕 · 分区设色' : vectorVisible ? '约 10 米卫星影像 · 现代地物' : '约 10 米卫星影像';
-    const label = limited&&bridgeEntry?'已到影像清晰边界 · 继续靠近可进入桥头':refining ? '正在加载更清晰的影像' : limited ? (mode === 'overview' ? '已到清晰范围 · 点选节点看近景' :
+    const label = refining ? '正在加载更清晰的影像' : limited ? (mode === 'overview' ? '已到清晰范围 · 点选节点看近景' :
       view.modelZoom ? '已到模型近景' : '已到影像清晰范围') : detailLabel;
     if (scale.textContent !== label) scale.textContent = label;
   }
@@ -166,7 +166,7 @@ function drawOverlay(view) {
 
 function setStationLink(id, station) {
   const link=$(id);
-  link.href=station?href(station):'#explore';
+  link.href=station?stationViewHref(station.id,display):'#explore';
   link.querySelector('small').textContent=station?(id==='prevStation'?'上一站':'下一站'):'全线地图';
   link.querySelector('strong').textContent=station?station.name:'返回全线';
 }
@@ -255,6 +255,10 @@ let arrivalStation=null;
 window.addEventListener('cinema:arrive',event=>{arrivalStation=event.detail;});
 function setDisplay(next) {
   display = next;
+  if(active)renderReader(active);
+  $('terrainGesture').hidden=next!=='terrain';
+  $('modelMuseum').hidden=next!=='model'||!active;
+  if(active)$('modelMuseumName').textContent=active.name;
   showWalk(false);
   stillWalk=false;
   const request = ++modelRequest;
@@ -299,7 +303,7 @@ function setDisplay(next) {
   $('modelStage').classList.add('loading-model');
   const section=location.hash.split('/')[2],walkEntry=walkKeys.includes(section)||section==='journal';
   const stop=walkKeys.includes(section)?section:section==='journal'?'bridgehead':'overview';
-  Object.assign(plate.style, {backgroundImage:station.id==='luding'?ludingPoster(stop):'url(assets/valley/stills/'+station.id+'.webp?v=numbered-people-20261128)',
+  Object.assign(plate.style, {backgroundImage:station.id==='luding'?ludingPoster(stop):'url(assets/valley/stills/'+station.id+'.webp?v=scene-layout-20261128)',
     backgroundSize:'cover',backgroundPosition:'center'});
   plate.setAttribute('aria-label', name + '的模型静帧');
   plate.hidden = false;
@@ -358,6 +362,7 @@ function setDisplay(next) {
 
 function updatePage(event) {
   const previousStation = active?.id;
+  const previousDisplay=display;
   const hash = location.hash.slice(1)||'explore';
   if(hash.startsWith('journey/')){
     location.replace('#station/'+hash.slice(8)+'/exhibit');
@@ -385,13 +390,18 @@ function updatePage(event) {
   $('world').tabIndex = mode === 'home' ? -1 : 0;
   document.title = active ? active.title + ' · 山河之路' : '山河之路 · 长征纪念图集';
   updateHUD();
-  const nextDisplay=active&&(stationTab==='model'||walkKeys.includes(stationTab))?'model':'terrain';
+  const museumTab=['archive','people','study','journal','exhibit'].includes(stationTab);
+  const savedEntry=history.state;
+  const savedView=savedEntry?.sceneRoute===hash?savedEntry.sceneView:null;
+  const nextDisplay=active&&(stationTab==='model'||walkKeys.includes(stationTab)||
+    (museumTab&&(savedView==='model'||(!savedView&&previousStation===active.id&&previousDisplay==='model'))))?'model':'terrain';
+  if(active)history.replaceState({...history.state,sceneRoute:hash,sceneView:nextDisplay},'');
   const keepWalk=previousStation==='luding'&&active?.id==='luding'&&display==='model'&&
     nextDisplay==='model'&&modelView?.walk&&walkKeys.includes(stationTab)&&$('modelPlate').hidden;
   if(keepWalk)selectWalk(stationTab);
   else{modelView?.pauseForReading(false);setDisplay(nextDisplay);}
   if(hash==='museum'||hash==='exhibit')openMuseum();
-  else if(active&&['archive','people','study','journal','exhibit'].includes(stationTab))openMuseum({stationId:active.id});
+  else if(active&&museumTab)openMuseum({stationId:active.id,returnScene:stationViewHref(active.id,nextDisplay)});
   if (event) {
     const title = 'sceneTitle';
     $(title).focus({ preventScroll: true });
@@ -449,7 +459,7 @@ function showWalk(visible){
 }
 function ludingPoster(kind){
   const suffix=mobile.matches?(kind==='overview'&&innerHeight<800?'-compact':'-mobile'):'';
-  return 'url(assets/luding/stills/'+kind+suffix+'.webp?v=luding-final-20261124-6)';
+  return 'url(assets/luding/stills/'+kind+suffix+'.webp?v=scene-layout-20261128)';
 }
 function showStillWalk(id){
   showWalk(true);$('riverWalk').dataset.still='true';
@@ -485,7 +495,6 @@ function enterWalk(id){
 $('riverWalk').querySelector('nav').addEventListener('click',e=>{const b=e.target.closest('[data-walk]');if(b)enterWalk(b.dataset.walk);});
 $('walkPosition').addEventListener('input',e=>modelView.walkBridge(Number(e.target.value)));
 $('modelStage').addEventListener('walk-position',e=>{if(!$('riverWalk').hidden&&!stillWalk)paintWalk(e.detail);});
-$('world').addEventListener('luding-arrival',()=>{if(display==='terrain'&&world?.canEnterLuding())enterWalk('bridgehead');});
 function restoreSceneCaption() {
   if(!active)return;
   showWalk(false);
@@ -516,12 +525,7 @@ $('fieldShot').addEventListener('change',()=>{
   if(kind==='tableau'){
     const [title,note]=tableaux[active.id];
     $('modelName').textContent=title;
-    const study=document.createElement('button');study.type='button';study.className='show-study';
-    study.textContent='进入主题展馆';study.onclick=()=>openMuseum({stationId:active.id});
-    $('modelCaption').replaceChildren(note+' ',study);
-    const people=document.createElement('a');
-    people.href='#station/'+active.id+'/exhibit';people.textContent='进入主题展馆 ↗';
-    $('modelCaption').append('　',people);
+    $('modelCaption').textContent=note;
   }else if(kind==='resident'){
     $('modelName').textContent=active.name+' · 场景人物';
     $('modelCaption').textContent='人物为场景演绎。拖动视角，可近看衣着、双手和身边的物件。';
@@ -550,8 +554,7 @@ $('zoomIn').addEventListener('click', () => { if (ready) world.zoom(1 / 1.34); }
 $('zoomOut').addEventListener('click', () => { if (ready) world.zoom(1.34); });
 $('orbitView').addEventListener('click', () => { if (ready) world.orbit(65, 35); });
 $('shotButton').addEventListener('click', () => {
-  if (!ready || !active) return;
-  if(active.id==='luding'){enterWalk('bridgehead');return;}
+  if (!ready || !active || !places[active.id].close) return;
   const button = $('shotButton');
   const place = places[active.id];
   const close = button.getAttribute('aria-pressed') !== 'true';
@@ -563,8 +566,7 @@ $('shotButton').addEventListener('click', () => {
   beginFlight(false, shot);
 });
 historySwitch.addEventListener('click', () => {
-  if (!ready || !active) return;
-  if(active.id==='luding'){enterWalk('bridgehead');return;}
+  if (!ready || !active || !places[active.id].historic) return;
   const place = places[active.id];
   const historical = historySwitch.getAttribute('aria-pressed') !== 'true';
   const shot = historical ? place.historic : { ...place.historic, history: false, context: '今景 · 大渡河桥址' };
@@ -574,7 +576,12 @@ historySwitch.addEventListener('click', () => {
   $('shotButton').lastElementChild.textContent = '回到地貌全景';
   beginFlight(false, shot);
 });
-$('toggleReader').addEventListener('click',()=>openMuseum({stationId:active?.id,returnFocus:$('toggleReader')}));
+function openStationMuseum(trigger){
+  if(!active)return;
+  void openMuseum({stationId:active.id,returnFocus:trigger,returnScene:stationViewHref(active.id,display)});
+}
+$('toggleReader').addEventListener('click',()=>openStationMuseum($('toggleReader')));
+$('modelMuseum').addEventListener('click',()=>openStationMuseum($('modelMuseum')));
 let filter = 'all';
 
 function renderResults() {

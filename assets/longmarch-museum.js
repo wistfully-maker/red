@@ -1,7 +1,9 @@
 import { museumIntro, museumHalls, museumStations, museumReadingRoom } from './longmarch-museum-data.js?v=stories-final-20261127';
+import {museumSceneHref,sceneModeFromHash} from './scene-navigation.js';
 
 let museum,scrollPane,stationSelect,status,observer,restoreFocus,zoom,zoomReturn,styleReady,openSequence=0;
 let currentStation=null;
+let sceneReturn,returnOrigin='#explore';
 const hallButtons=new Map();
 const knownStation=id=>typeof id==='string'&&Object.hasOwn(museumStations,id);
 const reduced=()=>matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -15,7 +17,7 @@ function external(value){try{const u=new URL(value);return u.protocol==='https:'
 function asset(value){
   if(typeof value!=='string'||!/^assets\/[a-z0-9_()./\-]+\.(?:jpe?g|png|webp)$/i.test(value)||value.split('/').includes('..'))return null;
   const url=new URL(value,document.baseURI);
-  if(value.startsWith('assets/valley/stills/'))url.searchParams.set('v','numbered-people-20261128');
+  if(value.startsWith('assets/valley/stills/'))url.searchParams.set('v','scene-layout-20261128');
   return url.href;
 }
 function link(label,value,cls='lm-source'){
@@ -25,7 +27,7 @@ function link(label,value,cls='lm-source'){
 function loadStyle(){
   if(styleReady)return styleReady;
   styleReady=new Promise(resolve=>{
-    const sheet=node('link');sheet.rel='stylesheet';sheet.href=new URL('./longmarch-museum.css?v=stories-final-20261127',import.meta.url).href;
+    const sheet=node('link');sheet.rel='stylesheet';sheet.href=new URL('./longmarch-museum.css?v=scene-fixes-20261128',import.meta.url).href;
     sheet.addEventListener('load',resolve,{once:true});sheet.addEventListener('error',resolve,{once:true});document.head.append(sheet);
   });return styleReady;
 }
@@ -111,9 +113,26 @@ function enterHall(id){const heading=museum.querySelector('#lm-hall-'+id);showHa
 function enterStation(id,immediate=false){
   if(!knownStation(id))return;
   currentStation=id;stationSelect.value=id;showHall(museumStations[id].hallId);moveTo(museum.querySelector('#lm-station-'+id),true,immediate);
+  refreshSceneReturn();
+}
+function returnToScene(id){
+  if(!knownStation(id))return;
+  const destination=museumSceneHref(id,returnOrigin);
+  closeMuseum();
+  if(location.hash!==destination)location.hash=destination;
+}
+function refreshSceneReturn(){
+  if(!sceneReturn)return;
+  sceneReturn.hidden=!knownStation(currentStation);
+  if(currentStation)sceneReturn.textContent='← 返回 '+museumStations[currentStation].name;
+  const label=sceneModeFromHash(returnOrigin)==='model'?'历史现场':'地形实景';
+  for(const control of museum.querySelectorAll('[data-scene-return]')){
+    control.textContent='返回'+museumStations[control.dataset.sceneReturn].name+' · '+label+' ↗';
+  }
 }
 function entrance(){
   currentStation=null;stationSelect.value='';hallButtons.forEach(b=>b.removeAttribute('aria-current'));status.textContent='序厅 · 五厅展线';
+  refreshSceneReturn();
   scrollPane.scrollTo({top:0,behavior:reduced()?'instant':'smooth'});museum.querySelector('#lm-entrance-title').focus({preventScroll:true});
 }
 function stationExhibit(s){
@@ -121,7 +140,9 @@ function stationExhibit(s){
   const header=node('header','lm-station-head');
   header.append(node('p','lm-kicker','地标 '+s.number+' / '+s.region+' / '+s.date));
   const title=node('h3','',s.name+'｜'+s.title);title.id='lm-station-'+s.id;title.tabIndex=-1;title.dataset.observeStation=s.id;
-  header.append(title,node('p','lm-station-lead',s.lead));
+  const sceneLink=button('返回'+s.name+'的现场 ↗','lm-station-return',()=>returnToScene(s.id));
+  sceneLink.dataset.sceneReturn=s.id;
+  header.append(title,node('p','lm-station-lead',s.lead),sceneLink);
   const body=node('div','lm-station-grid'),text=node('div','lm-station-text');s.paragraphs.forEach(p=>text.append(node('p','',p)));
   for(const record of s.stories||[]){
     const story=node('section','lm-story');
@@ -157,7 +178,8 @@ function createMuseum(){
   museum=node('dialog','lm-museum');museum.id='longmarchMuseum';museum.setAttribute('aria-labelledby','lm-museum-title');
   const header=node('header','lm-header');
   const brand=node('div','lm-brand');brand.append(node('span','lm-seal','山河'),node('h1','',museumIntro.subtitle));brand.lastElementChild.id='lm-museum-title';
-  const controls=node('div','lm-header-controls');controls.append(button('全展','lm-all',entrance),button('离开展馆 ×','lm-close',closeMuseum));header.append(brand,controls);
+  sceneReturn=button('返回现场','lm-scene-return',()=>returnToScene(currentStation));sceneReturn.hidden=true;
+  const controls=node('div','lm-header-controls');controls.append(sceneReturn,button('全展','lm-all',entrance),button('离开展馆 ×','lm-close',closeMuseum));header.append(brand,controls);
   const layout=node('div','lm-layout'),aside=node('aside','lm-sidebar'),nav=node('nav','lm-hall-nav');nav.setAttribute('aria-label','五个展厅');
   museumHalls.forEach(h=>{const b=button('','lm-hall-button',()=>enterHall(h.id));b.append(node('span','',h.number),node('strong','',h.name));nav.append(b);hallButtons.set(h.id,b);});
   const jump=node('label','lm-jump','从一个地点进入');stationSelect=node('select');stationSelect.setAttribute('aria-label','地点直达');stationSelect.append(new Option('十九个地标 · 选择地点',''));
@@ -188,16 +210,18 @@ function createMuseum(){
     if(!museum.open)return;
     for(const entry of entries){if(!entry.isIntersecting)continue;
       if(entry.target.dataset.observeHall)showHall(entry.target.dataset.observeHall);
-      const id=entry.target.dataset.observeStation;if(knownStation(id)){currentStation=id;stationSelect.value=id;showHall(museumStations[id].hallId);}
+      const id=entry.target.dataset.observeStation;if(knownStation(id)){currentStation=id;stationSelect.value=id;showHall(museumStations[id].hallId);refreshSceneReturn();}
     }
   },{root:scrollPane,rootMargin:'-8% 0px -65% 0px',threshold:0});
   museum.querySelectorAll('[data-observe-hall],[data-observe-station]').forEach(e=>observer.observe(e));
 }
 
-export async function openMuseum({stationId,returnFocus}={}){
+export async function openMuseum({stationId,returnFocus,returnScene}={}){
   const sequence=++openSequence,origin=returnFocus instanceof HTMLElement?returnFocus:document.activeElement;
   await loadStyle();if(sequence!==openSequence)return museum||null;
   createMuseum();const wasOpen=museum.open;
+  if(returnScene||!wasOpen)returnOrigin=returnScene||location.hash;
+  refreshSceneReturn();
   if(!wasOpen||returnFocus instanceof HTMLElement)restoreFocus=origin;
   if(!wasOpen)museum.showModal();
   const id=knownStation(stationId)?stationId:null;

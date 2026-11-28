@@ -1,0 +1,112 @@
+{
+  "station": "liping",
+  "phase": "before",
+  "actors": [
+    {
+      "asset": "journal-writer",
+      "position": [
+        0.5199999809265137,
+        -8.149999618530273,
+        0.23999999463558197
+      ],
+      "yaw": 0.11,
+      "intersectionsAboveAnkles": {}
+    },
+    {
+      "asset": "old-porter",
+      "position": [
+        2.799999952316284,
+        -4.5,
+        0.949999988079071
+      ],
+      "yaw": 0.10002846557885203,
+      "intersectionsAboveAnkles": {}
+    },
+    {
+      "asset": "old-porter",
+      "position": [
+        2.700000047683716,
+        2.4000000953674316,
+        2.5999999046325684
+      ],
+      "yaw": -0.08619691271785734,
+      "intersectionsAboveAnkles": {}
+    },
+    {
+      "asset": "old-porter",
+      "position": [
+        -5.400000095367432,
+        -6.800000190734863,
+        0.2800000011920929
+      ],
+      "yaw": 0.3975344641521664,
+      "intersectionsAboveAnkles": {
+        "Historic iron": 15,
+        "Historic lightstone": 315,
+        "Historic recess": 259,
+        "Historic timber": 1024,
+        "Historic wood": 795
+      }
+    },
+    {
+      "asset": "old-porter",
+      "position": [
+        -1.2000000476837158,
+        -10.199999809265137,
+        0.2800000011920929
+      ],
+      "yaw": 0.34411214192162576,
+      "intersectionsAboveAnkles": {
+        "Historic hemp": 33,
+        "Historic plankwall": 86,
+        "Historic reedmat": 48
+      }
+    },
+    {
+      "asset": "old-porter",
+      "position": [
+        -0.27000001072883606,
+        -10.620735168457031,
+        0.2800000011920929
+      ],
+      "yaw": 0.21710903637993817,
+      "intersectionsAboveAnkles": {
+        "Historic wood": 40
+      }
+    },
+    {
+      "asset": "old-porter",
+      "position": [
+        0.6600000262260437,
+        -10.654648780822754,
+        0.2800000011920929
+      ],
+      "yaw": -0.9855710483258555,
+      "intersectionsAboveAnkles": {}
+    },
+    {
+      "asset": "old-porter",
+      "position": [
+        2.5199999809265137,
+        -9.821599006652832,
+        0.2800000011920929
+      ],
+      "yaw": 0.16898173865594557,
+      "intersectionsAboveAnkles": {
+        "Historic deckplank": 305,
+        "Historic timber": 75,
+        "Historic wood": 189
+      }
+    },
+    {
+      "asset": "seated-civilian-woman",
+      "position": [
+        1.590000033378601,
+        -10.270560264587402,
+        0.2800000011920929
+      ],
+      "yaw": -0.24615698438927125,
+      "intersectionsAboveAnkles": {}
+    }
+  ]
+}

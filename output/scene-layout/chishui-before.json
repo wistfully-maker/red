@@ -1,0 +1,139 @@
+{
+  "station": "chishui",
+  "phase": "before",
+  "actors": [
+    {
+      "asset": "boatman-rowing",
+      "position": [
+        -3.993006467819214,
+        -3.174960136413574,
+        0.41979146003723145
+      ],
+      "yaw": 1.1,
+      "intersectionsAboveAnkles": {
+        "Historic boat_oak": 20,
+        "Historic deckplank": 78
+      }
+    },
+    {
+      "asset": "farmer-greeting",
+      "position": [
+        2.0999999046325684,
+        3.0999999046325684,
+        1.8849999904632568
+      ],
+      "yaw": -0.66,
+      "intersectionsAboveAnkles": {}
+    },
+    {
+      "asset": "farmer-greeting",
+      "position": [
+        -4.599999904632568,
+        1.5700000524520874,
+        1.8700000047683716
+      ],
+      "yaw": 2.9,
+      "intersectionsAboveAnkles": {}
+    },
+    {
+      "asset": "old-porter",
+      "position": [
+        -2.0,
+        4.0,
+        1.8849999904632568
+      ],
+      "yaw": 0.69,
+      "intersectionsAboveAnkles": {}
+    },
+    {
+      "asset": "old-porter",
+      "position": [
+        -2.4000000953674316,
+        3.319999933242798,
+        1.8700000047683716
+      ],
+      "yaw": -0.32,
+      "intersectionsAboveAnkles": {}
+    },
+    {
+      "asset": "old-porter",
+      "position": [
+        -16.899999618530273,
+        4.994832992553711,
+        0.597135603427887
+      ],
+      "yaw": 0.8208034315126802,
+      "intersectionsAboveAnkles": {
+        "Historic plankwall": 117
+      }
+    },
+    {
+      "asset": "old-porter",
+      "position": [
+        -12.0,
+        5.284922122955322,
+        0.5666765570640564
+      ],
+      "yaw": 0.42827839643745413,
+      "intersectionsAboveAnkles": {}
+    },
+    {
+      "asset": "old-porter",
+      "position": [
+        -7.099999904632568,
+        4.871896266937256,
+        1.9199999570846558
+      ],
+      "yaw": 0.9984928389311627,
+      "intersectionsAboveAnkles": {
+        "Historic chestnut": 210,
+        "Historic plankwall": 105
+      }
+    },
+    {
+      "asset": "old-porter",
+      "position": [
+        -2.200000047683716,
+        5.19755220413208,
+        1.9199999570846558
+      ],
+      "yaw": 1.1810762680306055,
+      "intersectionsAboveAnkles": {
+        "Historic plankwall": 895,
+        "Historic timber": 805
+      }
+    },
+    {
+      "asset": "old-porter",
+      "position": [
+        2.700000047683716,
+        5.328085899353027,
+        1.9199999570846558
+      ],
+      "yaw": -0.013899484750983238,
+      "intersectionsAboveAnkles": {
+        "Historic tile": 172
+      }
+    },
+    {
+      "asset": "old-porter",
+      "position": [
+        7.599999904632568,
+        5.171749114990234,
+        1.9199999570846558
+      ],
+      "yaw": -0.4708548930440346,
+      "intersectionsAboveAnkles": {}
+    },
+    {
+      "asset": "old-porter",
+      "position": [
+        12.5,
+        4.989492416381836,
+        0.28909987211227417
+      ],
+      "yaw": -0.14901675129009062,
+      "intersectionsAboveAnkles": {}
+    }
+  ]
+}

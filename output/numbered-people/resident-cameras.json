@@ -33,16 +33,17 @@
     "station": "chishui",
     "sha256Before": "44829100c4f9bb413be3c0bb096426ca9c23b81dde0c27e21515e75e029745c1",
     "residentView": [
-      -3.993006467819214,
-      1.5358154773712158,
-      3.174960136413574,
-      2.7216,
-      1.4000000000000001,
+      2.1,
+      2.933647632598877,
+      -3.1,
+      2.5572923352928076,
+      -0.36000000000000004,
       0.14
     ],
     "actualPosedHeightUsed": true,
-    "sha256After": "a492a4f275b75105988fc1b492dcc0ddaf80156c1952887df63f811b22d06ee3",
-    "binaryChunkUnchanged": true
+    "sha256After": "c45e453c7bf78254a28a2959cb535f9ab722ac5cf9c7f1ededdd3f5d03651307",
+    "binaryChunkUnchanged": true,
+    "cameraRefreshMethod": "authored from rebuilt delivered actors"
   },
   {
     "station": "dawei",
@@ -153,31 +154,33 @@
     "station": "lianghekou",
     "sha256Before": "9893b17d40aaf70a328f6696aa85ccc2e3a6db89eddd5895358b827c9a041146",
     "residentView": [
-      -1.8600000143051147,
-      1.3495965003967285,
-      3.0299999713897705,
-      2.6327657069545163,
-      -0.62,
+      -2.5,
+      0.9625133872032166,
+      2.9,
+      2.15,
+      3.441592653589793,
       0.14
     ],
     "actualPosedHeightUsed": true,
-    "sha256After": "2d15158a290adaa76e948ce909b8804e18a06915f46642b4555609659d9b955c",
-    "binaryChunkUnchanged": true
+    "sha256After": "1a4ade493564fc9c148fa484009f8022b43927191b87a6f9421950c2fb55f59b",
+    "binaryChunkUnchanged": true,
+    "cameraRefreshMethod": "authored from rebuilt delivered actors"
   },
   {
     "station": "liping",
     "sha256Before": "d13e14df2433618c97bdb219e9a0474676af0a795a0bb2963cab5eaea9746582",
     "residentView": [
-      0.5199999809265137,
-      1.351880431175232,
-      8.149999618530273,
-      2.7114951392500104,
-      1.1900000000000002,
+      2.7,
+      3.6793394088745117,
+      -2.4,
+      2.6321386407978933,
+      0.21380308728214265,
       0.14
     ],
     "actualPosedHeightUsed": true,
-    "sha256After": "50b4730a46080406e5d08d18b1f715eb7852859515711021c08f3ccd14d9f024",
-    "binaryChunkUnchanged": true
+    "sha256After": "afed34fc8f9c8874f7885ad5b950a3dc9d84342f031f91cb3693aced750c6f34",
+    "binaryChunkUnchanged": true,
+    "cameraRefreshMethod": "authored from rebuilt delivered actors"
   },
   {
     "station": "ruijin",
@@ -258,15 +261,16 @@
     "station": "zunyi",
     "sha256Before": "b36d00afeb92c892e7282ccfffdd672a7c323c1d548a425f5d4b1ea034f15197",
     "residentView": [
-      -0.5379999876022339,
-      4.243551731109619,
-      0.10000000149011612,
-      2.15,
-      3.441592653589793,
+      1.15,
+      1.4515925645828247,
+      5.35,
+      2.7303026172356444,
+      0.38,
       0.14
     ],
     "actualPosedHeightUsed": true,
-    "sha256After": "f0e54f0f280c373acfaa1acd929d2bff2f0b9d0226536fd4c7aa9264bd49e626",
-    "binaryChunkUnchanged": true
+    "sha256After": "2c8ef167c2ce0f1986962ecfdab3c9d36630009ca0a96709383b73d382ddef30",
+    "binaryChunkUnchanged": true,
+    "cameraRefreshMethod": "authored from rebuilt delivered actors"
   }
 ]

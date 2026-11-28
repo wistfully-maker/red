@@ -73,12 +73,12 @@ def place_stick_between(env,bottom,top):
     return obj
 
 
-def try_build_person(f,x,y,z,height,yaw,pose,role):
+def try_build_person(f,x,y,z,height,yaw,pose,role,asset=None):
     if not getattr(f.env,'use_supplied_people',True):return False
     from field_personnel import identity_for
     identity=identity_for(f.env.sid,role,pose,x,y)
     appearance=getattr(f,'appearance_index',0) or f.count+1
-    key=person_asset(f.env.sid,identity,role,pose,appearance)
+    key=asset or person_asset(f.env.sid,identity,role,pose,appearance)
     value=_template(f.env,key)
     if value is None:raise ValueError('Missing supplied historical person: '+key)
     data,record=value

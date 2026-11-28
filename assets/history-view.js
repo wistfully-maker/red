@@ -174,7 +174,7 @@ export class HistoryView {
     if (this.guideAsset) this.guideAsset.visible=false;
     this.model=null;
     this.renderer.clear();
-    const model=await loadModel('landscapes/'+id,'numbered-people-20261128');
+    const model=await loadModel('landscapes/'+id,'scene-layout-20261128');
     try {
       const mapped=new Map();
       let ground;

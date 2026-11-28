@@ -1,0 +1,129 @@
+{
+  "station": "lianghekou",
+  "phase": "after",
+  "sha256": "1a4ade493564fc9c148fa484009f8022b43927191b87a6f9421950c2fb55f59b",
+  "actors": [
+    {
+      "asset": "journal-writer",
+      "position": [
+        -6.960000038146973,
+        -3.0299999713897705,
+        0.16500000655651093
+      ],
+      "yaw": 0.12,
+      "intersectionsAboveAnkles": {}
+    },
+    {
+      "asset": "marcher-male",
+      "position": [
+        -5.0,
+        -5.0,
+        0.2199999988079071
+      ],
+      "yaw": 0.2,
+      "intersectionsAboveAnkles": {}
+    },
+    {
+      "asset": "marcher-male",
+      "position": [
+        4.0,
+        -5.0,
+        0.2199999988079071
+      ],
+      "yaw": 0.2,
+      "intersectionsAboveAnkles": {}
+    },
+    {
+      "asset": "marcher-male",
+      "position": [
+        7.0,
+        -5.0,
+        0.2199999988079071
+      ],
+      "yaw": 0.2,
+      "intersectionsAboveAnkles": {}
+    },
+    {
+      "asset": "seated-delegate",
+      "position": [
+        -2.5,
+        -2.9000000953674316,
+        0.16500000655651093
+      ],
+      "yaw": 3.141592653589793,
+      "intersectionsAboveAnkles": {}
+    },
+    {
+      "asset": "seated-delegate",
+      "position": [
+        0.0,
+        -2.9000000953674316,
+        0.16500000655651093
+      ],
+      "yaw": 3.141592653589793,
+      "intersectionsAboveAnkles": {}
+    },
+    {
+      "asset": "seated-delegate",
+      "position": [
+        2.5,
+        -2.9000000953674316,
+        0.16500000655651093
+      ],
+      "yaw": 3.141592653589793,
+      "intersectionsAboveAnkles": {}
+    },
+    {
+      "asset": "seated-delegate",
+      "position": [
+        -2.4000000953674316,
+        0.5,
+        0.16500000655651093
+      ],
+      "yaw": 0,
+      "intersectionsAboveAnkles": {}
+    },
+    {
+      "asset": "seated-delegate",
+      "position": [
+        0.0,
+        0.5,
+        0.16500000655651093
+      ],
+      "yaw": 0,
+      "intersectionsAboveAnkles": {}
+    },
+    {
+      "asset": "seated-delegate",
+      "position": [
+        2.4000000953674316,
+        0.5,
+        0.16500000655651093
+      ],
+      "yaw": 0,
+      "intersectionsAboveAnkles": {}
+    }
+  ],
+  "actorIntersections": [],
+  "collisionScope": "All actor triangles against other actors; actor triangles above ankles against scene geometry, excluding intentional sole/floor contact.",
+  "meeting": {
+    "tableCentre": [
+      0,
+      -1.2,
+      0.165
+    ],
+    "tableSize": [
+      5.6,
+      1.8,
+      0.89
+    ],
+    "courtyardPavingTop": 0.1625,
+    "supportGapMetres": 0.0025,
+    "templeStepFrontY": 1.345,
+    "backRowY": 0.5,
+    "frontRowY": -2.9,
+    "chairSupportCount": 6,
+    "chairsFaceTable": true
+  },
+  "passed": true
+}

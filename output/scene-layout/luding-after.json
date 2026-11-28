@@ -1,0 +1,103 @@
+{
+  "station": "luding",
+  "phase": "after",
+  "sha256": "38a72c1dccb91fc9289ccb2d859d46dc8b4e79d986dde1ceb4d589c3b2b257d9",
+  "actors": [
+    {
+      "asset": "marcher-male",
+      "position": [
+        -32.0,
+        0.8500000238418579,
+        8.339949607849121
+      ],
+      "yaw": 1.47,
+      "intersectionsAboveAnkles": {}
+    },
+    {
+      "asset": "marcher-male",
+      "position": [
+        -27.0,
+        0.7599999904632568,
+        8.048996925354004
+      ],
+      "yaw": 1.62,
+      "intersectionsAboveAnkles": {}
+    },
+    {
+      "asset": "marcher-male",
+      "position": [
+        18.0,
+        0.8999999761581421,
+        7.649554252624512
+      ],
+      "yaw": -1.52,
+      "intersectionsAboveAnkles": {}
+    },
+    {
+      "asset": "marcher-male",
+      "position": [
+        30.0,
+        0.8600000143051147,
+        8.217650413513184
+      ],
+      "yaw": -1.64,
+      "intersectionsAboveAnkles": {}
+    },
+    {
+      "asset": "old-porter",
+      "position": [
+        -58.45000076293945,
+        5.199999809265137,
+        7.839624881744385
+      ],
+      "yaw": -0.45,
+      "intersectionsAboveAnkles": {}
+    },
+    {
+      "asset": "old-porter",
+      "position": [
+        69.2300033569336,
+        -12.739999771118164,
+        7.99616003036499
+      ],
+      "yaw": -0.31,
+      "intersectionsAboveAnkles": {}
+    }
+  ],
+  "actorIntersections": [],
+  "collisionScope": "All actor triangles against other actors; actor triangles above ankles against scene geometry, excluding intentional sole/floor contact.",
+  "tableFrame": {
+    "low": [
+      -61.03464889526367,
+      4.019999980926514,
+      8.007035255432129
+    ],
+    "high": [
+      -58.96535110473633,
+      4.980000019073486,
+      8.81285572052002
+    ],
+    "quaternion": [
+      4.371138828673793e-08,
+      -1.0,
+      0.0,
+      0.0
+    ],
+    "rotationMode": "QUATERNION"
+  },
+  "existingWalkStills": [
+    {
+      "id": "bridgehead",
+      "tableInCameraFrustum": false
+    },
+    {
+      "id": "deck",
+      "tableInCameraFrustum": false
+    },
+    {
+      "id": "pavilion",
+      "tableInCameraFrustum": false
+    }
+  ],
+  "passed": true
+}

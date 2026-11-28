@@ -1,11 +1,13 @@
 {
   "station": "liping",
   "passed": true,
-  "sha256": "50b4730a46080406e5d08d18b1f715eb7852859515711021c08f3ccd14d9f024",
-  "bytes": 14648192,
-  "people": 9,
+  "sha256": "afed34fc8f9c8874f7885ad5b950a3dc9d84342f031f91cb3693aced750c6f34",
+  "bytes": 19658604,
+  "people": 5,
   "counts": {
-    "old-porter": 7,
+    "old-porter": 1,
+    "marcher-male": 1,
+    "farmer-greeting": 1,
     "journal-writer": 1,
     "seated-civilian-woman": 1
   },
@@ -28,54 +30,45 @@
         -0.9950012564659119,
         0.0
       ],
-      "embeddedSupport": "",
-      "sourceRole": "local",
-      "sourceIdentity": "civilian",
-      "historicalRole": "porter"
+      "embeddedSupport": ""
     },
     {
-      "asset": "old-porter",
+      "asset": "marcher-male",
       "position": [
         2.700000047683716,
         2.4000000953674316,
         2.5999999046325684
       ],
       "requestedPose": "stand",
-      "sourcePose": "standing",
+      "sourcePose": "standing march pause",
       "floor": 2.5999999046325684,
       "height": 1.624776840209961,
       "nominalAdultHeight": 1.6247769387641315,
       "frontBlender": [
         -0.08609024435281754,
-        -0.9962873458862305,
+        -0.9962874054908752,
         0.0
       ],
-      "embeddedSupport": "",
-      "sourceRole": "local",
-      "sourceIdentity": "civilian",
-      "historicalRole": "porter"
+      "embeddedSupport": ""
     },
     {
-      "asset": "old-porter",
+      "asset": "farmer-greeting",
       "position": [
-        -5.400000095367432,
-        -6.800000190734863,
-        0.2800000011920929
+        -2.0,
+        -7.5,
+        0.23999999463558197
       ],
       "requestedPose": "stand",
-      "sourcePose": "standing",
-      "floor": 0.2800000011920929,
-      "height": 1.6100426614284515,
+      "sourcePose": "greet",
+      "floor": 0.23999999463558197,
+      "height": 1.6100428253412247,
       "nominalAdultHeight": 1.6100427601162195,
       "frontBlender": [
-        0.3871462047100067,
-        -0.92201828956604,
+        0.5226872563362122,
+        -0.8525245189666748,
         0.0
       ],
-      "embeddedSupport": "",
-      "sourceRole": "local",
-      "sourceIdentity": "civilian",
-      "historicalRole": "porter"
+      "embeddedSupport": ""
     },
     {
       "asset": "journal-writer",
@@ -94,76 +87,7 @@
         -0.9939560294151306,
         0.0
       ],
-      "embeddedSupport": "",
-      "sourceRole": "local",
-      "sourceIdentity": "civilian",
-      "historicalRole": "red_army"
-    },
-    {
-      "asset": "old-porter",
-      "position": [
-        -1.2000000476837158,
-        -10.199999809265137,
-        0.2800000011920929
-      ],
-      "requestedPose": "walk",
-      "sourcePose": "standing",
-      "floor": 0.2800000011920929,
-      "height": 1.6222818791866302,
-      "nominalAdultHeight": 1.6222818816691942,
-      "frontBlender": [
-        0.3373609483242035,
-        -0.9413753747940063,
-        0.0
-      ],
-      "embeddedSupport": "",
-      "sourceRole": "local",
-      "sourceIdentity": "civilian",
-      "historicalRole": "porter"
-    },
-    {
-      "asset": "old-porter",
-      "position": [
-        -0.27000001072883606,
-        -10.620735168457031,
-        0.2800000011920929
-      ],
-      "requestedPose": "walk",
-      "sourcePose": "standing",
-      "floor": 0.2800000011920929,
-      "height": 1.6725930869579315,
-      "nominalAdultHeight": 1.6725932105843397,
-      "frontBlender": [
-        0.21540743112564087,
-        -0.9765242338180542,
-        0.0
-      ],
-      "embeddedSupport": "",
-      "sourceRole": "local",
-      "sourceIdentity": "civilian",
-      "historicalRole": "porter"
-    },
-    {
-      "asset": "old-porter",
-      "position": [
-        0.6600000262260437,
-        -10.654648780822754,
-        0.2800000011920929
-      ],
-      "requestedPose": "walk",
-      "sourcePose": "standing",
-      "floor": 0.2800000011920929,
-      "height": 1.587185114622116,
-      "nominalAdultHeight": 1.5871852060259886,
-      "frontBlender": [
-        -0.833587646484375,
-        -0.5523871779441833,
-        0.0
-      ],
-      "embeddedSupport": "",
-      "sourceRole": "local",
-      "sourceIdentity": "civilian",
-      "historicalRole": "porter"
+      "embeddedSupport": ""
     },
     {
       "asset": "seated-civilian-woman",
@@ -178,36 +102,11 @@
       "height": 1.191969484090805,
       "nominalAdultHeight": 1.599959110110361,
       "frontBlender": [
-        -0.24367859959602356,
-        -0.9698560833930969,
+        -4.371138828673793e-08,
+        -1.0,
         0.0
       ],
-      "embeddedSupport": "stool",
-      "sourceRole": "local",
-      "sourceIdentity": "civilian",
-      "historicalRole": "civilian"
-    },
-    {
-      "asset": "old-porter",
-      "position": [
-        2.5199999809265137,
-        -9.821599006652832,
-        0.2800000011920929
-      ],
-      "requestedPose": "walk",
-      "sourcePose": "standing",
-      "floor": 0.2800000011920929,
-      "height": 1.638929933309555,
-      "nominalAdultHeight": 1.6389299331951521,
-      "frontBlender": [
-        0.16817869246006012,
-        -0.985756516456604,
-        0.0
-      ],
-      "embeddedSupport": "",
-      "sourceRole": "local",
-      "sourceIdentity": "civilian",
-      "historicalRole": "porter"
+      "embeddedSupport": "stool"
     }
   ],
   "checks": [
@@ -219,17 +118,12 @@
     "no procedural historical mesh"
   ],
   "residentView": [
-    0.5199999809265137,
-    1.351880431175232,
-    8.149999618530273,
-    2.7114951392500104,
-    1.1900000000000002,
+    2.7,
+    3.6793394088745117,
+    -2.4,
+    2.6321386407978933,
+    0.21380308728214265,
     0.14
   ],
-  "residentCameraUsesActualPosedHeight": true,
-  "historicalRoles": {
-    "red_army": 1,
-    "porter": 7,
-    "civilian": 1
-  }
+  "residentCameraUsesActualPosedHeight": true
 }

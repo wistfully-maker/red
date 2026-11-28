@@ -153,7 +153,10 @@ const waterVertex = /* glsl */ `
   varying vec3 vWater;
   void main() {
     vWater = position;
-    gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+    // Match the terrain's view-space projection before perspective scaling.
+    // Matrix-first multiplication loses precision on the atlas coordinates.
+    vec4 eyePosition = modelViewMatrix * vec4(position, 1.0);
+    gl_Position = projectionMatrix * eyePosition;
   }
 `;
 

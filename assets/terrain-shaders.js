@@ -20,7 +20,11 @@ export const terrainVertex = /* glsl */ `
     #endif
     vGround = (modelMatrix * vec4(point, 1.0)).xyz;
     vec3 visibleGround = vec3(vGround.x, vGround.y * terrainScale, vGround.z);
-    gl_Position = projectionMatrix * viewMatrix * vec4(visibleGround, 1.0);
+    // Subtract the camera in view space before projecting. Combining the
+    // projection/view matrices first loses near-scene precision across the
+    // kilometre-wide atlas and disagrees with the buildings' projection.
+    vec4 eyePosition = viewMatrix * vec4(visibleGround, 1.0);
+    gl_Position = projectionMatrix * eyePosition;
   }
 `;
 

@@ -135,7 +135,7 @@ def add(env):
         floor=h(x,y);medical_tray(x+.95,y+.90,floor+.556)
         feature('rolled dressing on the existing care table',(x+.95,y+.90,floor+.63))
     if sid in ('ruijin','lianghekou','baxi','hadapu'):
-        x,y,z={'ruijin':(-3.,-.8,3.66),'lianghekou':(-1.4,-3.7,h(-1.4,-3.7)+.17),
+        x,y,z={'ruijin':(-3.,-.8,3.66),'lianghekou':(-6.5,-3.7,.165),
                'baxi':(4.9,-4.,h(4.9,-4.)+.17),'hadapu':(-3.15,-7.3,.23)}[sid]
         top=z+(.786 if sid=='hadapu' else .856)
         # A wooden ruler rests on the table beside the existing paper stack.

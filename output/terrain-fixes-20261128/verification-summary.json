@@ -1,0 +1,106 @@
+{
+  "stations": 19,
+  "initialFrames": 752,
+  "finalFrames": 304,
+  "errors": 0,
+  "autoModelEntries": 0,
+  "staticChangedPixels": 0,
+  "finalMaximumBluePixels": 4,
+  "perStation": [
+    {
+      "id": "ruijin",
+      "frames": 16,
+      "maximumBluePixels": 4
+    },
+    {
+      "id": "yudu",
+      "frames": 16,
+      "maximumBluePixels": 4
+    },
+    {
+      "id": "xiangjiang",
+      "frames": 16,
+      "maximumBluePixels": 0
+    },
+    {
+      "id": "liping",
+      "frames": 16,
+      "maximumBluePixels": 0
+    },
+    {
+      "id": "zunyi",
+      "frames": 16,
+      "maximumBluePixels": 4
+    },
+    {
+      "id": "chishui",
+      "frames": 16,
+      "maximumBluePixels": 3
+    },
+    {
+      "id": "jiaoping",
+      "frames": 16,
+      "maximumBluePixels": 3
+    },
+    {
+      "id": "anshun",
+      "frames": 16,
+      "maximumBluePixels": 3
+    },
+    {
+      "id": "luding",
+      "frames": 16,
+      "maximumBluePixels": 1
+    },
+    {
+      "id": "jiajin",
+      "frames": 16,
+      "maximumBluePixels": 0
+    },
+    {
+      "id": "dawei",
+      "frames": 16,
+      "maximumBluePixels": 1
+    },
+    {
+      "id": "lianghekou",
+      "frames": 16,
+      "maximumBluePixels": 1
+    },
+    {
+      "id": "songpan",
+      "frames": 16,
+      "maximumBluePixels": 1
+    },
+    {
+      "id": "baxi",
+      "frames": 16,
+      "maximumBluePixels": 0
+    },
+    {
+      "id": "lazikou",
+      "frames": 16,
+      "maximumBluePixels": 1
+    },
+    {
+      "id": "hadapu",
+      "frames": 16,
+      "maximumBluePixels": 2
+    },
+    {
+      "id": "wuqi",
+      "frames": 16,
+      "maximumBluePixels": 2
+    },
+    {
+      "id": "huining",
+      "frames": 16,
+      "maximumBluePixels": 2
+    },
+    {
+      "id": "jiangtai",
+      "frames": 16,
+      "maximumBluePixels": 0
+    }
+  ]
+}

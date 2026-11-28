@@ -200,7 +200,9 @@ def dress(env):
         top=z+.856;kettle(x-.5,y,top)
         for i in range(4):bowl(x+.22+.23*i,y-.17,top,.092)
         basket(x+.82,y+.85,z,.32,.42);packs(x-1.65,y+.34,z)
-        folding_chair(x+.1,y+.86,z,0);person(x-.73,y+.71,z,'stand',.2)
+        folding_chair(x+.1,y+.86,z,0)
+        # Keep the resident beside the table, clear of the packs and tree.
+        person(x+1.55,y+.70,h(x+1.55,y+.70),'stand',-.45)
         focus(x,y,z+.77,6.9,-.55,.53)
     elif sid in ('jiaoping','anshun'):
         x,y={'jiaoping':(6.4,2.3),'anshun':(-5.7,-4.1)}[sid];z=h(x,y)
@@ -221,10 +223,12 @@ def dress(env):
         kettle(x,y,top);bowl(x+.38,y-.16,top);basket(x-.64,y+.64,z)
         person(x+.45,y+.91,z,'greet',.4);focus(x,y,z+.95,8,.93,.38)
     elif sid in ('lianghekou','baxi'):
-        x,y=(-1.4,-3.7) if sid=='lianghekou' else (4.9,-4.0);z=h(x,y)+.17;top=table(x,y,z)
+        x,y=(-6.5,-3.7) if sid=='lianghekou' else (4.9,-4.0)
+        z=.165 if sid=='lianghekou' else h(x,y)+.17;top=table(x,y,z)
         papers(x-.52,y,top,3);a.box((x+.53,y+.08,top+.049),(.57,.38,.085),'bag')
         lantern(x+.70,y-.24,top);bedroll(x-1.45,y-.45,z);person(x-.46,y+.67,z,'write',.12)
-        focus(x,y,z+.85,7.9,.61,.40)
+        if sid=='lianghekou':focus(0,-1.2,1.05,12,0,.39)
+        else:focus(x,y,z+.85,7.9,.61,.40)
     elif sid=='hadapu':
         x,y=-3.15,-7.3;z=.23;top=table(x,y,z,2.08,.87,.75)
         papers(x-.31,y-.04,top,7);a.box((x+.52,y+.09,top+.055),(.44,.30,.104),'pages')

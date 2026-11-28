@@ -156,7 +156,7 @@ class Figures:
             x,y,z=edit['position'];role=edit['role']
             yaw=edit.get('yaw',yaw)
         from field_supplied import try_build_person
-        if try_build_person(self,x,y,z,height,yaw,pose,role):return
+        if try_build_person(self,x,y,z,height,yaw,pose,role,asset=edit.get('asset') if edit else None):return
         from field_personnel import build_person
         return build_person(self,x,y,z,height,yaw,pose,role)
 
